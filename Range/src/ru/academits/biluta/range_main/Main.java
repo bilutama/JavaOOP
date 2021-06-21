@@ -50,12 +50,6 @@ public class Main {
         System.out.println("INTERSECTION:");
         System.out.println(rangesIntersection);
 
-        /*if (rangesIntersection != null) {
-            System.out.println(rangesIntersection);
-        } else {
-            System.out.println("[empty range]");
-        }*/
-
         System.out.println();
 
         // Union of the ranges

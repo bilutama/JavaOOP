@@ -46,16 +46,16 @@ public class Range {
         this.from = from;
     }
 
+    @Override
+    public String toString() {
+        return "(" + from + "; " + to + ")";
+    }
+
     static public void printRangeArray(Range[] ranges) {
         if (ranges.length == 0) {
             System.out.println("[]");
             return;
         }
-
-        /*if (ranges.length == 1) {
-            System.out.println(ranges[0]);
-            return;
-        }*/
 
         System.out.print("[");
 
@@ -64,11 +64,6 @@ public class Range {
         }
 
         System.out.println("]");
-    }
-
-    @Override
-    public String toString() {
-        return "(" + from + "; " + to + ")";
     }
 
     public double getLength() {
