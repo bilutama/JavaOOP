@@ -11,13 +11,13 @@ public class Main {
         // Setting the range 1
         System.out.println("*** Setting the range 1 ***");
 
-        System.out.print("Left bound: ");
-        double leftBound = scanner.nextDouble();
+        System.out.print("From: ");
+        double from = scanner.nextDouble();
 
-        System.out.print("Right bound: ");
-        double rightBound = scanner.nextDouble();
+        System.out.print("To: ");
+        double to = scanner.nextDouble();
 
-        Range range1 = new Range(leftBound, rightBound);
+        Range range1 = new Range(from, to);
 
         // Check range's length
         System.out.printf("Range 1 length is %.3f%n", range1.getLength());
@@ -37,46 +37,37 @@ public class Main {
         // Setting the range 2
         System.out.println("*** Setting the range 2 ***");
 
-        System.out.print("Left bound: ");
-        leftBound = scanner.nextDouble();
+        System.out.print("From: ");
+        from = scanner.nextDouble();
 
-        System.out.print("Right bound: ");
-        rightBound = scanner.nextDouble();
+        System.out.print("To: ");
+        to = scanner.nextDouble();
 
-        Range range2 = new Range(leftBound, rightBound);
+        Range range2 = new Range(from, to);
 
         // Intersection between the ranges
         Range rangesIntersection = range1.getIntersection(range2);
         System.out.println("INTERSECTION:");
+        System.out.println(rangesIntersection);
 
-        if (rangesIntersection != null) {
-            rangesIntersection.printRange();
+        /*if (rangesIntersection != null) {
+            System.out.println(rangesIntersection);
         } else {
             System.out.println("[empty range]");
-        }
+        }*/
 
         System.out.println();
 
         // Union of the ranges
         Range[] rangesUnion = range1.getUnion(range2);
         System.out.println("UNION:");
-
-        for (Range r : rangesUnion) {
-            r.printRange();
-        }
+        Range.printRangeArray(rangesUnion);
 
         System.out.println();
 
         // Difference between the ranges
         Range[] rangesDifference = range1.getDifference(range2);
         System.out.println("DIFFERENCE:");
-
-        if (rangesDifference != null) {
-            for (Range r : rangesDifference) {
-                r.printRange();
-            }
-        } else {
-            System.out.println("[empty range]");
-        }
+        Range.printRangeArray(rangesDifference);
     }
 }

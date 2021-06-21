@@ -7,8 +7,6 @@ public class Range {
     public Range(double from, double to) {
         // FROM <= TO condition validation
         if (from > to) {
-            System.out.println("WARNING: FROM > TO");
-            System.out.println("Swapping values so that FROM <= TO...");
             this.from = to;
             this.to = from;
             return;
@@ -24,9 +22,9 @@ public class Range {
 
     public void setTo(double to) {
         // FROM <= TO condition validation
-        if (to < this.from) {
-            this.to = this.from;
-            this.from = to;
+        if (to < from) {
+            this.to = from;
+            from = to;
             return;
         }
 
@@ -39,17 +37,38 @@ public class Range {
 
     public void setFrom(double from) {
         // FROM <= TO condition validation
-        if (from > this.to) {
-            this.from = this.to;
-            this.to = from;
+        if (from > to) {
+            this.from = to;
+            to = from;
             return;
         }
 
         this.from = from;
     }
 
-    public void printRange() {
-        System.out.printf("Range [%.3f : %.3f]%n", from, to);
+    static public void printRangeArray(Range[] ranges) {
+        if (ranges.length == 0) {
+            System.out.println("[]");
+            return;
+        }
+
+        /*if (ranges.length == 1) {
+            System.out.println(ranges[0]);
+            return;
+        }*/
+
+        System.out.print("[");
+
+        for (int i = 0; i < ranges.length; ++i) {
+            System.out.print(ranges[i] + (i != ranges.length - 1 ? ", " : ""));
+        }
+
+        System.out.println("]");
+    }
+
+    @Override
+    public String toString() {
+        return "(" + from + "; " + to + ")";
     }
 
     public double getLength() {
@@ -62,36 +81,36 @@ public class Range {
 
     public Range getIntersection(Range range) {
         // non-overlapping intervals
-        if (Math.min(this.getTo(), range.getTo()) <= Math.max(this.getFrom(), range.getFrom())) {
+        if (Math.min(to, range.to) <= Math.max(from, range.from)) {
             return null;
         }
 
-        return new Range(Math.max(this.getFrom(), range.getFrom()), Math.min(this.getTo(), range.getTo()));
+        return new Range(Math.max(from, range.from), Math.min(to, range.to));
     }
 
     public Range[] getUnion(Range range) {
         // non-overlapping intervals
-        if (Math.min(this.getTo(), range.getTo()) < Math.max(this.getFrom(), range.getFrom())) {
-            return new Range[]{new Range(from, to), new Range(range.getFrom(), range.getTo())};
+        if (Math.min(to, range.to) < Math.max(from, range.from)) {
+            return new Range[]{new Range(from, to), new Range(range.from, range.to)};
         }
 
-        return new Range[]{new Range(Math.min(this.getFrom(), range.getFrom()), Math.max(this.getTo(), range.getTo()))};
+        return new Range[]{new Range(Math.min(from, range.from), Math.max(to, range.to))};
     }
 
     public Range[] getDifference(Range range) {
         // non-overlapping intervals
-        if (Math.min(this.getTo(), range.getTo()) < Math.max(this.getFrom(), range.getFrom())) {
+        if (Math.min(to, range.to) < Math.max(from, range.from)) {
             return new Range[]{new Range(from, to)};
         }
 
         // full overlapping
-        if (range.getFrom() <= from && range.getTo() >= to) {
-            return null;
+        if (range.from <= from && range.to >= to) {
+            return new Range[0];
         }
 
         // nested interval
-        if (range.getFrom() > from && range.getTo() < to) {
-            return new Range[]{new Range(from, range.getFrom()), new Range(range.getTo(), to)};
+        if (range.from > from && range.to < to) {
+            return new Range[]{new Range(from, range.from), new Range(range.to, to)};
         }
 
         // left overlapping
