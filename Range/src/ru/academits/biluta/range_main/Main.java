@@ -55,13 +55,13 @@ public class Main {
         // Union of the ranges
         Range[] rangesUnion = range1.getUnion(range2);
         System.out.println("UNION:");
-        Range.printRangeArray(rangesUnion);
+        Range.printRangesArray(rangesUnion);
 
         System.out.println();
 
         // Difference between the ranges
         Range[] rangesDifference = range1.getDifference(range2);
         System.out.println("DIFFERENCE:");
-        Range.printRangeArray(rangesDifference);
+        Range.printRangesArray(rangesDifference);
     }
 }

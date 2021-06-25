@@ -51,7 +51,7 @@ public class Range {
         return "(" + from + "; " + to + ")";
     }
 
-    static public void printRangeArray(Range[] ranges) {
+    static public void printRangesArray(Range[] ranges) {
         if (ranges.length == 0) {
             System.out.println("[]");
             return;
@@ -60,7 +60,8 @@ public class Range {
         System.out.print("[");
 
         for (int i = 0; i < ranges.length; ++i) {
-            System.out.print(ranges[i] + (i != ranges.length - 1 ? ", " : ""));
+            System.out.print(ranges[i]);
+            System.out.print(i != ranges.length - 1 ? ", " : "");
         }
 
         System.out.println("]");
@@ -76,11 +77,14 @@ public class Range {
 
     public Range getIntersection(Range range) {
         // non-overlapping intervals
-        if (Math.min(to, range.to) <= Math.max(from, range.from)) {
+        double intersectionFrom = Math.max(from, range.from);
+        double intersectionTo = Math.min(to, range.to);
+
+        if (intersectionTo <= intersectionFrom) {
             return null;
         }
 
-        return new Range(Math.max(from, range.from), Math.min(to, range.to));
+        return new Range(intersectionFrom, intersectionTo);
     }
 
     public Range[] getUnion(Range range) {
