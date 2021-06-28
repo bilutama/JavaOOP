@@ -35,11 +35,13 @@ public class Main {
 
         System.out.println();
 
+        // The first shape by area
         System.out.print("The first shape (by area S): ");
         System.out.println(getShapeWithMaximumArea(shapes, 1));
 
+        // The second shape by perimeter
         System.out.print("The second shape (by perimeter P): ");
-        System.out.println(getShapeWithMaximumPerimeter(shapes, 9));
+        System.out.println(getShapeWithMaximumPerimeter(shapes, 2));
     }
 
     // index = the number of n-th shape sorted by area in descending order
