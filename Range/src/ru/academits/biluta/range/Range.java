@@ -51,17 +51,15 @@ public class Range {
         return "(" + from + "; " + to + ")";
     }
 
-    static public void printRangesArray(Range[] ranges) {
-        if (ranges.length == 0) {
-            System.out.println("[]");
-            return;
-        }
-
+    public static void printRangesArray(Range[] ranges) {
         System.out.print("[");
 
         for (int i = 0; i < ranges.length; ++i) {
             System.out.print(ranges[i]);
-            System.out.print(i != ranges.length - 1 ? ", " : "");
+
+            if (i != ranges.length - 1) {
+                System.out.print(", ");
+            }
         }
 
         System.out.println("]");
