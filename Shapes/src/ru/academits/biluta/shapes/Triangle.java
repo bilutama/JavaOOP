@@ -20,9 +20,13 @@ public class Triangle implements Shape {
         this.x3 = x3;
         this.y3 = y3;
 
-        sideA = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        sideB = Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2));
-        sideC = Math.sqrt(Math.pow(x3 - x1, 2) + Math.pow(y3 - y1, 2));
+        sideA = getSideLength(x1, y1, x2, y2);
+        sideB = getSideLength(x2, y2, x3, y3);
+        sideC = getSideLength(x1, y1, x3, y3);
+    }
+
+    private double getSideLength(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
     @Override
@@ -51,7 +55,7 @@ public class Triangle implements Shape {
             return true;
         }
 
-        if (o == null || this.getClass() != o.getClass()) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
@@ -64,14 +68,18 @@ public class Triangle implements Shape {
     public int hashCode() {
         final int prime = 13;
         int hash = 1;
-        hash = hash * prime + Double.hashCode(sideA);
-        hash = hash * prime + Double.hashCode(sideB);
-        hash = hash * prime + Double.hashCode(sideC);
+        hash = hash * prime + Double.hashCode(x1);
+        hash = hash * prime + Double.hashCode(y1);
+        hash = hash * prime + Double.hashCode(x2);
+        hash = hash * prime + Double.hashCode(y2);
+        hash = hash * prime + Double.hashCode(x3);
+        hash = hash * prime + Double.hashCode(y3);
         return hash;
     }
 
     @Override
     public String toString() {
-        return String.format("%s (area %.1f; perimeter %.1f)", this.getClass().getSimpleName(), getArea(), getPerimeter());
+        return String.format("%nTriangle <vertex1 = (%.1f, %.1f), vertex2 = (%.1f, %.1f), vertex3 = (%.1f, %.1f)> " +
+                "(S = %.1f; P = %.1f)", x1, y1, x2, y2, x3, y3, getArea(), getPerimeter());
     }
 }

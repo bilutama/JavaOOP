@@ -33,7 +33,7 @@ public class Circle implements Shape {
             return true;
         }
 
-        if (o == null || this.getClass() != o.getClass()) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
@@ -51,6 +51,7 @@ public class Circle implements Shape {
 
     @Override
     public String toString() {
-        return String.format("%s (area %.1f; perimeter %.1f)", this.getClass().getSimpleName(), getArea(), getPerimeter());
+        return String.format("%nCircle <radius = %.1f> " +
+                "(S = %.1f; P = %.1f)", radius, getArea(), getPerimeter());
     }
 }

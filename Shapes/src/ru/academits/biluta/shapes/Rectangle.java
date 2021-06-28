@@ -1,34 +1,32 @@
 package ru.academits.biluta.shapes;
 
-import java.util.GregorianCalendar;
-
 public class Rectangle implements Shape {
-    private final double sideA;
-    private final double sideB;
+    private final double width;
+    private final double height;
 
-    public Rectangle(double sideA, double sideB) {
-        this.sideA = sideA;
-        this.sideB = sideB;
+    public Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
     }
 
     @Override
     public double getWidth() {
-        return Math.max(sideA, sideB);
+        return width;
     }
 
     @Override
     public double getHeight() {
-        return Math.min(sideA, sideB);
+        return height;
     }
 
     @Override
     public double getArea() {
-        return sideA * sideB;
+        return width * height;
     }
 
     @Override
     public double getPerimeter() {
-        return 2 * (sideA + sideB);
+        return 2 * (width + height);
     }
 
     @Override
@@ -37,25 +35,26 @@ public class Rectangle implements Shape {
             return true;
         }
 
-        if (o == null || this.getClass() != o.getClass()) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         Rectangle rectangle = (Rectangle) o;
-        return rectangle.sideA == sideA && rectangle.sideB == sideB;
+        return rectangle.width == width && rectangle.height == height;
     }
 
     @Override
     public int hashCode() {
         final int prime = 13;
         int hash = 1;
-        hash = hash * prime + Double.hashCode(sideA);
-        hash = hash * prime + Double.hashCode(sideB);
+        hash = hash * prime + Double.hashCode(width);
+        hash = hash * prime + Double.hashCode(height);
         return hash;
     }
 
     @Override
     public String toString() {
-        return String.format("%s (area %.1f; perimeter %.1f)", this.getClass().getSimpleName(), getArea(), getPerimeter());
+        return String.format("%nRectangle <width = %.1f> and <height = %.1f> " +
+                "(S = %.1f; P = %.1f)", width, height, getArea(), getPerimeter());
     }
 }
