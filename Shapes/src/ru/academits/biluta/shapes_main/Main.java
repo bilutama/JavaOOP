@@ -36,30 +36,34 @@ public class Main {
         System.out.println();
 
         // The first shape by area
+        int shapeIndex = 1;
         System.out.print("The first shape (by area S): ");
-        System.out.println(getShapeWithMaximumArea(shapes, 1));
+
+        if (shapeIndex < shapes.length) {
+            System.out.println(getShapeWithMaximumArea(shapes, shapeIndex));
+        } else {
+            System.out.print("<Index is out of shapes number>");
+        }
 
         // The second shape by perimeter
+        shapeIndex = 9;
         System.out.print("The second shape (by perimeter P): ");
-        System.out.println(getShapeWithMaximumPerimeter(shapes, 2));
+
+        if (shapeIndex < shapes.length) {
+            System.out.println(getShapeWithMaximumPerimeter(shapes, shapeIndex));
+        } else {
+            System.out.print("<Index is out of shapes number>");
+        }
     }
 
     // index = the number of n-th shape sorted by area in descending order
     public static Shape getShapeWithMaximumArea(Shape[] shapes, int index) {
-        if (shapes.length < index) {
-            return null;
-        }
-
         Arrays.sort(shapes, new ShapesComparatorByArea().reversed());
         return shapes[index - 1];
     }
 
     // index = the number of n-th shape sorted by perimeter in descending order
     public static Shape getShapeWithMaximumPerimeter(Shape[] shapes, int index) {
-        if (shapes.length < index) {
-            return null;
-        }
-
         Arrays.sort(shapes, new ShapesComparatorByPerimeter().reversed());
         return shapes[index - 1];
     }
