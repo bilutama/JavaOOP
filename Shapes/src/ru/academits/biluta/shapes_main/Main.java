@@ -42,7 +42,7 @@ public class Main {
         if (shapeIndex < shapes.length) {
             System.out.println(getShapeWithMaximumArea(shapes, shapeIndex));
         } else {
-            System.out.print("<Index is out of shapes number>");
+            System.out.print("<Index exceeds shapes amount>");
         }
 
         // The second shape by perimeter
@@ -52,7 +52,7 @@ public class Main {
         if (shapeIndex < shapes.length) {
             System.out.println(getShapeWithMaximumPerimeter(shapes, shapeIndex));
         } else {
-            System.out.print("<Index is out of shapes number>");
+            System.out.print("<Index exceeds shapes amount>");
         }
     }
 
