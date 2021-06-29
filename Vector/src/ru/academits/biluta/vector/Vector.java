@@ -71,8 +71,14 @@ public class Vector {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         Vector vector = (Vector) o;
         return Arrays.equals(vectorValues, vector.vectorValues);
     }

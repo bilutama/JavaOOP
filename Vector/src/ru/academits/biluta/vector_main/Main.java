@@ -56,5 +56,6 @@ public class Main {
 
         Vector v4 = new Vector(v3);
         System.out.println("v4 is copy of v3 = " + v4);
+        System.out.printf("v4 equals v3 – %b", v4.equals(v3));
     }
 }
