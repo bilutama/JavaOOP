@@ -6,7 +6,7 @@ public class Vector {
     private final double[] vectorValues;
 
     public double getComponent(int index) throws IllegalArgumentException {
-        if (index < vectorValues.length) {
+        if (index <= 0 || index > vectorValues.length) {
             throw new IllegalArgumentException();
         }
 
@@ -14,7 +14,7 @@ public class Vector {
     }
 
     public void setComponent(int index, double value) throws IllegalArgumentException {
-        if (index > vectorValues.length) {
+        if (index <= 0 || index > vectorValues.length) {
             throw new IllegalArgumentException();
         }
 
@@ -144,14 +144,14 @@ public class Vector {
         return sumVector;
     }
 
-    public static Vector getProduct(Vector v1, Vector v2) {
-        Vector productVector = new Vector(Math.max(v1.getSize(), v2.getSize()));
+    public static double getScalarProduct(Vector v1, Vector v2) {
+        double scalarVectorsProduct = 0.0;
 
-        for (int i = 0; i < productVector.getSize(); ++i) {
-            productVector.vectorValues[i] += (i <= v1.getSize() - 1 ? v1.vectorValues[i] : 0.0);
-            productVector.vectorValues[i] *= (i <= v2.getSize() - 1 ? v2.vectorValues[i] : 0.0);
+        for (int i = 0; i < Math.max(v1.getSize(), v2.getSize()); ++i) {
+            scalarVectorsProduct += (i <= v1.getSize() - 1 ? v1.vectorValues[i] : 0.0) *
+                    (i <= v2.getSize() - 1 ? v2.vectorValues[i] : 0.0);
         }
 
-        return productVector;
+        return scalarVectorsProduct;
     }
 }
