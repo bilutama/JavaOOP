@@ -1,30 +1,30 @@
 package ru.academits.biluta.shapes;
 
 public class Square implements Shape {
-    private final double side;
+    private final double sideLength;
 
-    public Square(double side) {
-        this.side = side;
+    public Square(double sideLength) {
+        this.sideLength = sideLength;
     }
 
     @Override
     public double getWidth() {
-        return side;
+        return sideLength;
     }
 
     @Override
     public double getHeight() {
-        return side;
+        return sideLength;
     }
 
     @Override
     public double getArea() {
-        return side * side;
+        return sideLength * sideLength;
     }
 
     @Override
     public double getPerimeter() {
-        return 4 * side;
+        return 4 * sideLength;
     }
 
     @Override
@@ -38,20 +38,20 @@ public class Square implements Shape {
         }
 
         Square square = (Square) o;
-        return square.side == side;
+        return square.sideLength == sideLength;
     }
 
     @Override
     public int hashCode() {
         final int prime = 13;
         int hash = 1;
-        hash = hash * prime + Double.hashCode(side);
+        hash = hash * prime + Double.hashCode(sideLength);
         return hash;
     }
 
     @Override
     public String toString() {
-        return String.format("%nSquare <side = %.1f> " +
-                "(S = %.1f; P = %.1f)", side, getArea(), getPerimeter());
+        return String.format("Square <sideLength = %.1f> <S = %.1f, P = %.1f>",
+                sideLength, getArea(), getPerimeter());
     }
 }

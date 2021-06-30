@@ -51,7 +51,7 @@ public class Circle implements Shape {
 
     @Override
     public String toString() {
-        return String.format("%nCircle <radius = %.1f> " +
-                "(S = %.1f; P = %.1f)", radius, getArea(), getPerimeter());
+        return String.format("Circle <radius = %.1f> <S = %.1f, P = %.1f>",
+                radius, getArea(), getPerimeter());
     }
 }

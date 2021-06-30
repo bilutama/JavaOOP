@@ -25,7 +25,7 @@ public class Triangle implements Shape {
         sideC = getSideLength(x1, y1, x3, y3);
     }
 
-    private double getSideLength(double x1, double y1, double x2, double y2) {
+    private static double getSideLength(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
@@ -79,7 +79,7 @@ public class Triangle implements Shape {
 
     @Override
     public String toString() {
-        return String.format("%nTriangle <vertex1 = (%.1f, %.1f), vertex2 = (%.1f, %.1f), vertex3 = (%.1f, %.1f)> " +
-                "(S = %.1f; P = %.1f)", x1, y1, x2, y2, x3, y3, getArea(), getPerimeter());
+        return String.format("Triangle <vertex1 = (%.1f, %.1f), vertex2 = (%.1f, %.1f), vertex3 = (%.1f, %.1f)> <S = %.1f, P = %.1f>",
+                x1, y1, x2, y2, x3, y3, getArea(), getPerimeter());
     }
 }

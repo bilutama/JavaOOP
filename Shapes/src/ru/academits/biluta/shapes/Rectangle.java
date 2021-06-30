@@ -54,7 +54,7 @@ public class Rectangle implements Shape {
 
     @Override
     public String toString() {
-        return String.format("%nRectangle <width = %.1f> and <height = %.1f> " +
-                "(S = %.1f; P = %.1f)", width, height, getArea(), getPerimeter());
+        return String.format("Rectangle <width = %.1f, height = %.1f> <S = %.1f, P = %.1f>",
+                width, height, getArea(), getPerimeter());
     }
 }

@@ -62,7 +62,7 @@ public class Vector {
         vectorStringBuilder.append("{");
 
         for (int i = 0; i < vectorValues.length; ++i) {
-            vectorStringBuilder.append(String.format("%.3f", vectorValues[i])).append(i == vectorValues.length - 1 ? "" : ", ");
+            vectorStringBuilder.append(String.format("%.3f", vectorValues[i])).append(i < vectorValues.length - 1 ? ", " : "");
         }
 
         vectorStringBuilder.append("}");
@@ -108,46 +108,53 @@ public class Vector {
         }
     }
 
-    public void multiplyWithScalar(double scalar) {
+    public void multiplyByScalar(double scalar) {
         for (int i = 0; i < vectorValues.length; ++i) {
             vectorValues[i] *= scalar;
         }
     }
 
     public void reverse() {
-        this.multiplyWithScalar(-1.0);
+        this.multiplyByScalar(-1.0);
     }
 
     public double getLength() {
-        double squareSum = 0.0;
+        double squaredComponentsSum = 0.0;
 
         for (double v : vectorValues) {
-            squareSum += v * v;
+            squaredComponentsSum += v * v;
         }
 
-        return Math.sqrt(squareSum);
+        return Math.sqrt(squaredComponentsSum);
     }
 
     public static Vector getSum(Vector v1, Vector v2) {
-        Vector sumVector = new Vector(Math.max(v1.getSize(), v2.getSize()));
+        int v1Size = v1.getSize();
+        int v2Size = v1.getSize();
 
-        for (int i = 0; i < sumVector.getSize(); ++i) {
-            sumVector.vectorValues[i] += (i <= v1.getSize() - 1 ? v1.vectorValues[i] : 0.0);
-            sumVector.vectorValues[i] += (i <= v2.getSize() - 1 ? v2.vectorValues[i] : 0.0);
+        if (v1Size >= v2Size) {
+            Vector sumVector = new Vector(v1);
+
+            for (int i = 0; i < v2Size; ++i) {
+                sumVector.vectorValues[i] += v2.vectorValues[i];
+            }
+
+            return sumVector;
+        }
+
+        Vector sumVector = new Vector(v2);
+
+        for (int i = 0; i < v1Size; ++i) {
+            sumVector.vectorValues[i] += v1.vectorValues[i];
         }
 
         return sumVector;
     }
 
     public static Vector getDifference(Vector v1, Vector v2) {
-        Vector sumVector = new Vector(Math.max(v1.getSize(), v2.getSize()));
-
-        for (int i = 0; i < sumVector.getSize(); ++i) {
-            sumVector.vectorValues[i] += (i <= v1.getSize() - 1 ? v1.vectorValues[i] : 0.0);
-            sumVector.vectorValues[i] -= (i <= v2.getSize() - 1 ? v2.vectorValues[i] : 0.0);
-        }
-
-        return sumVector;
+        Vector v3 = new Vector(v2);
+        v3.reverse();
+        return getSum(v1, v3);
     }
 
     public static double getScalarProduct(Vector v1, Vector v2) {

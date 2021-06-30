@@ -1,8 +1,8 @@
 package ru.academits.biluta.shapes_main;
 
 import ru.academits.biluta.shapes.*;
-import ru.academits.biluta.shapes_comparators.ShapesComparatorByArea;
-import ru.academits.biluta.shapes_comparators.ShapesComparatorByPerimeter;
+import ru.academits.biluta.shapes_comparators.ShapesByAreaComparator;
+import ru.academits.biluta.shapes_comparators.ShapesByPerimeterComparator;
 
 import java.util.Arrays;
 
@@ -18,53 +18,59 @@ public class Main {
                 new Triangle(10, 5, 17, 10, 20, 29)
         };
 
-        System.out.print("Shapes in initial order:");
+        System.out.print("Shapes in initial order: ");
         System.out.println(Arrays.toString(shapes));
 
         System.out.println();
 
-        System.out.print("Shapes in sorted order (by area S):");
-        Arrays.sort(shapes, new ShapesComparatorByArea());
+        System.out.print("Shapes in sorted order (by area S): ");
+        Arrays.sort(shapes, new ShapesByAreaComparator());
         System.out.println(Arrays.toString(shapes));
 
         System.out.println();
 
-        System.out.print("Shapes in sorted order (by perimeter P):");
-        Arrays.sort(shapes, new ShapesComparatorByPerimeter());
+        System.out.print("Shapes in sorted order (by perimeter P): ");
+        Arrays.sort(shapes, new ShapesByPerimeterComparator());
         System.out.println(Arrays.toString(shapes));
 
         System.out.println();
 
         // The first shape by area
-        int shapeIndex = 1;
+        int number = 1;
         System.out.print("The first shape (by area S): ");
 
-        if (shapeIndex < shapes.length) {
-            System.out.println(getShapeWithMaximumArea(shapes, shapeIndex));
+        if (number < shapes.length) {
+            System.out.println(getShapeWithMaximumArea(shapes, number));
         } else {
-            System.out.print("<Index exceeds shapes amount>");
+            System.out.print("<Number exceeds amount of shapes>");
         }
 
         // The second shape by perimeter
-        shapeIndex = 9;
+        number = 2;
         System.out.print("The second shape (by perimeter P): ");
 
-        if (shapeIndex < shapes.length) {
-            System.out.println(getShapeWithMaximumPerimeter(shapes, shapeIndex));
+        if (number < shapes.length) {
+            System.out.println(getShapeWithMaximumPerimeter(shapes, number));
         } else {
-            System.out.print("<Index exceeds shapes amount>");
+            System.out.print("<Number exceeds amount of shapes>");
         }
     }
 
-    // index = the number of n-th shape sorted by area in descending order
-    public static Shape getShapeWithMaximumArea(Shape[] shapes, int index) {
-        Arrays.sort(shapes, new ShapesComparatorByArea().reversed());
-        return shapes[index - 1];
+    public static Shape getShapeWithMaximumArea(Shape[] shapes, int number) {
+        if (number > shapes.length) {
+            throw new ArrayIndexOutOfBoundsException("<Number exceeds amount of shapes>");
+        }
+
+        Arrays.sort(shapes, new ShapesByAreaComparator().reversed());
+        return shapes[number - 1];
     }
 
-    // index = the number of n-th shape sorted by perimeter in descending order
-    public static Shape getShapeWithMaximumPerimeter(Shape[] shapes, int index) {
-        Arrays.sort(shapes, new ShapesComparatorByPerimeter().reversed());
-        return shapes[index - 1];
+    public static Shape getShapeWithMaximumPerimeter(Shape[] shapes, int number) {
+        if (number > shapes.length) {
+            throw new ArrayIndexOutOfBoundsException("<Number exceeds amount of shapes>");
+        }
+
+        Arrays.sort(shapes, new ShapesByPerimeterComparator().reversed());
+        return shapes[number - 1];
     }
 }
