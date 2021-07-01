@@ -1,7 +1,7 @@
 package ru.academits.biluta.vector_main;
 
 import ru.academits.biluta.vector.Vector;
-
+//test git commit
 public class Main {
     public static void main(String[] args) {
         double[] vectorComponents = {1.0, 1.0, 1.0};
