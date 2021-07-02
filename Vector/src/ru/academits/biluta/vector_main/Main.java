@@ -24,8 +24,8 @@ public class Main {
         v2.setComponent(1, 3.5);
         v2.setComponent(2, 2.1);
 
-        for (int i = 1; i <= v2.getSize(); ++i) {
-            System.out.printf("Component %d = %.3f%n", i, v2.getComponent(i));
+        for (int i = 0; i < v2.getSize(); ++i) {
+            System.out.printf("Component %d = %.3f%n", i + 1, v2.getComponent(i));
         }
 
         System.out.println();
@@ -56,6 +56,12 @@ public class Main {
 
         Vector v4 = new Vector(v3);
         System.out.printf("v4 is copy of v3 = %s%n", v4);
-        System.out.printf("v4 equals v3 – %b", v4.equals(v3));
+        System.out.printf("v4 equals v3 – %b%n", v4.equals(v3));
+        System.out.println();
+
+        Vector v5 = new Vector(new double[]{1, 1, 1, 1});
+        System.out.printf("v5 = %s%n", v5);
+        v4.subtract(v5);
+        System.out.printf("v4 after subtraction of v5 = %s%n", v4);
     }
 }
