@@ -41,7 +41,7 @@ public class Main {
         System.out.print("The first shape (by area S): ");
 
         if (number <= 0 || number > shapesCount) {
-            System.out.printf("Number %d is not in range 1..%d (amount of shapes)%n", number, shapesCount);
+            System.out.printf("Number %d is not in range 1..%d (amount of shapes)", number, shapesCount);
         } else {
             System.out.println(getShapeWithMaximumArea(shapes, number));
         }
@@ -51,7 +51,7 @@ public class Main {
         System.out.print("The second shape (by perimeter P): ");
 
         if (number <= 0 || number > shapesCount) {
-            System.out.printf("Number %d is not in range 1..%d (amount of shapes)%n", number, shapesCount);
+            System.out.printf("Number %d is not in range 1..%d (amount of shapes)", number, shapesCount);
         } else {
             System.out.println(getShapeWithMaximumPerimeter(shapes, number));
         }
@@ -61,7 +61,7 @@ public class Main {
         int shapesCount = shapes.length;
 
         if (number <= 0 || number > shapesCount) {
-            throw new ArrayIndexOutOfBoundsException(String.format("Number %d is not in range 1..%d (amount of shapes)%n", number, shapesCount));
+            throw new ArrayIndexOutOfBoundsException(String.format("Number %d is not in range 1..%d (amount of shapes)", number, shapesCount));
         }
 
         Arrays.sort(shapes, new ShapesByAreaComparator().reversed());
@@ -72,7 +72,7 @@ public class Main {
         int shapesCount = shapes.length;
 
         if (number <= 0 || number > shapesCount) {
-            throw new ArrayIndexOutOfBoundsException(String.format("Number %d is not in range 1..%d (amount of shapes)%n", number, shapesCount));
+            throw new ArrayIndexOutOfBoundsException(String.format("Number %d is not in range 1..%d (amount of shapes)", number, shapesCount));
         }
 
         Arrays.sort(shapes, new ShapesByPerimeterComparator().reversed());
