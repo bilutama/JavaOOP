@@ -37,28 +37,31 @@ public class Main {
 
         // The first shape by area
         int number = 1;
+        int shapesCount = shapes.length;
         System.out.print("The first shape (by area S): ");
 
-        if (number < shapes.length) {
-            System.out.println(getShapeWithMaximumArea(shapes, number));
+        if (number <= 0 || number > shapesCount) {
+            System.out.printf("Number %d is not in range 1..%d (amount of shapes)%n", number, shapesCount);
         } else {
-            System.out.print("<Number exceeds amount of shapes>");
+            System.out.println(getShapeWithMaximumArea(shapes, number));
         }
 
         // The second shape by perimeter
-        number = 2;
+        number = 9;
         System.out.print("The second shape (by perimeter P): ");
 
-        if (number < shapes.length) {
-            System.out.println(getShapeWithMaximumPerimeter(shapes, number));
+        if (number <= 0 || number > shapesCount) {
+            System.out.printf("Number %d is not in range 1..%d (amount of shapes)%n", number, shapesCount);
         } else {
-            System.out.print("<Number exceeds amount of shapes>");
+            System.out.println(getShapeWithMaximumPerimeter(shapes, number));
         }
     }
 
     public static Shape getShapeWithMaximumArea(Shape[] shapes, int number) {
-        if (number > shapes.length) {
-            throw new ArrayIndexOutOfBoundsException("<Number exceeds amount of shapes>");
+        int shapesCount = shapes.length;
+
+        if (number <= 0 || number > shapesCount) {
+            throw new ArrayIndexOutOfBoundsException(String.format("Number %d is not in range 1..%d (amount of shapes)%n", number, shapesCount));
         }
 
         Arrays.sort(shapes, new ShapesByAreaComparator().reversed());
@@ -66,8 +69,10 @@ public class Main {
     }
 
     public static Shape getShapeWithMaximumPerimeter(Shape[] shapes, int number) {
-        if (number > shapes.length) {
-            throw new ArrayIndexOutOfBoundsException("<Number exceeds amount of shapes>");
+        int shapesCount = shapes.length;
+
+        if (number <= 0 || number > shapesCount) {
+            throw new ArrayIndexOutOfBoundsException(String.format("Number %d is not in range 1..%d (amount of shapes)%n", number, shapesCount));
         }
 
         Arrays.sort(shapes, new ShapesByPerimeterComparator().reversed());
