@@ -3,70 +3,73 @@ package ru.academits.biluta.vector;
 import java.util.Arrays;
 
 public class Vector {
-    private final double[] vectorValues;
+    private final double[] components;
 
-    public double getComponent(int index) throws IllegalArgumentException {
-        if (index <= 0 || index > vectorValues.length) {
-            throw new IllegalArgumentException();
+    public Vector(int size) {
+        if (size <= 0) {
+            throw new IllegalArgumentException("Vector size cannot be negative or 0");
         }
 
-        return vectorValues[index - 1];
-    }
-
-    public void setComponent(int index, double value) throws IllegalArgumentException {
-        if (index <= 0 || index > vectorValues.length) {
-            throw new IllegalArgumentException();
-        }
-
-        vectorValues[index - 1] = value;
-    }
-
-    public Vector(int vectorDimension) throws IllegalArgumentException {
-        if (vectorDimension <= 0) {
-            throw new IllegalArgumentException();
-        }
-
-        vectorValues = new double[vectorDimension];
+        components = new double[size];
     }
 
     public Vector(Vector vector) {
-        vectorValues = new double[vector.vectorValues.length];
+        components = new double[vector.components.length];
 
-        for (int i = 0; i < vector.vectorValues.length; ++i) {
-            vectorValues[i] = vector.vectorValues[i];
-        }
+        System.arraycopy(vector.components, 0, components, 0, vector.components.length);
     }
 
-    public Vector(double[] array) {
-        vectorValues = new double[array.length];
-
-        for (int i = 0; i < array.length; ++i) {
-            vectorValues[i] = array[i];
+    public Vector(double[] vectorComponents) {
+        if (vectorComponents.length == 0) {
+            throw new IllegalArgumentException("Vector size cannot be 0");
         }
+
+        components = new double[vectorComponents.length];
+
+        System.arraycopy(vectorComponents, 0, components, 0, vectorComponents.length);
     }
 
-    public Vector(int vectorDimension, double[] array) {
-        vectorValues = new double[vectorDimension];
-
-        for (int i = 0; i < vectorDimension; ++i) {
-            vectorValues[i] = i < array.length ? array[i] : 0.0;
+    public Vector(int size, double[] vectorComponents) {
+        if (vectorComponents.length == 0 || size <=0) {
+            throw new IllegalArgumentException("Vector size cannot be negative or 0");
         }
+
+        components = new double[size];
+
+        System.arraycopy(vectorComponents, 0, components, 0, Math.min(size, vectorComponents.length));
     }
 
     public int getSize() {
-        return vectorValues.length;
+        return components.length;
     }
 
-    public String toString() {
-        StringBuilder vectorStringBuilder = new StringBuilder();
-        vectorStringBuilder.append("{");
-
-        for (int i = 0; i < vectorValues.length; ++i) {
-            vectorStringBuilder.append(String.format("%.3f", vectorValues[i])).append(i < vectorValues.length - 1 ? ", " : "");
+    public double getComponent(int index) {
+        if (index < 0 || index >= components.length) {
+            throw new IllegalArgumentException("Vector size cannot be negative or 0");
         }
 
-        vectorStringBuilder.append("}");
-        return vectorStringBuilder.toString();
+        return components[index];
+    }
+
+    public void setComponent(int index, double value) {
+        if (index < 0 || index >= components.length) {
+            throw new IllegalArgumentException("Index is out of vector size");
+        }
+
+        components[index] = value;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{");
+
+        for (int i = 0; i < components.length; ++i) {
+            stringBuilder.append(String.format("%.3f", components[i])).append(i < components.length - 1 ? ", " : "");
+        }
+
+        stringBuilder.append("}");
+        return stringBuilder.toString();
     }
 
     @Override
@@ -80,48 +83,48 @@ public class Vector {
         }
 
         Vector vector = (Vector) o;
-        return Arrays.equals(vectorValues, vector.vectorValues);
+        return Arrays.equals(components, vector.components);
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(vectorValues);
+        return Arrays.hashCode(components);
     }
 
     public void add(Vector vector) throws IllegalArgumentException {
-        if (vectorValues.length != vector.vectorValues.length) {
+        if (components.length != vector.components.length) {
             throw new IllegalArgumentException();
         }
 
-        for (int i = 0; i < vectorValues.length; ++i) {
-            vectorValues[i] += vector.vectorValues[i];
+        for (int i = 0; i < components.length; ++i) {
+            components[i] += vector.components[i];
         }
     }
 
-    public void subtract(Vector vector) throws IllegalArgumentException {
-        if (vectorValues.length != vector.vectorValues.length) {
-            throw new IllegalArgumentException();
+    public void subtract(Vector vector) {
+        if (components.length != vector.components.length) {
+            throw new IllegalArgumentException("Vectors have different dimension");
         }
 
-        for (int i = 0; i < vectorValues.length; ++i) {
-            vectorValues[i] -= vector.vectorValues[i];
+        for (int i = 0; i < components.length; ++i) {
+            components[i] -= vector.components[i];
         }
     }
 
     public void multiplyByScalar(double scalar) {
-        for (int i = 0; i < vectorValues.length; ++i) {
-            vectorValues[i] *= scalar;
+        for (int i = 0; i < components.length; ++i) {
+            components[i] *= scalar;
         }
     }
 
     public void reverse() {
-        this.multiplyByScalar(-1.0);
+        multiplyByScalar(-1.0);
     }
 
     public double getLength() {
         double squaredComponentsSum = 0.0;
 
-        for (double v : vectorValues) {
+        for (double v : components) {
             squaredComponentsSum += v * v;
         }
 
@@ -136,7 +139,7 @@ public class Vector {
             Vector sumVector = new Vector(v1);
 
             for (int i = 0; i < v2Size; ++i) {
-                sumVector.vectorValues[i] += v2.vectorValues[i];
+                sumVector.components[i] += v2.components[i];
             }
 
             return sumVector;
@@ -145,7 +148,7 @@ public class Vector {
         Vector sumVector = new Vector(v2);
 
         for (int i = 0; i < v1Size; ++i) {
-            sumVector.vectorValues[i] += v1.vectorValues[i];
+            sumVector.components[i] += v1.components[i];
         }
 
         return sumVector;
@@ -161,8 +164,8 @@ public class Vector {
         double scalarVectorsProduct = 0.0;
 
         for (int i = 0; i < Math.max(v1.getSize(), v2.getSize()); ++i) {
-            scalarVectorsProduct += (i <= v1.getSize() - 1 ? v1.vectorValues[i] : 0.0) *
-                    (i <= v2.getSize() - 1 ? v2.vectorValues[i] : 0.0);
+            scalarVectorsProduct += (i <= v1.getSize() - 1 ? v1.components[i] : 0.0) *
+                    (i <= v2.getSize() - 1 ? v2.components[i] : 0.0);
         }
 
         return scalarVectorsProduct;

@@ -1,7 +1,7 @@
 package ru.academits.biluta.vector_main;
 
 import ru.academits.biluta.vector.Vector;
-//test git commit
+
 public class Main {
     public static void main(String[] args) {
         double[] vectorComponents = {1.0, 1.0, 1.0};
@@ -20,9 +20,9 @@ public class Main {
         System.out.printf("v2 size is %d%n", v2.getSize());
         System.out.println();
 
-        v2.setComponent(1, 2.8);
-        v2.setComponent(2, 3.5);
-        v2.setComponent(3, 2.1);
+        v2.setComponent(0, 2.8);
+        v2.setComponent(1, 3.5);
+        v2.setComponent(2, 2.1);
 
         for (int i = 1; i <= v2.getSize(); ++i) {
             System.out.printf("Component %d = %.3f%n", i, v2.getComponent(i));
