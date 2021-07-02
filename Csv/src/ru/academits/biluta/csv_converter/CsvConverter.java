@@ -6,23 +6,6 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class CsvConverter {
-    public static void main(String[] args) {
-        if (args.length != 2) {
-            printHelpMessage();
-            return;
-        }
-
-        if (args[0].equals(args[1])) {
-            System.out.printf("The output file must be different from the input file.%n");
-            return;
-        }
-
-        String inputFileName = args[0];
-        String outputFileName = args[1];
-
-        convertCsvToHtmlTable(inputFileName, outputFileName);
-    }
-
     public static void convertCsvToHtmlTable(String inputFileName, String outputFileName) {
         try (Scanner scanner = new Scanner(new FileInputStream(inputFileName));
              PrintWriter writer = new PrintWriter(outputFileName)) {
@@ -215,7 +198,7 @@ public class CsvConverter {
         }
     }
 
-    public static String getStringWithReplacements(char charToReplace) {
+    private static String getStringWithReplacements(char charToReplace) {
         if (charToReplace == '&') {
             return "&amp;";
         } else if (charToReplace == '<') {
