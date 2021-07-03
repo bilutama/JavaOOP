@@ -19,9 +19,6 @@ public class Main {
             return;
         }
 
-        System.out.println(inputFileName);
-        System.out.println(outputFileName);
-
         try {
             CsvConverter.convertCsvToHtmlTable(inputFileName, outputFileName);
             System.out.printf("Success! See \"%s\"%n", outputFileName);
