@@ -94,30 +94,42 @@ public class Vector {
         components[index] = value;
     }
 
-    public void add(Vector vector) {
+    public Vector add(Vector vector) {
         int thisVectorSize = getSize();
         int vectorSize = vector.getSize();
 
+        Vector sum;
+
         if (thisVectorSize < vectorSize) {
-            components = Arrays.copyOf(components, vectorSize);
+            sum = new Vector(vectorSize, components);
+        } else {
+            sum = new Vector(this);
         }
 
         for (int i = 0; i < vectorSize; ++i) {
-            components[i] += vector.components[i];
+            sum.components[i] += vector.components[i];
         }
+
+        return sum;
     }
 
-    public void subtract(Vector vector) {
+    public Vector subtract(Vector vector) {
         int thisVectorSize = getSize();
         int vectorSize = vector.getSize();
 
+        Vector difference;
+
         if (thisVectorSize < vectorSize) {
-            components = Arrays.copyOf(components, vectorSize);
+            difference = new Vector(vectorSize, components);
+        } else {
+            difference = new Vector(this);
         }
 
         for (int i = 0; i < vectorSize; ++i) {
-            components[i] -= vector.components[i];
+            difference.components[i] -= vector.components[i];
         }
+
+        return difference;
     }
 
     public void multiplyByScalar(double scalar) {
@@ -141,15 +153,13 @@ public class Vector {
     }
 
     public static Vector getSum(Vector v1, Vector v2) {
-        Vector sumVector = new Vector(v1);
-        sumVector.add(v2);
-        return sumVector;
+        Vector sum = new Vector(v1);
+        return sum.add(v2);
     }
 
     public static Vector getDifference(Vector v1, Vector v2) {
-        Vector diffVector = new Vector(v1);
-        diffVector.subtract(v2);
-        return diffVector;
+        Vector difference = new Vector(v1);
+        return difference.subtract(v2);
     }
 
     public static double getScalarProduct(Vector v1, Vector v2) {
