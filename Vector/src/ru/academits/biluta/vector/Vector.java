@@ -7,7 +7,7 @@ public class Vector {
 
     public Vector(int size) {
         if (size <= 0) {
-            throw new IllegalArgumentException("Vector size cannot be negative or 0");
+            throw new IllegalArgumentException(String.format("Vector size must be > 0, your value is %d", size));
         }
 
         components = new double[size];
@@ -21,22 +21,20 @@ public class Vector {
 
     public Vector(double[] components) {
         if (components.length == 0) {
-            throw new IllegalArgumentException("Vector size cannot be 0");
+            throw new IllegalArgumentException("Components array is empty – size == 0, must be > 0");
         }
 
         this.components = new double[components.length];
-
-        System.arraycopy(components, 0, this.components, 0, components.length);
+        this.components = Arrays.copyOf(components, components.length);
     }
 
     public Vector(int size, double[] components) {
-        if (components.length == 0 || size <= 0) {
-            throw new IllegalArgumentException("Vector size cannot be negative or 0");
+        if (size <= 0) {
+            throw new IllegalArgumentException(String.format("Vector size must be > 0, your value is %d", size));
         }
 
         this.components = new double[size];
-
-        System.arraycopy(components, 0, this.components, 0, Math.min(size, components.length));
+        this.components = Arrays.copyOf(components, size);
     }
 
     @Override
@@ -82,7 +80,7 @@ public class Vector {
 
     public double getComponent(int index) {
         if (index < 0 || index >= components.length) {
-            throw new IllegalArgumentException("Vector size cannot be negative or 0");
+            throw new ArrayIndexOutOfBoundsException(String.format("Index is not in range %d..%d", 0, components.length - 1));
         }
 
         return components[index];
@@ -90,7 +88,7 @@ public class Vector {
 
     public void setComponent(int index, double value) {
         if (index < 0 || index >= components.length) {
-            throw new IllegalArgumentException("Index is out of vector size");
+            throw new ArrayIndexOutOfBoundsException(String.format("Index is not in range %d..%d", 0, components.length - 1));
         }
 
         components[index] = value;
@@ -100,16 +98,8 @@ public class Vector {
         int thisVectorSize = getSize();
         int vectorSize = vector.getSize();
 
-        // Reconstructing if this vector size is smaller than added one size
         if (thisVectorSize < vectorSize) {
-            double[] thisVectorComponents = components;
-            components = vector.components;
-
-            for (int i = 0; i < thisVectorSize; ++i) {
-                components[i] += thisVectorComponents[i];
-            }
-
-            return;
+            components = Arrays.copyOf(components, vectorSize);
         }
 
         for (int i = 0; i < vectorSize; ++i) {
@@ -121,20 +111,8 @@ public class Vector {
         int thisVectorSize = getSize();
         int vectorSize = vector.getSize();
 
-        // Reconstructing if this vector size is smaller than added one size
         if (thisVectorSize < vectorSize) {
-            double[] thisVectorComponents = components;
-            components = new double[vectorSize];
-
-            for (int i = 0; i < vectorSize; ++i) {
-                components[i] = -vector.components[i];
-            }
-
-            for (int i = 0; i < thisVectorSize; ++i) {
-                components[i] += thisVectorComponents[i];
-            }
-
-            return;
+            components = Arrays.copyOf(components, vectorSize);
         }
 
         for (int i = 0; i < vectorSize; ++i) {
@@ -176,8 +154,9 @@ public class Vector {
 
     public static double getScalarProduct(Vector v1, Vector v2) {
         double scalarProduct = 0.0;
+        int minimumSize = Math.min(v1.getSize(), v2.getSize());
 
-        for (int i = 0; i < Math.min(v1.getSize(), v2.getSize()); ++i) {
+        for (int i = 0; i < minimumSize; ++i) {
             scalarProduct += v1.components[i] * v2.components[i];
         }
 
