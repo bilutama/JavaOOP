@@ -5,7 +5,7 @@ import ru.academits.biluta.csv_converter.CsvConverter;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         if (args.length != 2) {
             printHelpMessage();
             return;
@@ -22,12 +22,12 @@ public class Main {
         System.out.println(inputFileName);
         System.out.println(outputFileName);
 
-        CsvConverter.convertCsvToHtmlTable(inputFileName, outputFileName);
-//        try {
-//            System.out.printf("Success! See \"%s\"%n", outputFileName);
-//        } catch (IOException exception) {
-//            System.out.printf("File %s doesn't exist.", inputFileName);
-//        }
+        try {
+            CsvConverter.convertCsvToHtmlTable(inputFileName, outputFileName);
+            System.out.printf("Success! See \"%s\"%n", outputFileName);
+        } catch (IOException exception) {
+            System.out.printf("File %s doesn't exist.", inputFileName);
+        }
     }
 
     public static void printHelpMessage() {

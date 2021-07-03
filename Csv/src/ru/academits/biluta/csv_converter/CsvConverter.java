@@ -191,6 +191,7 @@ public class CsvConverter {
 
         writer.println(TABLE_CLOSE_TAG);
         writer.print("</body>" + System.lineSeparator() + "</html>");
+        writer.close();
     }
 
     private static String getStringWithReplacements(char charToReplace) {
