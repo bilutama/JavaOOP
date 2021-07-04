@@ -7,16 +7,14 @@ public class Vector {
 
     public Vector(int size) {
         if (size <= 0) {
-            throw new IllegalArgumentException(String.format("Vector size must be > 0, your value is %d", size));
+            throw new IllegalArgumentException(String.format("Vector size must be > 0, current value is %d", size));
         }
 
         components = new double[size];
     }
 
     public Vector(Vector vector) {
-        components = new double[vector.components.length];
-
-        System.arraycopy(vector.components, 0, components, 0, vector.components.length);
+        components = Arrays.copyOf(vector.components, vector.components.length);
     }
 
     public Vector(double[] components) {
@@ -24,16 +22,14 @@ public class Vector {
             throw new IllegalArgumentException("Components array is empty – size == 0, must be > 0");
         }
 
-        this.components = new double[components.length];
         this.components = Arrays.copyOf(components, components.length);
     }
 
     public Vector(int size, double[] components) {
         if (size <= 0) {
-            throw new IllegalArgumentException(String.format("Vector size must be > 0, your value is %d", size));
+            throw new IllegalArgumentException(String.format("Vector size must be > 0, current value is %d", size));
         }
 
-        this.components = new double[size];
         this.components = Arrays.copyOf(components, size);
     }
 
@@ -80,7 +76,7 @@ public class Vector {
 
     public double getComponent(int index) {
         if (index < 0 || index >= components.length) {
-            throw new ArrayIndexOutOfBoundsException(String.format("Index is not in range %d..%d", 0, components.length - 1));
+            throw new IllegalArgumentException(String.format("Index %d is not in range %d..%d", index, 0, components.length - 1));
         }
 
         return components[index];
@@ -88,7 +84,7 @@ public class Vector {
 
     public void setComponent(int index, double value) {
         if (index < 0 || index >= components.length) {
-            throw new ArrayIndexOutOfBoundsException(String.format("Index is not in range %d..%d", 0, components.length - 1));
+            throw new IllegalArgumentException(String.format("Index %d is not in range %d..%d", index, 0, components.length - 1));
         }
 
         components[index] = value;
@@ -153,13 +149,11 @@ public class Vector {
     }
 
     public static Vector getSum(Vector v1, Vector v2) {
-        Vector sum = new Vector(v1);
-        return sum.add(v2);
+        return v1.add(v2);
     }
 
     public static Vector getDifference(Vector v1, Vector v2) {
-        Vector difference = new Vector(v1);
-        return difference.subtract(v2);
+        return v1.subtract(v2);
     }
 
     public static double getScalarProduct(Vector v1, Vector v2) {
