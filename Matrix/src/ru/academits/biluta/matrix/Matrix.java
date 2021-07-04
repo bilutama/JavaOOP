@@ -101,6 +101,4 @@ public class Matrix {
 
         return resultingVector;
     }
-
-
 }
