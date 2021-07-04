@@ -62,7 +62,6 @@ public class Main {
         Vector v5 = new Vector(new double[]{1, 1, 1, 1});
         System.out.printf("v5 = %s%n", v5);
         v4 = v4.subtract(v5);
-        //System.out.printf("v4 summed with v5 = %s%n", v4);
         System.out.printf("v4 after subtraction of v5 = %s%n", v4);
     }
 }
