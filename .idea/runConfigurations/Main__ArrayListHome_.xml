@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ArrayListHome" type="Application" factoryName="Application" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="ru.academits.biluta.array_list_home.ArrayListHome" />
+  <configuration default="false" name="Main (ArrayListHome)" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="ru.academits.biluta.array_list_home_main.Main" />
     <module name="ArrayListHome" />
     <option name="PROGRAM_PARAMETERS" value="ArrayListHome/src/ru/academits/biluta/datafile.txt" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="ru.academits.biluta.array_list_home.*" />
+        <option name="PATTERN" value="ru.academits.biluta.array_list_home_main.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
