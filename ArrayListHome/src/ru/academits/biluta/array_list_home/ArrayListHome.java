@@ -18,7 +18,6 @@ public class ArrayListHome {
         }
     }
 
-
     public static ArrayList<Integer> removeEvenNumbersFromArrayList(ArrayList<Integer> arrayList) {
         ArrayList<Integer> arrayListEvenNumbersRemoved = new ArrayList<>(arrayList);
 
@@ -36,9 +35,9 @@ public class ArrayListHome {
     public static ArrayList<Integer> removeDuplicatesFromArrayList(ArrayList<Integer> arrayList) {
         ArrayList<Integer> arrayListWithoutDuplicates = new ArrayList<>(arrayList.size());
 
-        for (Integer element : arrayList) {
-            if (!arrayListWithoutDuplicates.contains(element)) {
-                arrayListWithoutDuplicates.add(element);
+        for (Integer object : arrayList) {
+            if (!arrayListWithoutDuplicates.contains(object)) {
+                arrayListWithoutDuplicates.add(object);
             }
         }
 
