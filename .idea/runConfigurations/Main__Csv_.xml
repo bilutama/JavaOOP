@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Main_csv" type="Application" factoryName="Application">
+  <configuration default="false" name="Main (Csv)" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="ru.academits.biluta.csv_main.Main" />
     <module name="Csv" />
     <option name="PROGRAM_PARAMETERS" value="Csv/src/ru/academits/biluta/inputCsv.txt Csv/src/ru/academits/biluta/outputCsv.html" />
