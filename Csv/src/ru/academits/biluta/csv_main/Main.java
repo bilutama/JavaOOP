@@ -2,7 +2,7 @@ package ru.academits.biluta.csv_main;
 
 import ru.academits.biluta.csv_converter.CsvConverter;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 
 public class Main {
     public static void main(String[] args) {
@@ -22,7 +22,7 @@ public class Main {
         try {
             CsvConverter.convertCsvToHtmlTable(inputFileName, outputFileName);
             System.out.printf("Success! See \"%s\"%n", outputFileName);
-        } catch (IOException exception) {
+        } catch (FileNotFoundException e) {
             System.out.printf("File %s doesn't exist.", inputFileName);
         }
     }
