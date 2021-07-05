@@ -20,9 +20,24 @@ public class Matrix {
     }
 
     public Matrix(double[][] matrix) {
+        //TODO: add verification
+
+        int rowsCount = matrix.length;
+        int columnsCount = matrix[0].length;
+
+        rows = new Vector[rowsCount];
+
+        for (int i = 0; i < rowsCount; ++i) {
+            rows[i] = new Vector(matrix[0].length);
+
+            for (int j = 0; j < columnsCount; ++j) {
+                rows[i].setComponent(j, matrix[i][j]);
+            }
+        }
     }
 
     public Matrix(Vector[] vectors) {
+        //TODO: add verification
         int rowsCount = vectors.length;
         rows = new Vector[rowsCount];
         rows = Arrays.copyOf(vectors, vectors.length);
@@ -46,8 +61,12 @@ public class Matrix {
         return stringBuilder.toString();
     }
 
-    public int[] getDimensions() {
-        return new int[]{rows.length, rows[0].getSize()};
+    public int getRowsCount() {
+        return rows.length;
+    }
+
+    public int getColumnsCount() {
+        return rows[0].getSize();
     }
 
     public Vector getRow(int rowIndex) {
@@ -55,12 +74,12 @@ public class Matrix {
     }
 
     public void setRow(int rowIndex, Vector row) {
+        //TODO: add verification
         rows[rowIndex] = row;
     }
 
     public Vector getColumn(int columnIndex) {
         int size = rows.length;
-
         Vector column = new Vector(size);
 
         for (int i = 0; i < size; ++i) {
@@ -70,17 +89,25 @@ public class Matrix {
         return column;
     }
 
-    public void transpose() {
+    public Matrix getTransposed() {
         int newRowsCount = rows[0].getSize();
         int newColumnsCount = rows.length;
-    }
 
-    public double getDeterminant() throws IllegalAccessException {
-        if (getDimensions()[0] != getDimensions()[1]) {
-            throw new IllegalAccessException("The matrix is not square, cannot get determinant.");
+        Matrix transposedMatrix = new Matrix(newRowsCount, newColumnsCount);
+
+        for (int i = 0; i < newRowsCount; ++i) {
+            transposedMatrix.rows[i] = new Vector(this.getColumn(i));
         }
 
-        int matrixSize = getDimensions()[0];
+        return transposedMatrix;
+    }
+
+    public double getDeterminant() {
+        if (getColumnsCount() != getRowsCount()) {
+            throw new IllegalArgumentException("The matrix is not square, cannot get determinant.");
+        }
+
+        int matrixSize = getColumnsCount();
 
         if (matrixSize == 1) {
             return rows[0].getComponent(0);
@@ -91,14 +118,15 @@ public class Matrix {
         double determinant = 0.0;
 
         for (int i = 0; i < matrixSize; ++i) {
-            determinant += (1 - 2 * (i % 2)) * rows[i].getComponent(REFERENCE_COLUMN_INDEX) * getReducedMatrix(this, i, REFERENCE_COLUMN_INDEX).getDeterminant();
+            determinant += (1 - 2 * (i % 2)) * rows[i].getComponent(REFERENCE_COLUMN_INDEX) *
+                    getReducedMatrix(this, i, REFERENCE_COLUMN_INDEX).getDeterminant();
         }
 
         return determinant;
     }
 
     private Matrix getReducedMatrix(Matrix matrix, int excludedRowIndex, int excludedColumnIndex) {
-        int matrixSize = getDimensions()[0];
+        int matrixSize = getColumnsCount();
         Matrix reducedMatrix = new Matrix(matrixSize - 1, matrixSize - 1);
 
         for (int i = 0; i < matrixSize; ++i) {
@@ -126,43 +154,82 @@ public class Matrix {
     }
 
     public Vector getProductByVector(Vector vector) {
-        int rowsCount = getDimensions()[0];
-        int columnsCount = getDimensions()[1];
+        int rowsCount = getRowsCount();
+        int columnsCount = getColumnsCount();
 
         Vector resultingVector = new Vector(rowsCount);
 
         return resultingVector;
     }
 
-    public Matrix add (Matrix matrix) {
-        if (!Arrays.equals(this.getDimensions(), matrix.getDimensions())) {
-            throw new IllegalArgumentException("Matrices' size are not equal");
+    public Matrix add(Matrix matrix) {
+        int rowsCount = getRowsCount();
+        int columnsCount = getColumnsCount();
+
+        if (rowsCount != matrix.getRowsCount() || columnsCount != matrix.getColumnsCount()) {
+            throw new IllegalArgumentException("Sum is not possible for matrices of different size");
         }
 
-        int rowsCount = rows.length;
         Vector[] rowsSum = new Vector[rowsCount];
 
         for (int i = 0; i < rowsCount; ++i) {
-            rowsSum[i] = rows[i];
-            rowsSum[i].add(matrix.rows[i]);
+            rowsSum[i] = rows[i].add(matrix.rows[i]);
         }
 
         return new Matrix(rowsSum);
     }
 
-    public Matrix subtract (Matrix matrix) {
-        if (!Arrays.equals(this.getDimensions(), matrix.getDimensions())) {
-            throw new IllegalArgumentException("Matrices' size are not equal");
+    public Matrix subtract(Matrix matrix) {
+        int rowsCount = getRowsCount();
+        int columnsCount = getColumnsCount();
+
+        if (rowsCount != matrix.getRowsCount() || columnsCount != matrix.getColumnsCount()) {
+            throw new IllegalArgumentException("Subtraction is not possible for matrices of different size");
         }
 
-        int rowsCount = rows.length;
         Vector[] rowsDifference = new Vector[rowsCount];
 
         for (int i = 0; i < rowsCount; ++i) {
-            rowsDifference[i] = rows[i];
-            rowsDifference[i].subtract(matrix.rows[i]);
+            rowsDifference[i] = rows[i].subtract(matrix.rows[i]);
         }
 
         return new Matrix(rowsDifference);
+    }
+
+// STATIC METHODS
+
+    public static Matrix getSum(Matrix m1, Matrix m2) {
+        return m1.add(m2);
+    }
+
+    public static Matrix getDifference(Matrix m1, Matrix m2) {
+        return m1.subtract(m2);
+    }
+
+    public static Matrix getProduct(Matrix m1, Matrix m2) {
+        if (m1.getColumnsCount() != m2.getRowsCount()) {
+            throw new IllegalArgumentException("Matrices are not consistent");
+        }
+
+        int rowsCount = m1.getRowsCount();
+        int columnsCount = m2.getColumnsCount();
+        int consistencyOrder = m1.getColumnsCount();
+
+        Matrix matricesProduct = new Matrix(rowsCount, columnsCount);
+        double newElement;
+
+        for (int i = 0; i < rowsCount; ++i) {
+            for (int j = 0; j < columnsCount; ++j) {
+                newElement = 0.0;
+
+                for (int k = 0; k < consistencyOrder; ++k) {
+                    newElement += m1.rows[j].getComponent(k) * m2.rows[i].getComponent(k);
+                }
+
+                matricesProduct.rows[i].setComponent(j, newElement);
+            }
+        }
+
+        return matricesProduct;
     }
 }
