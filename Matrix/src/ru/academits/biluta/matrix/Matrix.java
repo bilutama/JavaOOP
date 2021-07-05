@@ -2,6 +2,8 @@ package ru.academits.biluta.matrix;
 
 import ru.academits.biluta.vector.Vector;
 
+import java.util.Arrays;
+
 public class Matrix {
     private Vector[] rows;
 
@@ -22,8 +24,8 @@ public class Matrix {
 
     public Matrix(Vector[] vectors) {
         int rowsCount = vectors.length;
-
-        System.arraycopy(vectors, 0, rows, 0, rowsCount);
+        rows = new Vector[rowsCount];
+        rows = Arrays.copyOf(vectors, vectors.length);
     }
 
     @Override
@@ -71,21 +73,54 @@ public class Matrix {
     public void transpose() {
         int newRowsCount = rows[0].getSize();
         int newColumnsCount = rows.length;
-
-
     }
 
-    public double getDeterminant() {
+    public double getDeterminant() throws IllegalAccessException {
+        if (getDimensions()[0] != getDimensions()[1]) {
+            throw new IllegalAccessException("The matrix is not square, cannot get determinant.");
+        }
+
+        int matrixSize = getDimensions()[0];
+
+        if (matrixSize == 1) {
+            return rows[0].getComponent(0);
+        }
+
+        // Индекс столбца матрицы, по которой считается определитель
+        final int REFERENCE_COLUMN_INDEX = 0;
         double determinant = 0.0;
+
+        for (int i = 0; i < matrixSize; ++i) {
+            determinant += (1 - 2 * (i % 2)) * rows[i].getComponent(REFERENCE_COLUMN_INDEX) * getReducedMatrix(this, i, REFERENCE_COLUMN_INDEX).getDeterminant();
+        }
 
         return determinant;
     }
 
-    private Matrix getReducedMatrix(int reducedRow, int reducedColumn) {
-        int matrixDimensionX = getDimensions()[0];
-        int matrixDimensionY = getDimensions()[1];
+    private Matrix getReducedMatrix(Matrix matrix, int excludedRowIndex, int excludedColumnIndex) {
+        int matrixSize = getDimensions()[0];
+        Matrix reducedMatrix = new Matrix(matrixSize - 1, matrixSize - 1);
 
-        Matrix reducedMatrix = new Matrix(matrixDimensionX - 1, matrixDimensionY - 1);
+        for (int i = 0; i < matrixSize; ++i) {
+            // Пропуск референсной строки
+            if (i == excludedRowIndex) {
+                continue;
+            }
+
+            // Вычисление сдвига индекса по строке
+            int rowIndexShift = i > excludedRowIndex ? -1 : 0;
+
+            for (int j = 0; j < matrixSize; ++j) {
+                // Пропуск референсного столбца
+                if (j == excludedColumnIndex) {
+                    continue;
+                }
+
+                // Заполнение редуцированной матрицы с учетом сдвига индекса по столбцу
+                int columnIndexShift = j > excludedColumnIndex ? -1 : 0;
+                reducedMatrix.rows[i + rowIndexShift].setComponent(j + columnIndexShift, matrix.rows[i].getComponent(j));
+            }
+        }
 
         return reducedMatrix;
     }
