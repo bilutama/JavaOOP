@@ -133,4 +133,36 @@ public class Matrix {
 
         return resultingVector;
     }
+
+    public Matrix add (Matrix matrix) {
+        if (!Arrays.equals(this.getDimensions(), matrix.getDimensions())) {
+            throw new IllegalArgumentException("Matrices' size are not equal");
+        }
+
+        int rowsCount = rows.length;
+        Vector[] rowsSum = new Vector[rowsCount];
+
+        for (int i = 0; i < rowsCount; ++i) {
+            rowsSum[i] = rows[i];
+            rowsSum[i].add(matrix.rows[i]);
+        }
+
+        return new Matrix(rowsSum);
+    }
+
+    public Matrix subtract (Matrix matrix) {
+        if (!Arrays.equals(this.getDimensions(), matrix.getDimensions())) {
+            throw new IllegalArgumentException("Matrices' size are not equal");
+        }
+
+        int rowsCount = rows.length;
+        Vector[] rowsDifference = new Vector[rowsCount];
+
+        for (int i = 0; i < rowsCount; ++i) {
+            rowsDifference[i] = rows[i];
+            rowsDifference[i].subtract(matrix.rows[i]);
+        }
+
+        return new Matrix(rowsDifference);
+    }
 }
