@@ -27,7 +27,7 @@ public class Vector {
 
     public Vector(int size, double[] components) {
         if (size <= 0) {
-            throw new IllegalArgumentException(String.format("Vector size must be > 0, current value is %d", size));
+            throw new IllegalArgumentException(String.format("Vector size must be > 0, current size is %d", size));
         }
 
         this.components = Arrays.copyOf(components, size);
