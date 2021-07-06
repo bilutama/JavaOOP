@@ -7,7 +7,7 @@ public class Vector {
 
     public Vector(int size) {
         if (size <= 0) {
-            throw new IllegalArgumentException(String.format("Vector size must be > 0, current value is %d", size));
+            throw new IllegalArgumentException(String.format("Vector size must be > 0, current size is %d", size));
         }
 
         components = new double[size];
