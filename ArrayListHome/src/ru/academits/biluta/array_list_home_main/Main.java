@@ -26,19 +26,19 @@ public class Main {
 
         System.out.println();
 
-        ArrayList<Integer> listOfNumbers = new ArrayList<>(Arrays.asList(1, 5, 2, 2, 1, 3, 5, 9, 4, 6));
+        ArrayList<Integer> numbersList = new ArrayList<>(Arrays.asList(1, 5, 2, 2, 1, 3, 5, 9, 4, 6));
         System.out.println("List:");
-        System.out.println(listOfNumbers);
+        System.out.println(numbersList);
 
-        ArrayList<Integer> listWithoutDuplicates = ArrayListHome.getListWithoutDuplicates(listOfNumbers);
+        ArrayList<Integer> listWithoutDuplicates = ArrayListHome.getListWithoutDuplicates(numbersList);
         System.out.println("List without duplicates:");
         System.out.println(listWithoutDuplicates);
 
-        ArrayListHome.removeEvenNumbers(listOfNumbers);
+        ArrayListHome.removeEvenNumbers(numbersList);
         System.out.println("List without even numbers:");
-        System.out.println(listOfNumbers);
+        System.out.println(numbersList);
 
-        ArrayList<Integer> listWithoutDuplicatesAndEvenNumbers = ArrayListHome.getListWithoutDuplicates(listOfNumbers);
+        ArrayList<Integer> listWithoutDuplicatesAndEvenNumbers = ArrayListHome.getListWithoutDuplicates(numbersList);
         System.out.println("List without even numbers and duplicates:");
         System.out.println(listWithoutDuplicatesAndEvenNumbers);
     }
