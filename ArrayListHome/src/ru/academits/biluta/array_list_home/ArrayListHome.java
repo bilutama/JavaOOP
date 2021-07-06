@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ArrayListHome {
-    public static ArrayList<String> readLinesFromFile(String datafile) throws FileNotFoundException {
-        try (Scanner scanner = new Scanner(new FileInputStream(datafile))) {
+    public static ArrayList<String> readLinesFromFile(String pathToFile) throws FileNotFoundException {
+        try (Scanner scanner = new Scanner(new FileInputStream(pathToFile))) {
             ArrayList<String> linesList = new ArrayList<>();
 
             while (scanner.hasNextLine()) {
@@ -18,29 +18,25 @@ public class ArrayListHome {
         }
     }
 
-    public static ArrayList<Integer> removeEvenNumbersFromArrayList(ArrayList<Integer> arrayList) {
-        ArrayList<Integer> arrayListEvenNumbersRemoved = new ArrayList<>(arrayList);
+    public static void removeEvenNumbers(ArrayList<Integer> list) {
+        int lastIndex = list.size() - 1;
 
-        int listLastIndex = arrayListEvenNumbersRemoved.size() - 1;
-
-        for (int i = listLastIndex; i >= 0; --i) {
-            if (arrayListEvenNumbersRemoved.get(i) % 2 == 0) {
-                arrayListEvenNumbersRemoved.remove(i);
+        for (int i = lastIndex; i >= 0; --i) {
+            if (list.get(i) % 2 == 0) {
+                list.remove(i);
             }
         }
-
-        return arrayListEvenNumbersRemoved;
     }
 
-    public static ArrayList<Integer> removeDuplicatesFromArrayList(ArrayList<Integer> arrayList) {
-        ArrayList<Integer> arrayListWithoutDuplicates = new ArrayList<>(arrayList.size());
+    public static ArrayList<Integer> getListWithoutDuplicates(ArrayList<Integer> list) {
+        ArrayList<Integer> listWithoutDuplicates = new ArrayList<>(list.size());
 
-        for (Integer object : arrayList) {
-            if (!arrayListWithoutDuplicates.contains(object)) {
-                arrayListWithoutDuplicates.add(object);
+        for (Integer number : list) {
+            if (!listWithoutDuplicates.contains(number)) {
+                listWithoutDuplicates.add(number);
             }
         }
 
-        return arrayListWithoutDuplicates;
+        return listWithoutDuplicates;
     }
 }

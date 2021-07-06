@@ -13,12 +13,12 @@ public class Main {
             return;
         }
 
-        String dataFile = args[0];
+        String pathToFile = args[0];
 
         try {
-            ArrayList<String> linesList = ArrayListHome.readLinesFromFile(dataFile);
+            ArrayList<String> linesList = ArrayListHome.readLinesFromFile(pathToFile);
 
-            System.out.printf("Lines list from file %s:%n", dataFile);
+            System.out.printf("Lines list from file %s:%n", pathToFile);
             System.out.println(linesList);
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
@@ -26,16 +26,20 @@ public class Main {
 
         System.out.println();
 
-        ArrayList<Integer> arrayList = new ArrayList<>(Arrays.asList(1, 5, 2, 2, 1, 3, 5, 9, 4, 6));
-        System.out.println("Array list:");
-        System.out.println(arrayList);
+        ArrayList<Integer> listOfNumbers = new ArrayList<>(Arrays.asList(1, 5, 2, 2, 1, 3, 5, 9, 4, 6));
+        System.out.println("List:");
+        System.out.println(listOfNumbers);
 
-        ArrayList<Integer> arrayListWithoutDuplicates = ArrayListHome.removeDuplicatesFromArrayList(arrayList);
-        System.out.println("Duplicates removed:");
-        System.out.println(arrayListWithoutDuplicates);
+        ArrayList<Integer> listWithoutDuplicates = ArrayListHome.getListWithoutDuplicates(listOfNumbers);
+        System.out.println("List without duplicates:");
+        System.out.println(listWithoutDuplicates);
 
-        ArrayList<Integer> arrayListEvenNumbersRemoved = ArrayListHome.removeEvenNumbersFromArrayList(arrayListWithoutDuplicates);
-        System.out.println("Duplicates and even numbers removed:");
-        System.out.println(arrayListEvenNumbersRemoved);
+        ArrayListHome.removeEvenNumbers(listOfNumbers);
+        System.out.println("List without even numbers:");
+        System.out.println(listOfNumbers);
+
+        ArrayList<Integer> listWithoutDuplicatesAndEvenNumbers = ArrayListHome.getListWithoutDuplicates(listOfNumbers);
+        System.out.println("List without even numbers and duplicates:");
+        System.out.println(listWithoutDuplicatesAndEvenNumbers);
     }
 }
