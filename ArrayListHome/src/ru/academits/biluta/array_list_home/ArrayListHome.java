@@ -18,12 +18,12 @@ public class ArrayListHome {
         }
     }
 
-    public static void removeEvenNumbers(ArrayList<Integer> list) {
-        int lastIndex = list.size() - 1;
+    public static void removeEvenNumbers(ArrayList<Integer> numbersList) {
+        int lastIndex = numbersList.size() - 1;
 
         for (int i = lastIndex; i >= 0; --i) {
-            if (list.get(i) % 2 == 0) {
-                list.remove(i);
+            if (numbersList.get(i) % 2 == 0) {
+                numbersList.remove(i);
             }
         }
     }
