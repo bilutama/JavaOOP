@@ -46,7 +46,7 @@ public class Main {
                 {1, 1}};
 
         Matrix mm1 = new Matrix(a1);
-        Matrix mm2 = new Matrix(a1);
+        Matrix mm2 = new Matrix(mm1);
 
         Matrix prodmm = Matrix.getProduct(mm1, mm2);
         System.out.print("Production of matrices");
