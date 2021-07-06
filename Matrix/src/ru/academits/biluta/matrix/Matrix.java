@@ -157,7 +157,22 @@ public class Matrix {
         int rowsCount = getRowsCount();
         int columnsCount = getColumnsCount();
 
-        Vector resultingVector = new Vector(rowsCount);
+        if (columnsCount != vector.getSize()) {
+            throw new IllegalArgumentException("Matrix and vector are not consistent");
+        }
+
+        Vector resultingVector = new Vector(columnsCount);
+        double component;
+
+        for (int i = 0; i < columnsCount; ++i) {
+            component = 0.0;
+
+            for (int j = 0; j < rowsCount; ++j) {
+                component += rows[j].getComponent(i) * vector.getComponent(i);
+            }
+
+            resultingVector.setComponent(i, component);
+        }
 
         return resultingVector;
     }
