@@ -21,6 +21,9 @@ public class Matrix {
 
     public Matrix(double[][] matrix) {
         //TODO: add verification
+        if (matrix.length == 0 || matrix[0].length == 0) {
+            throw new IllegalArgumentException("Array is empty or contains empty rows");
+        }
 
         int rowsCount = matrix.length;
         int columnsCount = matrix[0].length;
@@ -75,6 +78,10 @@ public class Matrix {
 
     public void setRow(int rowIndex, Vector row) {
         //TODO: add verification
+        if (row == null) {
+            throw new IllegalArgumentException("Vector is empty");
+        }
+
         rows[rowIndex] = row;
     }
 
