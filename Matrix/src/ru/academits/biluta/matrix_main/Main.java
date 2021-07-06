@@ -77,8 +77,12 @@ public class Main {
         Vector vector = new Vector(new double[]{2, 3});
         System.out.printf("Vector: %s%n", vector);
         Vector multipliedByMatrix = squareMatrix2.getProductByVector(vector);
-        System.out.println("Production of matrix 2 and vector:");
+        System.out.println("Production of matrix 2 and vector is a new vector:");
         System.out.println(multipliedByMatrix);
 
+        squareMatrix2.subtract(squareMatrix1);
+        System.out.println("Matrix 2 minus matrix 1:");
+        System.out.println(squareMatrix2);
+        System.out.println();
     }
 }

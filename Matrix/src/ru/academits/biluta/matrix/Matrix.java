@@ -2,8 +2,6 @@ package ru.academits.biluta.matrix;
 
 import ru.academits.biluta.vector.Vector;
 
-import java.util.Arrays;
-
 public class Matrix {
     private Vector[] rows;
 
