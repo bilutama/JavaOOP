@@ -20,7 +20,9 @@ public class Matrix {
     }
 
     public Matrix(double[][] matrix) {
-        //TODO: add verification
+        if (matrix.length == 0 || matrix[0].length == 0) {
+            throw new IllegalArgumentException("Array is empty or contains empty rows");
+        }
 
         int rowsCount = matrix.length;
         int columnsCount = matrix[0].length;
@@ -37,7 +39,6 @@ public class Matrix {
     }
 
     public Matrix(Vector[] vectors) {
-        //TODO: add verification
         int rowsCount = vectors.length;
         rows = new Vector[rowsCount];
         rows = Arrays.copyOf(vectors, vectors.length);
@@ -70,15 +71,32 @@ public class Matrix {
     }
 
     public Vector getRow(int rowIndex) {
+        if (rowIndex < 0 || rowIndex >= rows.length) {
+            throw new IndexOutOfBoundsException(String.format("Index %d is out of bounds 0..%d", rowIndex, rows.length - 1));
+        }
+
         return rows[rowIndex];
     }
 
     public void setRow(int rowIndex, Vector row) {
-        //TODO: add verification
+        if (rowIndex < 0 || rowIndex >= rows.length) {
+            throw new IndexOutOfBoundsException(String.format("Index %d is out of bounds 0..%d", rowIndex, rows.length - 1));
+        }
+
+        if (row == null) {
+            throw new IllegalArgumentException("Vector is empty");
+        }
+
         rows[rowIndex] = row;
     }
 
     public Vector getColumn(int columnIndex) {
+        int columnsCount = getColumnsCount();
+
+        if (columnIndex < 0 || columnIndex >= columnsCount) {
+            throw new IndexOutOfBoundsException(String.format("Index %d is out of bounds 0..%d", columnsCount, columnsCount - 1));
+        }
+
         int size = rows.length;
         Vector column = new Vector(size);
 
@@ -157,12 +175,27 @@ public class Matrix {
         int rowsCount = getRowsCount();
         int columnsCount = getColumnsCount();
 
-        Vector resultingVector = new Vector(rowsCount);
+        if (columnsCount != vector.getSize()) {
+            throw new IllegalArgumentException("Matrix and vector are not consistent");
+        }
+
+        Vector resultingVector = new Vector(columnsCount);
+        double component;
+
+        for (int i = 0; i < columnsCount; ++i) {
+            component = 0.0;
+
+            for (int j = 0; j < rowsCount; ++j) {
+                component += rows[j].getComponent(i) * vector.getComponent(i);
+            }
+
+            resultingVector.setComponent(i, component);
+        }
 
         return resultingVector;
     }
 
-    public Matrix add(Matrix matrix) {
+    public void add(Matrix matrix) {
         int rowsCount = getRowsCount();
         int columnsCount = getColumnsCount();
 
@@ -170,16 +203,12 @@ public class Matrix {
             throw new IllegalArgumentException("Sum is not possible for matrices of different size");
         }
 
-        Vector[] rowsSum = new Vector[rowsCount];
-
         for (int i = 0; i < rowsCount; ++i) {
-            rowsSum[i] = rows[i].add(matrix.rows[i]);
+            rows[i].add(matrix.rows[i]);
         }
-
-        return new Matrix(rowsSum);
     }
 
-    public Matrix subtract(Matrix matrix) {
+    public void subtract(Matrix matrix) {
         int rowsCount = getRowsCount();
         int columnsCount = getColumnsCount();
 
@@ -187,23 +216,21 @@ public class Matrix {
             throw new IllegalArgumentException("Subtraction is not possible for matrices of different size");
         }
 
-        Vector[] rowsDifference = new Vector[rowsCount];
-
         for (int i = 0; i < rowsCount; ++i) {
-            rowsDifference[i] = rows[i].subtract(matrix.rows[i]);
+            rows[i].subtract(matrix.rows[i]);
         }
-
-        return new Matrix(rowsDifference);
     }
 
-// STATIC METHODS
-
     public static Matrix getSum(Matrix m1, Matrix m2) {
-        return m1.add(m2);
+        Matrix sum = new Matrix(m1);
+        sum.add(m2);
+        return sum;
     }
 
     public static Matrix getDifference(Matrix m1, Matrix m2) {
-        return m1.subtract(m2);
+        Matrix difference = new Matrix(m1);
+        difference.subtract(m2);
+        return difference;
     }
 
     public static Matrix getProduct(Matrix m1, Matrix m2) {

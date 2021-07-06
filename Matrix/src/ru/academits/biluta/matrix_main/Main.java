@@ -31,7 +31,10 @@ public class Main {
         System.out.printf("m3 has %d columns%n", m3.getColumnsCount());
         System.out.printf("m3 has %d rows%n", m3.getRowsCount());
 
-        System.out.println(m3.getTransposed().subtract(m2));
+        m3 = m3.getTransposed();
+        m3.subtract(m2);
+
+        System.out.println(m3);
 
         try {
             System.out.printf("m1 det = %f%n", m1.getDeterminant());
@@ -46,11 +49,12 @@ public class Main {
                 {1, 1}};
 
         Matrix mm1 = new Matrix(a1);
-        Matrix mm2 = new Matrix(a1);
+        Matrix mm2 = new Matrix(mm1);
 
         Matrix prodmm = Matrix.getProduct(mm1, mm2);
-        System.out.print("Production of matrices");
+        System.out.println("Matrix to multiply with itself:");
         System.out.println(mm1);
+        System.out.println("Production of two same matrices:");
         System.out.println(prodmm);
     }
 }
