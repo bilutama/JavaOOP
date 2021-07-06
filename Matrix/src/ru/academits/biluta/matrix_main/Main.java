@@ -5,8 +5,13 @@ import ru.academits.biluta.vector.Vector;
 
 public class Main {
     public static void main(String[] args) {
+        double[][] partiallyInitializedArray = new double[4][];
+        partiallyInitializedArray[0] = new double[]{1, 2, 3};
+        Matrix m0 = new Matrix(partiallyInitializedArray);
+        System.out.println(m0);
+
         double[] v0 = {1.0, 1.0, 3.0};
-        double[] v1 = {1.0, 1.0, 8.0};
+        double[] v1 = {1.0, 1.0};
         double[] v2 = {3.0, 1.0, 1.0};
 
         Vector[] v = new Vector[3];
@@ -17,11 +22,13 @@ public class Main {
         Matrix m1 = new Matrix(v);
         System.out.println(m1);
 
-        double[][] arr = {{1, 2, 3, 4},
-                {5, 6, 7, 8},
-                {9, 10, 6, 12}};
+        double[][] multidimensionalArray = {
+                {1, 2, 3, 4},
+                {5, 6},
+                {9}
+        };
 
-        Matrix m2 = new Matrix(arr);
+        Matrix m2 = new Matrix(multidimensionalArray);
         System.out.println(m2);
         System.out.printf("m2 has %d columns%n", m2.getColumnsCount());
         System.out.printf("m2 has %d rows%n", m2.getRowsCount());
@@ -33,7 +40,6 @@ public class Main {
 
         m3 = m3.getTransposed();
         m3.subtract(m2);
-
         System.out.println(m3);
 
         try {
@@ -45,15 +51,17 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
-        double[][] a1 = {{1.5, 1},
-                {1, 1}};
+        double[][] squareArray = {
+                {1.5, 1},
+                {1, 2.3}
+        };
 
-        Matrix mm1 = new Matrix(a1);
-        Matrix mm2 = new Matrix(mm1);
+        Matrix squareMatrix1 = new Matrix(squareArray);
+        Matrix squareMatrix2 = new Matrix(squareMatrix1);
 
-        Matrix prodmm = Matrix.getProduct(mm1, mm2);
+        Matrix prodmm = Matrix.getProduct(squareMatrix1, squareMatrix2);
         System.out.println("Matrix to multiply with itself:");
-        System.out.println(mm1);
+        System.out.println(squareMatrix1);
         System.out.println("Production of two same matrices:");
         System.out.println(prodmm);
     }

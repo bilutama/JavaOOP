@@ -20,28 +20,67 @@ public class Matrix {
     }
 
     public Matrix(double[][] matrix) {
-        if (matrix.length == 0 || matrix[0].length == 0) {
-            throw new IllegalArgumentException("Array is empty or contains empty rows");
+        int rowsCount = matrix.length;
+
+        if (rowsCount == 0) {
+            throw new IllegalArgumentException("Array is empty");
         }
 
-        int rowsCount = matrix.length;
-        int columnsCount = matrix[0].length;
+        int columnsCount = 0;
+
+        // Getting the longest row length in the matrix
+        for (double[] row : matrix) {
+            if (row != null && row.length > columnsCount) {
+                columnsCount = row.length;
+            }
+        }
+
+        // All rows in matrix are NULL
+        if (columnsCount == 0) {
+            throw new IllegalArgumentException("Array contains only empty rows");
+        }
 
         rows = new Vector[rowsCount];
 
         for (int i = 0; i < rowsCount; ++i) {
-            rows[i] = new Vector(matrix[0].length);
-
-            for (int j = 0; j < columnsCount; ++j) {
-                rows[i].setComponent(j, matrix[i][j]);
+            if (matrix[i] == null) {
+                rows[i] = new Vector(columnsCount);
+                continue;
             }
+
+            rows[i] = new Vector(columnsCount, matrix[i]);
         }
     }
 
     public Matrix(Vector[] vectors) {
         int rowsCount = vectors.length;
+
+        if (rowsCount == 0) {
+            throw new IllegalArgumentException("Array is empty");
+        }
+
+        int columnsCount = 0;
+        int rowLength;
+        // Getting the longest row length in the matrix
+
+        for (Vector v : vectors) {
+            rowLength = v.getSize();
+
+            if (rowLength > columnsCount) {
+                columnsCount = rowLength;
+            }
+        }
+
+        if (columnsCount == 0) {
+            throw new IllegalArgumentException("Array contains only empty vectors");
+        }
+
         rows = new Vector[rowsCount];
-        rows = Arrays.copyOf(vectors, vectors.length);
+
+        for (int i = 0; i < rowsCount; ++i) {
+            rows[i] = new Vector(columnsCount);
+            rows[i].add(vectors[i]);
+        }
     }
 
     @Override
