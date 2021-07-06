@@ -218,20 +218,20 @@ public class Matrix {
             throw new IllegalArgumentException("Matrix and vector are not consistent");
         }
 
-        Vector resultingVector = new Vector(columnsCount);
+        Vector productVector = new Vector(columnsCount);
         double component;
 
-        for (int i = 0; i < columnsCount; ++i) {
+        for (int i = 0; i < rowsCount; ++i) {
             component = 0.0;
 
-            for (int j = 0; j < rowsCount; ++j) {
-                component += rows[j].getComponent(i) * vector.getComponent(i);
+            for (int j = 0; j < columnsCount; ++j) {
+                component += rows[i].getComponent(j) * vector.getComponent(j);
             }
 
-            resultingVector.setComponent(i, component);
+            productVector.setComponent(i, component);
         }
 
-        return resultingVector;
+        return productVector;
     }
 
     public void add(Matrix matrix) {
