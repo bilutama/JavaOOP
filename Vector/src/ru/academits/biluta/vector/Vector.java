@@ -3,7 +3,7 @@ package ru.academits.biluta.vector;
 import java.util.Arrays;
 
 public class Vector {
-    private final double[] components;
+    private double[] components;
 
     public Vector(int size) {
         if (size <= 0) {
@@ -76,7 +76,7 @@ public class Vector {
 
     public double getComponent(int index) {
         if (index < 0 || index >= components.length) {
-            throw new IllegalArgumentException(String.format("Index %d is not in range %d..%d", index, 0, components.length - 1));
+            throw new IndexOutOfBoundsException(String.format("Index %d is not in range %d..%d", index, 0, components.length - 1));
         }
 
         return components[index];
@@ -84,48 +84,36 @@ public class Vector {
 
     public void setComponent(int index, double value) {
         if (index < 0 || index >= components.length) {
-            throw new IllegalArgumentException(String.format("Index %d is not in range %d..%d", index, 0, components.length - 1));
+            throw new IndexOutOfBoundsException(String.format("Index %d is not in range %d..%d", index, 0, components.length - 1));
         }
 
         components[index] = value;
     }
 
-    public Vector add(Vector vector) {
+    public void add(Vector vector) {
         int thisVectorSize = getSize();
         int vectorSize = vector.getSize();
 
-        Vector sum;
-
         if (thisVectorSize < vectorSize) {
-            sum = new Vector(vectorSize, components);
-        } else {
-            sum = new Vector(this);
+            components = Arrays.copyOf(components, vectorSize);
         }
 
         for (int i = 0; i < vectorSize; ++i) {
-            sum.components[i] += vector.components[i];
+            components[i] += vector.components[i];
         }
-
-        return sum;
     }
 
-    public Vector subtract(Vector vector) {
+    public void subtract(Vector vector) {
         int thisVectorSize = getSize();
         int vectorSize = vector.getSize();
 
-        Vector difference;
-
         if (thisVectorSize < vectorSize) {
-            difference = new Vector(vectorSize, components);
-        } else {
-            difference = new Vector(this);
+            components = Arrays.copyOf(components, vectorSize);
         }
 
         for (int i = 0; i < vectorSize; ++i) {
-            difference.components[i] -= vector.components[i];
+            components[i] -= vector.components[i];
         }
-
-        return difference;
     }
 
     public void multiplyByScalar(double scalar) {
@@ -149,11 +137,15 @@ public class Vector {
     }
 
     public static Vector getSum(Vector v1, Vector v2) {
-        return v1.add(v2);
+        Vector sum = new Vector(v1);
+        sum.add(v2);
+        return sum;
     }
 
     public static Vector getDifference(Vector v1, Vector v2) {
-        return v1.subtract(v2);
+        Vector difference = new Vector(v1);
+        difference.subtract(v2);
+        return difference;
     }
 
     public static double getScalarProduct(Vector v1, Vector v2) {
