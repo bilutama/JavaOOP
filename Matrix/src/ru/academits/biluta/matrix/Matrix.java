@@ -195,7 +195,8 @@ public class Matrix {
         Vector[] rowsSum = new Vector[rowsCount];
 
         for (int i = 0; i < rowsCount; ++i) {
-            rowsSum[i] = rows[i].add(matrix.rows[i]);
+            rowsSum[i] = rows[i];
+            rowsSum[i].add(matrix.rows[i]);
         }
 
         return new Matrix(rowsSum);
@@ -212,7 +213,8 @@ public class Matrix {
         Vector[] rowsDifference = new Vector[rowsCount];
 
         for (int i = 0; i < rowsCount; ++i) {
-            rowsDifference[i] = rows[i].subtract(matrix.rows[i]);
+            rowsDifference[i] = rows[i];
+            rowsDifference[i].subtract(matrix.rows[i]);
         }
 
         return new Matrix(rowsDifference);
