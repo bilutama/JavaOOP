@@ -101,7 +101,7 @@ public class Main {
 
         Matrix matricesDifference = Matrix.getDifference(squareMatrix1, squareMatrix2);
         System.out.println("Difference (static function) of matrix 1 and matrix 2:");
-        System.out.println(matricesSum);
+        System.out.println(matricesDifference);
         System.out.println();
     }
 }
