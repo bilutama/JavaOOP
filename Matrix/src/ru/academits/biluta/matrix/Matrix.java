@@ -168,7 +168,7 @@ public class Matrix {
             return rows[0].getComponent(0);
         }
 
-        // Индекс столбца матрицы, по которой считается определитель
+        // Setting reference column index for determinant calculation
         final int REFERENCE_COLUMN_INDEX = 0;
         double determinant = 0.0;
 
@@ -185,21 +185,21 @@ public class Matrix {
         Matrix reducedMatrix = new Matrix(matrixSize - 1, matrixSize - 1);
 
         for (int i = 0; i < matrixSize; ++i) {
-            // Пропуск референсной строки
+            // Skipping reference row
             if (i == excludedRowIndex) {
                 continue;
             }
 
-            // Вычисление сдвига индекса по строке
+            // Index shift for a row
             int rowIndexShift = i > excludedRowIndex ? -1 : 0;
 
             for (int j = 0; j < matrixSize; ++j) {
-                // Пропуск референсного столбца
+                // Skipping reference column
                 if (j == excludedColumnIndex) {
                     continue;
                 }
 
-                // Заполнение редуцированной матрицы с учетом сдвига индекса по столбцу
+                // Filling reduced matrix with index shifting
                 int columnIndexShift = j > excludedColumnIndex ? -1 : 0;
                 reducedMatrix.rows[i + rowIndexShift].setComponent(j + columnIndexShift, matrix.rows[i].getComponent(j));
             }
