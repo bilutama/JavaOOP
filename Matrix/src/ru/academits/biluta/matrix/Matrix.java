@@ -3,7 +3,7 @@ package ru.academits.biluta.matrix;
 import ru.academits.biluta.vector.Vector;
 
 public class Matrix {
-    private Vector[] rows;
+    private final Vector[] rows;
 
     public Matrix(int rowCount, int columnCount) {
         rows = new Vector[rowCount];
@@ -271,26 +271,30 @@ public class Matrix {
     }
 
     public static Matrix getProduct(Matrix m1, Matrix m2) {
-        if (m1.getColumnsCount() != m2.getRowsCount()) {
+        // To be multiplied, matrices must be consistent,
+        // i.e. number m1 columns equals number m2 rows
+        int m1ColumnsCount = m1.getColumnsCount();
+        int m2RowsCount = m2.getRowsCount();
+
+        if (m1ColumnsCount != m2RowsCount) {
             throw new IllegalArgumentException("Matrices are not consistent");
         }
 
-        int rowsCount = m1.getRowsCount();
-        int columnsCount = m2.getColumnsCount();
-        int consistencyOrder = m1.getColumnsCount();
+        int productRowsCount = m1.getRowsCount();
+        int productColumnsCount = m2.getColumnsCount();
 
-        Matrix matricesProduct = new Matrix(rowsCount, columnsCount);
-        double newElement;
+        Matrix matricesProduct = new Matrix(productRowsCount, productColumnsCount);
+        double element;
 
-        for (int i = 0; i < rowsCount; ++i) {
-            for (int j = 0; j < columnsCount; ++j) {
-                newElement = 0.0;
+        for (int i = 0; i < productRowsCount; ++i) {
+            for (int j = 0; j < productColumnsCount; ++j) {
+                element = 0.0;
 
-                for (int k = 0; k < consistencyOrder; ++k) {
-                    newElement += m1.rows[j].getComponent(k) * m2.rows[i].getComponent(k);
+                for (int k = 0; k < m1ColumnsCount; ++k) {
+                    element += m1.rows[j].getComponent(k) * m2.rows[i].getComponent(k);
                 }
 
-                matricesProduct.rows[i].setComponent(j, newElement);
+                matricesProduct.rows[i].setComponent(j, element);
             }
         }
 

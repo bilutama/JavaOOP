@@ -22,6 +22,7 @@ public class Main {
         v[2] = new Vector(v2);
 
         Matrix m1 = new Matrix(v);
+
         System.out.printf("Matrix from vectors of different size:%n%s", m1);
         System.out.println();
 
@@ -30,6 +31,8 @@ public class Main {
                 {5, 6},
                 {9}
         };
+
+        m1.setRow(0,v[2]);
 
         Matrix m2 = new Matrix(multidimensionalArray);
         System.out.printf("Matrix from multidimensional array:%n%s%n", m2);
@@ -83,6 +86,22 @@ public class Main {
         squareMatrix2.subtract(squareMatrix1);
         System.out.println("Matrix 2 minus matrix 1:");
         System.out.println(squareMatrix2);
+        System.out.println();
+
+        squareMatrix2.setRow(0, vector);
+        squareMatrix2.setRow(1, vector);
+        System.out.println("Updated matrix 2:");
+        System.out.println(squareMatrix2);
+        System.out.println();
+
+        Matrix matricesSum = Matrix.getSum(squareMatrix1, squareMatrix2);
+        System.out.println("Sum (static function) of matrix 1 and matrix 2:");
+        System.out.println(matricesSum);
+        System.out.println();
+
+        Matrix matricesDifference = Matrix.getDifference(squareMatrix1, squareMatrix2);
+        System.out.println("Difference (static function) of matrix 1 and matrix 2:");
+        System.out.println(matricesSum);
         System.out.println();
     }
 }
