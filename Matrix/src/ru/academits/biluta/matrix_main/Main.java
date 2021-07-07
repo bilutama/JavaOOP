@@ -57,6 +57,7 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
+        //132
         double[][] squareArray = {
                 {1.5, 1},
                 {1, 2.3}
