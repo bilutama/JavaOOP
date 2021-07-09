@@ -3,18 +3,26 @@ package ru.academits.biluta.matrix;
 import ru.academits.biluta.vector.Vector;
 
 public class Matrix {
-    private final Vector[] rows;
+    private Vector[] rows;
 
-    public Matrix(int rowCount, int columnCount) {
-        rows = new Vector[rowCount];
+    public Matrix(int rowsCount, int columnsCount) {
+        if (rowsCount < 1 || columnsCount < 1) {
+            throw new IllegalArgumentException("Matrix dimensions cannot be less than 1");
+        }
 
-        for (int i = 0; i < rowCount; ++i) {
-            rows[i] = new Vector(columnCount);
+        rows = new Vector[rowsCount];
+
+        for (int i = 0; i < rowsCount; ++i) {
+            rows[i] = new Vector(columnsCount);
         }
     }
 
     public Matrix(Matrix matrix) {
-        rows = matrix.rows;
+        rows = new Vector[matrix.getRowsCount()];
+
+        for (int i = 0; i < matrix.getRowsCount(); ++i) {
+            rows[i] = new Vector(matrix.rows[i]);
+        }
     }
 
     public Matrix(double[][] matrix) {
@@ -58,19 +66,14 @@ public class Matrix {
         }
 
         int columnsCount = 0;
-        int rowLength;
         // Getting the longest row length in the matrix
 
         for (Vector v : vectors) {
-            rowLength = v.getSize();
+            int rowLength = v.getSize();
 
             if (rowLength > columnsCount) {
                 columnsCount = rowLength;
             }
-        }
-
-        if (columnsCount == 0) {
-            throw new IllegalArgumentException("Array contains only empty vectors");
         }
 
         rows = new Vector[rowsCount];
@@ -112,19 +115,19 @@ public class Matrix {
             throw new IndexOutOfBoundsException(String.format("Index %d is out of bounds 0..%d", rowIndex, rows.length - 1));
         }
 
-        return rows[rowIndex];
+        return new Vector(rows[rowIndex]);
     }
 
     public void setRow(int rowIndex, Vector row) {
-        if (rowIndex < 0 || rowIndex >= rows.length) {
-            throw new IndexOutOfBoundsException(String.format("Index %d is out of bounds 0..%d", rowIndex, rows.length - 1));
-        }
-
         if (row == null) {
             throw new IllegalArgumentException("Vector is empty");
         }
 
-        rows[rowIndex] = row;
+        if (rowIndex < 0 || rowIndex >= rows.length) {
+            throw new IndexOutOfBoundsException(String.format("Index %d is out of bounds 0..%d", rowIndex, rows.length - 1));
+        }
+
+        rows[rowIndex] = new Vector(row);
     }
 
     public Vector getColumn(int columnIndex) {
@@ -144,22 +147,20 @@ public class Matrix {
         return column;
     }
 
-    public Matrix getTransposed() {
-        int newRowsCount = rows[0].getSize();
-        int newColumnsCount = rows.length;
+    public void transpose() {
+        Matrix matrix = new Matrix(this);
+        int newRowsCount = getColumnsCount();
 
-        Matrix transposedMatrix = new Matrix(newRowsCount, newColumnsCount);
+        rows = new Vector[matrix.getColumnsCount()];
 
         for (int i = 0; i < newRowsCount; ++i) {
-            transposedMatrix.rows[i] = new Vector(this.getColumn(i));
+            rows[i] = matrix.getColumn(i);
         }
-
-        return transposedMatrix;
     }
 
     public double getDeterminant() {
         if (getColumnsCount() != getRowsCount()) {
-            throw new IllegalArgumentException("The matrix is not square, cannot get determinant.");
+            throw new ArithmeticException("The matrix is not square, cannot get determinant.");
         }
 
         int matrixSize = getColumnsCount();
@@ -174,13 +175,13 @@ public class Matrix {
 
         for (int i = 0; i < matrixSize; ++i) {
             determinant += (1 - 2 * (i % 2)) * rows[i].getComponent(REFERENCE_COLUMN_INDEX) *
-                    getReducedMatrix(this, i, REFERENCE_COLUMN_INDEX).getDeterminant();
+                    getReducedMatrix(i, REFERENCE_COLUMN_INDEX).getDeterminant();
         }
 
         return determinant;
     }
 
-    private Matrix getReducedMatrix(Matrix matrix, int excludedRowIndex, int excludedColumnIndex) {
+    private Matrix getReducedMatrix(int excludedRowIndex, int excludedColumnIndex) {
         int matrixSize = getColumnsCount();
         Matrix reducedMatrix = new Matrix(matrixSize - 1, matrixSize - 1);
 
@@ -201,7 +202,7 @@ public class Matrix {
 
                 // Filling reduced matrix with index shifting
                 int columnIndexShift = j > excludedColumnIndex ? -1 : 0;
-                reducedMatrix.rows[i + rowIndexShift].setComponent(j + columnIndexShift, matrix.rows[i].getComponent(j));
+                reducedMatrix.rows[i + rowIndexShift].setComponent(j + columnIndexShift, rows[i].getComponent(j));
             }
         }
 
@@ -211,21 +212,16 @@ public class Matrix {
     public Vector getProductByVector(Vector vector) {
         int rowsCount = getRowsCount();
         int columnsCount = getColumnsCount();
+        int vectorSize = vector.getSize();
 
-        if (columnsCount != vector.getSize()) {
-            throw new IllegalArgumentException("Matrix and vector are not consistent");
+        if (columnsCount != vectorSize) {
+            throw new IllegalArgumentException(String.format("Matrix with %d columns and vector size of %d are not consistent", columnsCount, vectorSize));
         }
 
         Vector productVector = new Vector(columnsCount);
-        double component;
 
         for (int i = 0; i < rowsCount; ++i) {
-            component = 0.0;
-
-            for (int j = 0; j < columnsCount; ++j) {
-                component += rows[i].getComponent(j) * vector.getComponent(j);
-            }
-
+            double component = Vector.getScalarProduct(rows[i], vector);
             productVector.setComponent(i, component);
         }
 

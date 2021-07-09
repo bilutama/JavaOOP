@@ -40,13 +40,14 @@ public class Main {
         System.out.printf("Matrix has %d rows%n%n", m2.getRowsCount());
         System.out.println();
 
-        Matrix m3 = m2.getTransposed();
+        Matrix m3 = m2;
+        m3.transpose();
         System.out.printf("Transposed matrix:%n%s%n", m3);
         System.out.printf("Transposed matrix has %d columns%n", m3.getColumnsCount());
         System.out.printf("Transposed matrix has %d rows%n", m3.getRowsCount());
         System.out.println();
 
-        m3 = m3.getTransposed();
+        m3.transpose();
         m3.subtract(m2);
         System.out.println(m3);
 
