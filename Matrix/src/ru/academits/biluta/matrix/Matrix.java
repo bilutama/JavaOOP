@@ -159,8 +159,11 @@ public class Matrix {
     }
 
     public double getDeterminant() {
-        if (getColumnsCount() != getRowsCount()) {
-            throw new ArithmeticException("The matrix is not square, cannot get determinant.");
+        int rowsCount = getRowsCount();
+        int columnsCount = getColumnsCount();
+
+        if (rowsCount != columnsCount) {
+            throw new ArithmeticException(String.format("The matrix %dx%d is not square, cannot get determinant", columnsCount, rowsCount));
         }
 
         int matrixSize = getColumnsCount();
@@ -210,19 +213,18 @@ public class Matrix {
     }
 
     public Vector getProductByVector(Vector vector) {
-        int rowsCount = getRowsCount();
         int columnsCount = getColumnsCount();
         int vectorSize = vector.getSize();
 
         if (columnsCount != vectorSize) {
-            throw new IllegalArgumentException(String.format("Matrix with %d columns and vector size of %d are not consistent", columnsCount, vectorSize));
+            throw new IllegalArgumentException(String.format("Matrix with %d columns and vector size of %d are not consistent",
+                    columnsCount, vectorSize));
         }
 
-        Vector productVector = new Vector(columnsCount);
+        Vector productVector = new Vector(vectorSize);
 
-        for (int i = 0; i < rowsCount; ++i) {
-            double component = Vector.getScalarProduct(rows[i], vector);
-            productVector.setComponent(i, component);
+        for (int i = 0; i < vectorSize; ++i) {
+            productVector.setComponent(i, Vector.getScalarProduct(rows[i], vector));
         }
 
         return productVector;
@@ -231,9 +233,12 @@ public class Matrix {
     public void add(Matrix matrix) {
         int rowsCount = getRowsCount();
         int columnsCount = getColumnsCount();
+        int matrixRowsCount = matrix.getRowsCount();
+        int matrixColumnsCount = matrix.getColumnsCount();
 
-        if (rowsCount != matrix.getRowsCount() || columnsCount != matrix.getColumnsCount()) {
-            throw new IllegalArgumentException("Sum is not possible for matrices of different size");
+        if (rowsCount != matrixRowsCount || columnsCount != matrixColumnsCount) {
+            throw new IllegalArgumentException(String.format("For matrices of different size %dx%d and %dx%d sum is not possible",
+                    columnsCount, rowsCount, matrixColumnsCount, matrixRowsCount));
         }
 
         for (int i = 0; i < rowsCount; ++i) {
@@ -244,9 +249,12 @@ public class Matrix {
     public void subtract(Matrix matrix) {
         int rowsCount = getRowsCount();
         int columnsCount = getColumnsCount();
+        int matrixRowsCount = matrix.getRowsCount();
+        int matrixColumnsCount = matrix.getColumnsCount();
 
-        if (rowsCount != matrix.getRowsCount() || columnsCount != matrix.getColumnsCount()) {
-            throw new IllegalArgumentException("Subtraction is not possible for matrices of different size");
+        if (rowsCount != matrixRowsCount || columnsCount != matrixColumnsCount) {
+            throw new IllegalArgumentException(String.format("For matrices of different size %dx%d and %dx%d subtraction is not possible",
+                    columnsCount, rowsCount, matrixColumnsCount, matrixRowsCount));
         }
 
         for (int i = 0; i < rowsCount; ++i) {
@@ -255,36 +263,54 @@ public class Matrix {
     }
 
     public static Matrix getSum(Matrix m1, Matrix m2) {
+        int m1RowsCount = m1.getRowsCount();
+        int m1ColumnsCount = m1.getColumnsCount();
+        int m2RowsCount = m2.getRowsCount();
+        int m2ColumsCount = m2.getColumnsCount();
+
+        if (m1RowsCount != m2RowsCount || m1ColumnsCount != m2ColumsCount) {
+            throw new IllegalArgumentException(String.format("For matrices of different size %dx%d and %dx%d sum is not possible",
+                    m1ColumnsCount, m1RowsCount, m2ColumsCount, m2RowsCount));
+        }
+
         Matrix sum = new Matrix(m1);
         sum.add(m2);
         return sum;
     }
 
     public static Matrix getDifference(Matrix m1, Matrix m2) {
+        int m1RowsCount = m1.getRowsCount();
+        int m1ColumnsCount = m1.getColumnsCount();
+        int m2RowsCount = m2.getRowsCount();
+        int m2ColumsCount = m2.getColumnsCount();
+
+        if (m1RowsCount != m2RowsCount || m1ColumnsCount != m2ColumsCount) {
+            throw new IllegalArgumentException(String.format("For matrices of different size %dx%d and %dx%d subtraction is not possible",
+                    m1ColumnsCount, m1RowsCount, m2ColumsCount, m2RowsCount));
+        }
+
         Matrix difference = new Matrix(m1);
         difference.subtract(m2);
         return difference;
     }
 
     public static Matrix getProduct(Matrix m1, Matrix m2) {
-        // To be multiplied, matrices must be consistent,
-        // i.e. number m1 columns equals number m2 rows
         int m1ColumnsCount = m1.getColumnsCount();
         int m2RowsCount = m2.getRowsCount();
 
         if (m1ColumnsCount != m2RowsCount) {
-            throw new IllegalArgumentException("Matrices are not consistent");
+            throw new IllegalArgumentException(String.format("Matrices are not consistent: columns count of m1 %d is not equal rows count %d of m2",
+                    m1ColumnsCount, m2RowsCount));
         }
 
         int productRowsCount = m1.getRowsCount();
         int productColumnsCount = m2.getColumnsCount();
 
         Matrix matricesProduct = new Matrix(productRowsCount, productColumnsCount);
-        double element;
 
         for (int i = 0; i < productRowsCount; ++i) {
             for (int j = 0; j < productColumnsCount; ++j) {
-                element = 0.0;
+                double element = 0.0;
 
                 for (int k = 0; k < m1ColumnsCount; ++k) {
                     element += m1.rows[j].getComponent(k) * m2.rows[i].getComponent(k);

@@ -40,7 +40,7 @@ public class Main {
         System.out.printf("Matrix has %d rows%n%n", m2.getRowsCount());
         System.out.println();
 
-        Matrix m3 = m2;
+        Matrix m3 = new Matrix(m2);
         m3.transpose();
         System.out.printf("Transposed matrix:%n%s%n", m3);
         System.out.printf("Transposed matrix has %d columns%n", m3.getColumnsCount());
@@ -57,7 +57,7 @@ public class Main {
             System.out.printf("Row 3 = %s%n", m3.getRow(2));
             System.out.printf("Column 3 = %s%n", m3.getColumn(2));
             System.out.println();
-        } catch (IllegalArgumentException e) {
+        } catch (ArithmeticException e) {
             System.out.println(e.getMessage());
         }
 
@@ -72,7 +72,7 @@ public class Main {
         Matrix matricesProduction = Matrix.getProduct(squareMatrix1, squareMatrix2);
         System.out.println("Matrix 1:");
         System.out.println(squareMatrix1);
-        System.out.println("Matrix 2 copy of matrix 1:");
+        System.out.println("Matrix 2 is a copy of matrix 1:");
         System.out.println(squareMatrix2);
         System.out.println("Production of matrix 1 and matrix 2:");
         System.out.println(matricesProduction);
@@ -92,6 +92,13 @@ public class Main {
         squareMatrix2.setRow(0, vector);
         squareMatrix2.setRow(1, vector);
         System.out.println("Updated matrix 2:");
+        System.out.println(squareMatrix2);
+        System.out.println();
+
+        vector.setComponent(1, 1.0);
+        System.out.println("Updated vector:");
+        System.out.println(vector);
+        System.out.println("matrix 2:");
         System.out.println(squareMatrix2);
         System.out.println();
 
