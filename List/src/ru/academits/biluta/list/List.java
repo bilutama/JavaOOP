@@ -1,5 +1,12 @@
 package ru.academits.biluta.list;
 
-public class List {
+public class List<T> {
+    ListItem<T> head;
+
+    public List(T data){
+        head = new ListItem<T>(data);
+        head.setNext(null);
+    }
+
 
 }
