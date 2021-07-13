@@ -1,7 +1,7 @@
 package ru.academits.biluta.list;
 
 public class ListItem<T> {
-    private final T data;
+    private T data;
     private ListItem<T> next;
 
     public ListItem(T data) {
@@ -15,6 +15,10 @@ public class ListItem<T> {
 
     public T getData() {
         return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 
     public ListItem<T> getNext() {
