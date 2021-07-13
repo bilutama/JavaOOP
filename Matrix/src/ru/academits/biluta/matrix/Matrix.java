@@ -251,7 +251,7 @@ public class Matrix {
     }
 
     public void add(Matrix matrix) {
-        if (haveEqualDimensions(this, matrix)) {
+        if (haveNotEqualDimensions(this, matrix)) {
             throw new UnsupportedOperationException(
                     String.format("For matrices of different size %dx%d and %dx%d sum is not possible",
                             getRowsCount(), getColumnsCount(), matrix.getRowsCount(), matrix.getColumnsCount())
@@ -264,7 +264,7 @@ public class Matrix {
     }
 
     public void subtract(Matrix matrix) {
-        if (haveEqualDimensions(this, matrix)) {
+        if (haveNotEqualDimensions(this, matrix)) {
             throw new UnsupportedOperationException(
                     String.format("For matrices of different size %dx%d and %dx%d subtraction is not possible",
                             getRowsCount(), getColumnsCount(), matrix.getRowsCount(), matrix.getColumnsCount())
@@ -277,7 +277,7 @@ public class Matrix {
     }
 
     public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
-        if (haveEqualDimensions(matrix1, matrix2)) {
+        if (haveNotEqualDimensions(matrix1, matrix2)) {
             throw new UnsupportedOperationException(
                     String.format("For matrices of different size %dx%d and %dx%d subtraction is not possible",
                             matrix1.getRowsCount(), matrix1.getColumnsCount(), matrix2.getRowsCount(), matrix2.getColumnsCount())
@@ -290,7 +290,7 @@ public class Matrix {
     }
 
     public static Matrix getDifference(Matrix matrix1, Matrix matrix2) {
-        if (haveEqualDimensions(matrix1, matrix2)) {
+        if (haveNotEqualDimensions(matrix1, matrix2)) {
             throw new UnsupportedOperationException(
                     String.format("For matrices of different size %dx%d and %dx%d subtraction is not possible",
                             matrix1.getRowsCount(), matrix1.getColumnsCount(), matrix2.getRowsCount(), matrix2.getColumnsCount())
@@ -302,7 +302,7 @@ public class Matrix {
         return difference;
     }
 
-    private static boolean haveEqualDimensions(Matrix matrix1, Matrix matrix2) {
+    private static boolean haveNotEqualDimensions(Matrix matrix1, Matrix matrix2) {
         return matrix1.getRowsCount() != matrix2.getRowsCount() || matrix1.getColumnsCount() != matrix2.getColumnsCount();
     }
 
