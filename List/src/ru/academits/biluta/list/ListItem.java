@@ -26,10 +26,6 @@ public class ListItem<T> {
     }
 
     public void setNext(ListItem<T> next) {
-        if (next == null) {
-            this.next = null;
-        }
-
         this.next = next;
     }
 }

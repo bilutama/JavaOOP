@@ -22,15 +22,22 @@ public class LinkedList<T> {
         return count;
     }
 
-    public T getFirstData() {
+    public T getHead() {
+        if (head == null) {
+            return null;
+        }
+
         return head.getData();
     }
 
-    public T getDataByIndex(int index) {
-        //TODO: add parameters validation
+    public T getValueByIndex(int index) {
+        if (index >= count) {
+            throw new IndexOutOfBoundsException(String.format("Index %d is out of bounds 0..%d", index, count - 1));
+        }
 
         int i = 0;
-        for (ListItem<T> p = head; !(p == null); p = p.getNext()) {
+
+        for (ListItem<T> p = head; p != null; p = p.getNext()) {
             if (i == index) {
                 return p.getData();
             }
@@ -41,62 +48,113 @@ public class LinkedList<T> {
         return null;
     }
 
-    public T setDataByIndex(int index, T data) {
-        //TODO: add parameters validation
+    public T setValueByIndex(int index, T data) {
+        if (index >= count) {
+            throw new IndexOutOfBoundsException(String.format("Index %d is out of bounds 0..%d", index, count - 1));
+        }
 
+        ListItem<T> p = head;
         int i = 0;
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (i == index) {
-                T oldValue = p.getData();
-                p.setData(data);
-                return oldValue;
-            }
 
+        while (i != index) {
+            p = p.getNext();
             ++i;
         }
 
-        return null;
+        T oldValue = p.getData();
+        p.setData(data);
+        return oldValue;
     }
 
-    public T removeItemByIndex(int index) {
+    public T removeByIndex(int index) {
         if (index >= count) {
-            return null;
+            throw new IndexOutOfBoundsException(String.format("Index %d is out of bounds 0..%d", index, count - 1));
         }
 
         // Last item in List
         if (index == count - 1) {
             T data = tail.getData();
             tail = null;
-            count--;
+            --count;
+
             return data;
         }
 
+        // First item in List
+        if (index == 0) {
+            T value = head.getData();
+            head = head.getNext();
+            --count;
+
+            return value;
+        }
+
+        ListItem<T> current = head;
+        ListItem<T> previous = null;
         int i = 0;
 
-        for (ListItem<T> current = head, previous = null; current != null; previous = current, current = current.getNext()) {
-            if (current.getNext() == null) {
-                previous = null;
-            }
-
-            if (i == index) {
-                T data = current.getData();
-
-                if (current == tail) {
-                    previous.setNext(null);
-                } else {
-                    previous.setNext(current.getNext());
-                }
-
-                return data;
-            }
-
+        while (i != index) {
+            previous = current;
+            current = current.getNext();
             ++i;
         }
 
-        return null;
+        T data = current.getData();
+        previous.setNext(current.getNext());
+        --count;
+
+        return data;
     }
 
-    public void add(T data) {
+    public void insertFirst(T data) {
+        if (head == null) {
+            head = new ListItem<>(data);
+            return;
+        }
+
+        head = new ListItem<T>(data, head);
+    }
+
+    public T removeFirst() {
+        if (head == null) {
+            return null;
+        }
+
+        T value = head.getData();
+        head = head.getNext();
+
+        return value;
+    }
+
+    public boolean insertByIndex(int index, T data) {
+        if (index >= count) {
+            //TODO: implement insertion at the end of List
+        }
+
+        if (index == 0) {
+            if (head == null) {
+                head = new ListItem<T>(data);
+            } else {
+                ListItem<T> p = new ListItem<T>(data, head);
+                head = p;
+            }
+        }
+
+
+        return true;
+    }
+
+    public boolean removeByValue(T value) {
+
+        return true;
+    }
+
+    public void reverse() {
 
     }
+
+    public void copy() {
+
+    }
+
 }
