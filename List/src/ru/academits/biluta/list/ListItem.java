@@ -1,7 +1,7 @@
 package ru.academits.biluta.list;
 
 public class ListItem<T> {
-    private T data;
+    private final T data;
     private ListItem<T> next;
 
     public ListItem(T data) {
