@@ -36,14 +36,14 @@ public class Main {
 
         Matrix m2 = new Matrix(multidimensionalArray);
         System.out.printf("Matrix from multidimensional array:%n%s%n", m2);
-        System.out.printf("Matrix has %d columns%n", m2.getColumnsCount());
         System.out.printf("Matrix has %d rows%n%n", m2.getRowsCount());
+        System.out.printf("Matrix has %d columns%n", m2.getColumnsCount());
 
         Matrix m3 = new Matrix(m2);
         m3.transpose();
         System.out.printf("Transposed matrix:%n%s%n", m3);
-        System.out.printf("Transposed matrix has %d columns%n", m3.getColumnsCount());
         System.out.printf("Transposed matrix has %d rows%n", m3.getRowsCount());
+        System.out.printf("Transposed matrix has %d columns%n", m3.getColumnsCount());
         System.out.println();
 
         m3.transpose();
