@@ -2,27 +2,46 @@ package ru.academits.biluta.list;
 
 public class LinkedList<T> {
     ListItem<T> head;
-    ListItem<T> tail;
-    private int count;
+    private int length;
 
     public LinkedList() {
         head = null;
-        tail = null;
-        count = 0;
+        length = 0;
     }
 
     public LinkedList(T data) {
-        head = new ListItem<T>(data);
-        tail = head;
+        head = new ListItem<>(data);
         head.setNext(null);
-        count = 1;
+        length = 1;
+    }
+
+    @Override
+    public String toString() {
+        if (head == null) {
+            return String.format("[null], length = %d", length);
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("[");
+
+        for (ListItem<T> p = head; p != null; p = p.getNext()) {
+            stringBuilder.append(p.getData());
+            stringBuilder.append(" -> ");
+        }
+
+        // Deleting 4 chars " -> " and the end of the string
+        stringBuilder.delete(stringBuilder.length() - 4, stringBuilder.length());
+
+        stringBuilder.append(" -> null], length = ");
+        stringBuilder.append(length);
+        return stringBuilder.toString();
     }
 
     public int getLength() {
-        return count;
+        return length;
     }
 
-    public T getFirst() {
+    public T getFirstValue() {
         if (head == null) {
             return null;
         }
@@ -30,14 +49,14 @@ public class LinkedList<T> {
         return head.getData();
     }
 
-    public T getByIndex(int index) {
+    public T getValueByIndex(int index) {
         if (head == null) {
             return null;
         }
 
-        if (index < 0 || index >= count) {
+        if (index < 0 || index >= length) {
             throw new IndexOutOfBoundsException(
-                    String.format("Index %d is out of bounds 0..%d", index, count - 1)
+                    String.format("Index %d is out of bounds 0..%d", index, length - 1)
             );
         }
 
@@ -52,10 +71,10 @@ public class LinkedList<T> {
         return p.getData();
     }
 
-    public T setByIndex(int index, T data) {
-        if (index < 0 || index >= count) {
+    public T setValueByIndex(int index, T data) {
+        if (index < 0 || index >= length) {
             throw new IndexOutOfBoundsException(
-                    String.format("Index %d is out of bounds 0..%d", index, count - 1)
+                    String.format("Index %d is out of bounds 0..%d", index, length - 1)
             );
         }
 
@@ -67,9 +86,9 @@ public class LinkedList<T> {
             ++i;
         }
 
-        T currentValue = p.getData();
+        T previousValue = p.getData();
         p.setData(data);
-        return currentValue;
+        return previousValue;
     }
 
     public T removeByIndex(int index) {
@@ -77,62 +96,45 @@ public class LinkedList<T> {
             return null;
         }
 
-        if (index < 0 || index >= count) {
+        if (index < 0 || index >= length) {
             throw new IndexOutOfBoundsException(
-                    String.format("Index %d is out of bounds 0..%d", index, count - 1)
+                    String.format("Index %d is out of bounds 0..%d", index, length - 1)
             );
         }
 
-        ListItem<T> current = head;
-        ListItem<T> currious = null;
+        ListItem<T> currentItem = head;
+        ListItem<T> previousItem = null;
 
         int i = 0;
 
         while (i != index) {
-            currious = current;
-            current = current.getNext();
+            previousItem = currentItem;
+            currentItem = currentItem.getNext();
             ++i;
         }
 
-        T value = current.getData();
+        T value = currentItem.getData();
 
-        if (current == head) {
-            // 1 item in List, deleting head
-            if (head.getNext() == null) {
-                head = null;
-                tail = null;
-            } else {
-                // 1+ items in List, deleting head
-                head = head.getNext();
-            }
-
-            --count;
+        if (previousItem != null) {
+            previousItem.setNext(currentItem.getNext());
+            --length;
             return value;
         }
 
-        // re-linking current to the next item
-        if (current.getNext() != null) {
-            currious.setNext(current.getNext());
-            --count;
-            return value;
-        }
-
-        // deleting last element
-        currious.setNext(null);
-
-        --count;
+        head = head.getNext();
+        --length;
         return value;
     }
 
     public void insertFirst(T data) {
         if (head == null) {
             head = new ListItem<>(data);
-            ++count;
+            ++length;
             return;
         }
 
-        ++count;
-        head = new ListItem<T>(data, head);
+        ++length;
+        head = new ListItem<>(data, head);
     }
 
     public T removeFirst() {
@@ -142,7 +144,7 @@ public class LinkedList<T> {
 
         T value = head.getData();
         head = head.getNext();
-        --count;
+        --length;
         return value;
     }
 
@@ -151,31 +153,31 @@ public class LinkedList<T> {
             return false;
         }
 
-        if (index < 0 || index >= count) {
+        if (index < 0 || index > length) {
             throw new IndexOutOfBoundsException(
-                    String.format("Index %d is out of bounds 0..%d", index, count - 1)
+                    String.format("Index %d is out of bounds 0..%d or %d to append at the end", index, length - 1, length)
             );
         }
 
-        ListItem<T> current = head;
-        ListItem<T> previous = null;
+        ListItem<T> currentItem = head;
+        ListItem<T> previousItem = null;
         int i = 0;
 
         while (i != index) {
-            previous = current;
-            current = current.getNext();
+            previousItem = currentItem;
+            currentItem = currentItem.getNext();
             ++i;
         }
 
-        if (current == head) {
-            head = new ListItem<T>(data, head);
-            ++count;
+        if (currentItem == head) {
+            head = new ListItem<>(data, head);
+            ++length;
             return true;
         }
 
-        ListItem<T> item = new ListItem<>(data, current);
-        previous.setNext(item);
-        ++count;
+        ListItem<T> item = new ListItem<>(data, currentItem);
+        previousItem.setNext(item);
+        ++length;
 
         return true;
     }
@@ -185,39 +187,51 @@ public class LinkedList<T> {
             return false;
         }
 
-        ListItem<T> current = head;
-        ListItem<T> previous = null;
+        ListItem<T> currentItem = head;
+        ListItem<T> previousItem = null;
 
-        while (current != null) {
-            if (value.equals(current.getData())) {
-                if (current == head) {
-                    removeFirst();
-                    --count;
+        while (currentItem != null) {
+            if (value.equals(currentItem.getData())) {
+                if (previousItem != null) {
+                    previousItem.setNext(currentItem.getNext());
+                    --length;
                     return true;
                 }
 
-                if (current == null) {
-
-                }
-
-                previous.setNext(current.getNext());
-                --count;
+                removeFirst();
                 return true;
             }
 
-            previous = current;
-            current = current.getNext();
+            previousItem = currentItem;
+            currentItem = currentItem.getNext();
         }
 
         return false;
     }
 
     public void reverse() {
+        if (head == null || head.getNext() == null) {
+            return;
+        }
 
+        ListItem<T> previous = head;
+        ListItem<T> next = head.getNext();
+
+        head = next;
+        next = next.getNext();
+        previous.setNext(null);
+
+        while (next != null) {
+            head.setNext(previous);
+            previous = head;
+            head = next;
+            next = next.getNext();
+        }
+
+        head.setNext(previous);
     }
 
     public void copy() {
 
     }
-
 }
