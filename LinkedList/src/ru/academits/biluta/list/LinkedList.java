@@ -29,10 +29,7 @@ public class LinkedList<T> {
             stringBuilder.append(" -> ");
         }
 
-        // Deleting 4 chars " -> " and the end of the string
-        stringBuilder.delete(stringBuilder.length() - 4, stringBuilder.length());
-
-        stringBuilder.append(" -> null]");
+        stringBuilder.append("null]");
         return stringBuilder.toString();
     }
 
