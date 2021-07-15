@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Main (List)" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="ru.academits.biluta.list_main.Main" />
-    <module name="List" />
+    <module name="LinkedList" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="ru.academits.biluta.list_main.*" />

@@ -71,6 +71,12 @@ public class LinkedList<T> {
     }
 
     public T setValueByIndex(int index, T data) {
+        // TODO: ask comment
+        if (head == null && index == 0) {
+            insertFirst(data);
+            return null;
+        }
+
         if (index < 0 || index >= length) {
             throw new IndexOutOfBoundsException(
                     String.format("Index %d is out of bounds 0..%d", index, length - 1)
@@ -80,7 +86,7 @@ public class LinkedList<T> {
         ListItem<T> p = head;
         int i = 0;
 
-        while (i != index) {
+        while (i < index) {
             p = p.getNext();
             ++i;
         }
