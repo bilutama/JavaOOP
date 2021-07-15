@@ -231,7 +231,25 @@ public class LinkedList<T> {
         head.setNext(previous);
     }
 
-    public void copy() {
+    public void copyTo(LinkedList<T> toCopy) {
+        if (head == null) {
+            toCopy.head = null;
+            return;
+        }
 
+        toCopy.head = new ListItem<>(head.getData());
+        ListItem<T> previous = toCopy.head;
+        ListItem<T> next;
+
+        ListItem<T> p = head.getNext();
+
+        while (p != null) {
+            next = new ListItem<>(p.getData());
+            previous.setNext(next);
+            p = p.getNext();
+            previous = next;
+        }
+
+        toCopy.length = length;
     }
 }

@@ -18,5 +18,14 @@ public class Main {
 
         System.out.println("reversed list:");
         System.out.println(list);
+
+        LinkedList<String> list2 = new LinkedList<>();
+        list.copyTo(list2);
+        System.out.println("Copy of a list:");
+        System.out.println(list2);
+
+        list.setValueByIndex(2, "NEW ITEM");
+        System.out.println(list);
+        System.out.println(list2);
     }
 }
