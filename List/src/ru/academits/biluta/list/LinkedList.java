@@ -18,7 +18,7 @@ public class LinkedList<T> {
     @Override
     public String toString() {
         if (head == null) {
-            return String.format("[null], length = %d", length);
+            return "[null]";
         }
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -32,8 +32,7 @@ public class LinkedList<T> {
         // Deleting 4 chars " -> " and the end of the string
         stringBuilder.delete(stringBuilder.length() - 4, stringBuilder.length());
 
-        stringBuilder.append(" -> null], length = ");
-        stringBuilder.append(length);
+        stringBuilder.append(" -> null]");
         return stringBuilder.toString();
     }
 
