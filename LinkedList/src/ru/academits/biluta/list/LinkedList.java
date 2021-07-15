@@ -40,7 +40,7 @@ public class LinkedList<T> {
         return length;
     }
 
-    public T getFirstValue() {
+    public T getFirst() {
         if (head == null) {
             return null;
         }
@@ -48,7 +48,7 @@ public class LinkedList<T> {
         return head.getData();
     }
 
-    public T getValueByIndex(int index) {
+    public T getByIndex(int index) {
         if (head == null) {
             return null;
         }
@@ -70,8 +70,7 @@ public class LinkedList<T> {
         return p.getData();
     }
 
-    public T setValueByIndex(int index, T data) {
-        // TODO: ask comment
+    public T setByIndex(int index, T data) {
         if (head == null && index == 0) {
             insertFirst(data);
             return null;
@@ -154,8 +153,9 @@ public class LinkedList<T> {
     }
 
     public boolean insertByIndex(int index, T data) {
-        if (head == null) {
-            return false;
+        if (head == null && index == 0) {
+            insertFirst(data);
+            return true;
         }
 
         if (index < 0 || index > length) {
@@ -236,14 +236,14 @@ public class LinkedList<T> {
         head.setNext(previous);
     }
 
-    public void copyTo(LinkedList<T> toCopy) {
+    public void copyTo(LinkedList<T> duplicate) {
         if (head == null) {
-            toCopy.head = null;
+            duplicate.head = null;
             return;
         }
 
-        toCopy.head = new ListItem<>(head.getData());
-        ListItem<T> previous = toCopy.head;
+        duplicate.head = new ListItem<>(head.getData());
+        ListItem<T> previous = duplicate.head;
         ListItem<T> next;
 
         ListItem<T> p = head.getNext();
@@ -255,6 +255,6 @@ public class LinkedList<T> {
             previous = next;
         }
 
-        toCopy.length = length;
+        duplicate.length = length;
     }
 }
