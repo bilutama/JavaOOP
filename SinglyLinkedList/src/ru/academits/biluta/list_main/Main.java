@@ -1,10 +1,10 @@
 package ru.academits.biluta.list_main;
 
-import ru.academits.biluta.list.LinkedList;
+import ru.academits.biluta.list.SinglyLinkedList;
 
 public class Main {
     public static void main(String[] args) {
-        LinkedList<String> list1 = new LinkedList<>("b");
+        SinglyLinkedList<String> list1 = new SinglyLinkedList<>("b");
 
         System.out.println("List:");
         System.out.println(list1);
@@ -25,7 +25,7 @@ public class Main {
         System.out.println("Reversed List1:");
         System.out.println(list1);
 
-        LinkedList<String> list2 = new LinkedList<>();
+        SinglyLinkedList<String> list2 = new SinglyLinkedList<>();
         list1.copyTo(list2);
         System.out.println("List2 is a copy of List1:");
         System.out.println(list2);
@@ -51,7 +51,7 @@ public class Main {
         System.out.println(list1);
         System.out.println();
 
-        LinkedList<Integer> list3 = new LinkedList<>();
+        SinglyLinkedList<Integer> list3 = new SinglyLinkedList<>();
         System.out.printf("Inserting by index in List3 – %s%n", list3.insertByIndex(0, 2));
         System.out.println("List3:");
         System.out.println(list3);

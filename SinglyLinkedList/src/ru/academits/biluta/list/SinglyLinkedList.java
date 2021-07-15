@@ -1,15 +1,15 @@
 package ru.academits.biluta.list;
 
-public class LinkedList<T> {
+public class SinglyLinkedList<T> {
     ListItem<T> head;
     private int length;
 
-    public LinkedList() {
+    public SinglyLinkedList() {
         head = null;
         length = 0;
     }
 
-    public LinkedList(T data) {
+    public SinglyLinkedList(T data) {
         head = new ListItem<>(data);
         head.setNext(null);
         length = 1;
@@ -233,7 +233,7 @@ public class LinkedList<T> {
         head.setNext(previous);
     }
 
-    public void copyTo(LinkedList<T> duplicate) {
+    public void copyTo(SinglyLinkedList<T> duplicate) {
         if (head == null) {
             duplicate.head = null;
             return;
