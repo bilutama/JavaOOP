@@ -120,10 +120,10 @@ public class Main {
             System.out.println();
 
             double scalar = 2.5;
-            matrix2.productByScalar(scalar);
+            matrix2.multiplyByScalar(scalar);
             System.out.printf("matrix 2 multiplied by scalar %.3f:%n", scalar);
             System.out.println(matrix2);
-        } catch (UnsupportedOperationException | IndexOutOfBoundsException e) {
+        } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
     }
