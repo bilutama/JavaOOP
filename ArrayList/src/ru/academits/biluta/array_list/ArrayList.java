@@ -6,9 +6,35 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class ArrayList<T> implements List<T> {
+    private T[] items;
+    private int size;
+
+    public ArrayList(){
+        //noinspection MoveFieldAssignmentToInitializer
+        items = (T[])new Object[10];
+        size = 0;
+    }
+
+    public ArrayList(int capacity){
+        if (capacity < 1) {
+            throw new IllegalArgumentException(String.format("Wrong capacity %d, should be > 0", capacity));
+        }
+
+        items = (T[])new Object[capacity];
+        size = 0;
+    }
+
+    public void ensureCapacity (int capacity) {
+        if (capacity <= size) {
+            return;
+        }
+
+        
+    }
+
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
