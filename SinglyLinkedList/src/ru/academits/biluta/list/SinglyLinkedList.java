@@ -62,7 +62,7 @@ public class SinglyLinkedList<T> {
         return iterator;
     }
 
-    private void isInBounds(int index, boolean isUpperBoundIncluded) {
+    private void isIndexInBounds(int index, boolean isUpperBoundIncluded) {
         int upperBound = isUpperBoundIncluded ? length + 1 : length;
 
         if (index < 0 || index >= upperBound) {
@@ -75,7 +75,7 @@ public class SinglyLinkedList<T> {
             throw new NullPointerException("List is empty");
         }
 
-        isInBounds(index, false);
+        isIndexInBounds(index, false);
         return getItemByIndex(index).getData();
     }
 
@@ -84,7 +84,7 @@ public class SinglyLinkedList<T> {
             throw new NullPointerException("List is empty");
         }
 
-        isInBounds(index, false);
+        isIndexInBounds(index, false);
 
         ListItem<T> itemByIndex = getItemByIndex(index);
         T previousData = itemByIndex.getData();
@@ -98,7 +98,7 @@ public class SinglyLinkedList<T> {
             throw new NullPointerException("List is empty");
         }
 
-        isInBounds(index, false);
+        isIndexInBounds(index, false);
 
         if (index == 0) {
             return removeFirst();
@@ -136,7 +136,7 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean insertByIndex(int index, T data) {
-        isInBounds(index, true);
+        isIndexInBounds(index, true);
 
         if (index == 0) {
             return insertFirst(data);
