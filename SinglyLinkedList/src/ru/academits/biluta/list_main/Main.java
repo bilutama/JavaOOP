@@ -7,9 +7,9 @@ public class Main {
         try {
             SinglyLinkedList<String> list0 = new SinglyLinkedList<>(null);
             System.out.println(list0);
-            list0.removeFirst();
+            list0.insertFirst("c");
             System.out.println(list0);
-            list0.removeByIndex(2);
+            list0.setByIndex(2, "a");
             System.out.println();
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
