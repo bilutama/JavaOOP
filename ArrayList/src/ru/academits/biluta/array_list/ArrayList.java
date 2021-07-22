@@ -75,6 +75,10 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public Object[] toArray() {
+        if (size == 0) {
+
+        }
+
         return new Object[0];
     }
 
