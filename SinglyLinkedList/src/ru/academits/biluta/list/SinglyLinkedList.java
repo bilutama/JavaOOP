@@ -1,5 +1,8 @@
 package ru.academits.biluta.list;
 
+import java.util.NoSuchElementException;
+import java.util.Objects;
+
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private int length;
@@ -40,17 +43,13 @@ public class SinglyLinkedList<T> {
 
     public T getFirst() {
         if (length == 0) {
-            throw new NullPointerException("List is empty");
+            throw new NoSuchElementException("List is empty");
         }
 
         return head.getData();
     }
 
     private ListItem<T> getItemByIndex(int index) {
-        if (length == 0) {
-            throw new NullPointerException("List is empty");
-        }
-
         ListItem<T> iterator = head;
         int i = 0;
 
@@ -62,7 +61,7 @@ public class SinglyLinkedList<T> {
         return iterator;
     }
 
-    private void isIndexInBounds(int index, boolean isUpperBoundIncluded) {
+    private void checkIfIndexIsInBounds(int index, boolean isUpperBoundIncluded) {
         int upperBound = isUpperBoundIncluded ? length + 1 : length;
 
         if (index < 0 || index >= upperBound) {
@@ -71,22 +70,14 @@ public class SinglyLinkedList<T> {
     }
 
     public T getByIndex(int index) {
-        if (length == 0) {
-            throw new NullPointerException("List is empty");
-        }
-
-        isIndexInBounds(index, false);
+        checkIfIndexIsInBounds(index, false);
         return getItemByIndex(index).getData();
     }
 
     public T setByIndex(int index, T data) {
-        if (length == 0) {
-            throw new NullPointerException("List is empty");
-        }
-
-        isIndexInBounds(index, false);
-
+        checkIfIndexIsInBounds(index, false);
         ListItem<T> itemByIndex = getItemByIndex(index);
+
         T previousData = itemByIndex.getData();
         itemByIndex.setData(data);
 
@@ -95,16 +86,17 @@ public class SinglyLinkedList<T> {
 
     public T removeByIndex(int index) {
         if (length == 0) {
-            throw new NullPointerException("List is empty");
+            throw new NoSuchElementException("List is empty");
         }
 
-        isIndexInBounds(index, false);
+        checkIfIndexIsInBounds(index, false);
 
         if (index == 0) {
             return removeFirst();
         }
 
         ListItem<T> previousItem = getItemByIndex(index - 1);
+
         T data = previousItem.getNext().getData();
         previousItem.setNext(previousItem.getNext().getNext());
         --length;
@@ -113,12 +105,6 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean insertFirst(T data) {
-        if (length == 0) {
-            head = new ListItem<>(data);
-            ++length;
-            return true;
-        }
-
         head = new ListItem<>(data, head);
         ++length;
         return true;
@@ -126,7 +112,7 @@ public class SinglyLinkedList<T> {
 
     public T removeFirst() {
         if (length == 0) {
-            throw new NullPointerException("List is empty");
+            throw new NoSuchElementException("List is empty");
         }
 
         T data = head.getData();
@@ -136,7 +122,7 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean insertByIndex(int index, T data) {
-        isIndexInBounds(index, true);
+        checkIfIndexIsInBounds(index, true);
 
         if (index == 0) {
             return insertFirst(data);
@@ -152,7 +138,7 @@ public class SinglyLinkedList<T> {
 
     public boolean remove(T data) {
         if (length == 0) {
-            throw new NullPointerException("List is empty");
+            return false;
         }
 
         ListItem<T> currentItem = head;
@@ -162,7 +148,7 @@ public class SinglyLinkedList<T> {
             T currentData = currentItem.getData();
 
             // data can be equal to currentData only if both of them are null
-            if (data != null && data.equals(currentData) || data == currentData) {
+            if (Objects.equals(data, currentData)) {
                 if (previousItem != null) {
                     previousItem.setNext(currentItem.getNext());
                     --length;
@@ -181,7 +167,7 @@ public class SinglyLinkedList<T> {
     }
 
     public void reverse() {
-        if (length == 0) {
+        if (length < 2) {
             return;
         }
 
@@ -203,23 +189,22 @@ public class SinglyLinkedList<T> {
     }
 
     public SinglyLinkedList<T> copy() {
-        SinglyLinkedList<T> duplicate = new SinglyLinkedList<>();
+        SinglyLinkedList<T> listCopy = new SinglyLinkedList<>();
 
         if (length == 0) {
-            return duplicate;
+            return listCopy;
         }
 
-        duplicate.head = new ListItem<>(head.getData());
-        ListItem<T> previous = duplicate.head;
-        ListItem<T> next;
+        listCopy.head = new ListItem<>(head.getData());
+        ListItem<T> previous = listCopy.head;
 
         for (ListItem<T> iterator = head.getNext(); iterator != null; iterator = iterator.getNext()) {
-            next = new ListItem<>(iterator.getData());
+            ListItem<T> next = new ListItem<>(iterator.getData());
             previous.setNext(next);
             previous = next;
         }
 
-        duplicate.length = length;
-        return duplicate;
+        listCopy.length = length;
+        return listCopy;
     }
 }

@@ -2,16 +2,20 @@ package ru.academits.biluta.list_main;
 
 import ru.academits.biluta.list.SinglyLinkedList;
 
+import java.util.NoSuchElementException;
+
 public class Main {
     public static void main(String[] args) {
         try {
             SinglyLinkedList<String> list0 = new SinglyLinkedList<>(null);
             System.out.println(list0);
+            list0.reverse();
             list0.insertFirst("c");
+            list0.reverse();
             System.out.println(list0);
             list0.setByIndex(2, "a");
             System.out.println();
-        } catch (NullPointerException | IndexOutOfBoundsException e) {
+        } catch (NoSuchElementException | IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
 
@@ -43,8 +47,7 @@ public class Main {
             list1.insertFirst(null);
             System.out.println(list1);
 
-            SinglyLinkedList<String> list2;
-            list2 = list1.copy();
+            SinglyLinkedList<String> list2 = list1.copy();
             System.out.println("List2 is a copy of List1:");
             System.out.println(list2);
 
@@ -80,7 +83,7 @@ public class Main {
             index = 2;
             System.out.printf("Removing item by index %d, it's value was %d%n", index, list3.removeByIndex(index));
             System.out.println(list3);
-        } catch (NullPointerException | IndexOutOfBoundsException e) {
+        } catch (NoSuchElementException | IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
     }
