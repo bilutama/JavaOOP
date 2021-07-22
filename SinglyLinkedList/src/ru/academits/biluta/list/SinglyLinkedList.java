@@ -76,8 +76,8 @@ public class SinglyLinkedList<T> {
 
     public T setByIndex(int index, T data) {
         checkIfIndexIsInBounds(index, false);
-        ListItem<T> itemByIndex = getItemByIndex(index);
 
+        ListItem<T> itemByIndex = getItemByIndex(index);
         T previousData = itemByIndex.getData();
         itemByIndex.setData(data);
 
@@ -147,7 +147,6 @@ public class SinglyLinkedList<T> {
         while (currentItem != null) {
             T currentData = currentItem.getData();
 
-            // data can be equal to currentData only if both of them are null
             if (Objects.equals(data, currentData)) {
                 if (previousItem != null) {
                     previousItem.setNext(currentItem.getNext());

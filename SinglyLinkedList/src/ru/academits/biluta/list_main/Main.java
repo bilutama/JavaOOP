@@ -9,11 +9,19 @@ public class Main {
         try {
             SinglyLinkedList<String> list0 = new SinglyLinkedList<>(null);
             System.out.println(list0);
+
             list0.reverse();
             list0.insertFirst("c");
-            list0.reverse();
             System.out.println(list0);
-            list0.setByIndex(2, "a");
+
+            list0.reverse();
+            System.out.printf("%s - reversed List0%n", list0);
+
+            list0.remove(null);
+            System.out.printf("%s - null was removed%n", list0);
+
+            list0.insertFirst("a");
+            list0.setByIndex(2, "b");
             System.out.println();
         } catch (NoSuchElementException | IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
