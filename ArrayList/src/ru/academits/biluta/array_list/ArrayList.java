@@ -1,35 +1,42 @@
 package ru.academits.biluta.array_list;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class ArrayList<T> implements List<T> {
     private T[] items;
     private int size;
 
-    public ArrayList(){
+    public ArrayList() {
         //noinspection MoveFieldAssignmentToInitializer
-        items = (T[])new Object[10];
+        items = (T[]) new Object[10];
         size = 0;
     }
 
-    public ArrayList(int capacity){
+    public ArrayList(int capacity) {
         if (capacity < 1) {
             throw new IllegalArgumentException(String.format("Wrong capacity %d, should be > 0", capacity));
         }
 
-        items = (T[])new Object[capacity];
+        items = (T[]) new Object[capacity];
         size = 0;
     }
 
-    public void ensureCapacity (int capacity) {
+    public void ensureCapacity(int capacity) {
         if (capacity <= size) {
             return;
         }
 
-        
+        T[] resizedItems = (T[]) new Object[capacity];
+        System.arraycopy(items, 0, resizedItems, 0, capacity);
+        items = resizedItems;
+    }
+
+    public void trimToSize() {
+        if (items.length > size) {
+            T[] trimmedItems = (T[]) new Object[size];
+            System.arraycopy(items, 0, trimmedItems, 0, size);
+            items = trimmedItems;
+        }
     }
 
     @Override
@@ -39,11 +46,25 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(Object object) {
+        if (object == null) {
+            for (int i = 0; i < size; ++i) {
+                if (items[i] == null) {
+                    return true;
+                }
+            }
+        } else {
+            for (int i = 0; i < size; ++i) {
+                if (object.equals(items[i])) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
