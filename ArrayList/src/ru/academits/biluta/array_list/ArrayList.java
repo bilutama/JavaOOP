@@ -5,6 +5,7 @@ import java.util.*;
 public class ArrayList<T> implements List<T> {
     private T[] items;
     private int size;
+    private int modCount;
 
     public ArrayList() {
         //noinspection MoveFieldAssignmentToInitializer
@@ -68,9 +69,30 @@ public class ArrayList<T> implements List<T> {
         return false;
     }
 
+    private class ArrayListIterator implements Iterator<T> {
+        private int currentIndex = -1;
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex + 1 < size;
+        }
+
+        @Override
+        public T next() {
+            if (currentIndex + 1 == size) {
+                throw new NoSuchElementException("Element %d was the last in collection");
+            }
+
+            //TODO: implement ConcurrentModificationException with modCount
+
+            ++currentIndex;
+            return items[currentIndex];
+        }
+    }
+
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new ArrayListIterator();
     }
 
     @Override
@@ -89,11 +111,15 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean add(T t) {
+
+        //TODO: ++modCount
         return false;
     }
 
     @Override
     public boolean remove(Object o) {
+
+        //TODO: ++modCount
         return false;
     }
 
@@ -104,27 +130,31 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
+        //TODO: ++modCount
         return false;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
+        //TODO: ++modCount
         return false;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
+        //TODO: ++modCount
         return false;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
+        //TODO: ++modCount
         return false;
     }
 
     @Override
     public void clear() {
-
+        //TODO: ++modCount
     }
 
     @Override
@@ -139,11 +169,12 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public void add(int index, T element) {
-
+        //TODO: ++modCount
     }
 
     @Override
     public T remove(int index) {
+        //TODO: ++modCount
         return null;
     }
 
