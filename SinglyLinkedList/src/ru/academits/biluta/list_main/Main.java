@@ -1,13 +1,11 @@
 package ru.academits.biluta.list_main;
 
 import ru.academits.biluta.list.SinglyLinkedList;
-
 import java.util.NoSuchElementException;
 
 public class Main {
     public static void main(String[] args) {
         try {
-            //123
             SinglyLinkedList<String> list0 = new SinglyLinkedList<>(null);
             System.out.println(list0);
 
