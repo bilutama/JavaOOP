@@ -43,6 +43,4 @@ class ArrayListTest {
         Assertions.assertEquals(2, arrayList.remove(1));
         Assertions.assertEquals(3, arrayList.get(2));
     }
-
-
 }
