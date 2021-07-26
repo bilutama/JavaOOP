@@ -61,7 +61,7 @@ public class SinglyLinkedList<T> {
         return iterator;
     }
 
-    private void checkIfIndexIsInBounds(int index, boolean isUpperBoundIncluded) {
+    private void checkIndex(int index, boolean isUpperBoundIncluded) {
         int upperBound = isUpperBoundIncluded ? length + 1 : length;
 
         if (index < 0 || index >= upperBound) {
@@ -70,26 +70,22 @@ public class SinglyLinkedList<T> {
     }
 
     public T getByIndex(int index) {
-        checkIfIndexIsInBounds(index, false);
+        checkIndex(index, false);
         return getItemByIndex(index).getData();
     }
 
     public T setByIndex(int index, T data) {
-        checkIfIndexIsInBounds(index, false);
+        checkIndex(index, false);
 
         ListItem<T> itemByIndex = getItemByIndex(index);
-        T previousData = itemByIndex.getData();
+        T oldData = itemByIndex.getData();
         itemByIndex.setData(data);
 
-        return previousData;
+        return oldData;
     }
 
     public T removeByIndex(int index) {
-        if (length == 0) {
-            throw new NoSuchElementException("List is empty");
-        }
-
-        checkIfIndexIsInBounds(index, false);
+        checkIndex(index, false);
 
         if (index == 0) {
             return removeFirst();
@@ -122,7 +118,7 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean insertByIndex(int index, T data) {
-        checkIfIndexIsInBounds(index, true);
+        checkIndex(index, true);
 
         if (index == 0) {
             return insertFirst(data);
@@ -137,17 +133,11 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean remove(T data) {
-        if (length == 0) {
-            return false;
-        }
-
         ListItem<T> currentItem = head;
         ListItem<T> previousItem = null;
 
         while (currentItem != null) {
-            T currentData = currentItem.getData();
-
-            if (Objects.equals(data, currentData)) {
+            if (Objects.equals(data, currentItem.getData())) {
                 if (previousItem != null) {
                     previousItem.setNext(currentItem.getNext());
                     --length;
