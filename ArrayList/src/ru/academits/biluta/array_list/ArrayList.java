@@ -197,8 +197,6 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean containsAll(Collection<?> collection) {
-        //TODO: ClassCast Exception
-
         for (Object element : collection) {
             if (!contains(element)) {
                 return false;
