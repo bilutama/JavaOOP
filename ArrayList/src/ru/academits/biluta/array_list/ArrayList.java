@@ -208,13 +208,35 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean addAll(Collection<? extends T> collection) {
-        //TODO: ++modCount
-        return false;
+        if (collection == null) {
+            return false;
+        }
+
+        ensureCapacity(size + collection.size());
+
+        for (T element : collection) {
+            add(element);
+        }
+
+        size += collection.size();
+        ++modCount;
+        return true;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> collection) {
-        //TODO: ++modCount
+        if (collection == null) {
+            return false;
+        }
+
+        int collectionSize = collection.size();
+
+        ensureCapacity(size + collectionSize);
+        //size += collectionSize;
+
+        System.arraycopy(items, index, items, index + collectionSize, size - index);
+
+        ++modCount;
         return false;
     }
 

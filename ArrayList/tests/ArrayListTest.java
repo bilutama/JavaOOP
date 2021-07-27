@@ -38,7 +38,7 @@ class ArrayListTest {
     }
 
     @Test
-    @DisplayName("Getting item by index out of bounds")
+    @DisplayName("Index out of bounds")
     void shouldThrowIndexOutOfBoundsException() {
         ArrayList<Integer> arrayList = new ArrayList<>();
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> arrayList.get(5));
