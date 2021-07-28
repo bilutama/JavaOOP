@@ -9,13 +9,13 @@ public class Main {
 
         System.out.println(arrayList1);
 
-        arrayList1.add(0, 2);
+        arrayList1.add(0, 1);
         System.out.println(arrayList1);
         System.out.printf("capacity = %d%n", arrayList1.getCapacity());
 
-        arrayList1.add(3);
         arrayList1.add(4);
-        arrayList1.add(0, 5);
+        arrayList1.add(4);
+        arrayList1.add(0, 1);
         System.out.println(arrayList1);
         System.out.printf("capacity = %d%n", arrayList1.getCapacity());
 
@@ -28,10 +28,13 @@ public class Main {
         System.out.printf("capacity = %d%n", arrayList1.getCapacity());
 
         ArrayList<Integer> arrayList2 = new ArrayList<>();
-        arrayList2.add(4);
-        arrayList2.add(0, 2);
+        arrayList2.add(2);
+        arrayList2.add(0, 3);
+        System.out.printf("%s - List2%n", arrayList2);
+        System.out.printf("List2 size = %d%n", arrayList2.size());
 
-        System.out.printf("List1 contains all items from List2 - %s%n", arrayList1.addAll(arrayList2));
+        System.out.printf("List1 contains all items from List2 - %s%n", arrayList1.addAll(1, arrayList2));
         System.out.println(arrayList1);
+        System.out.printf("capacity = %d%n", arrayList1.getCapacity());
     }
 }

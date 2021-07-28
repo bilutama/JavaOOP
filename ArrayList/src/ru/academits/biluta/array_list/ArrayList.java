@@ -37,7 +37,7 @@ public class ArrayList<T> implements List<T> {
     }
 
     public void ensureCapacity(int capacity) {
-        if (capacity <= size) {
+        if (capacity <= getCapacity()) {
             return;
         }
 
@@ -218,8 +218,6 @@ public class ArrayList<T> implements List<T> {
             add(element);
         }
 
-        size += collection.size();
-        ++modCount;
         return true;
     }
 
@@ -229,14 +227,22 @@ public class ArrayList<T> implements List<T> {
             return false;
         }
 
-        int collectionSize = collection.size();
+        System.out.printf("DEBUG capacity = %d%n", getCapacity());
+        ensureCapacity(size + collection.size());
+        System.out.printf("DEBUG ensur.cap. = %d%n", getCapacity());
 
-        ensureCapacity(size + collectionSize);
-        //size += collectionSize;
 
-        System.arraycopy(items, index, items, index + collectionSize, size - index);
+        System.arraycopy(items, index, items, index + collection.size(), size - index-1);
 
-        ++modCount;
+        size += collection.size();
+        Iterator<? extends T> collectionIterator = collection.iterator();
+        int currentIndex = index;
+
+        while (collectionIterator.hasNext()) {
+            set(currentIndex, collectionIterator.next());
+            ++currentIndex;
+        }
+
         return false;
     }
 
