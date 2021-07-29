@@ -29,12 +29,22 @@ public class Main {
 
         ArrayList<Integer> arrayList2 = new ArrayList<>();
         arrayList2.add(2);
-        arrayList2.add(0, 3);
+        arrayList2.add(0, null);
         System.out.printf("%s - List2%n", arrayList2);
         System.out.printf("List2 size = %d%n", arrayList2.size());
 
-        System.out.printf("List1 contains all items from List2 - %s%n", arrayList1.addAll(1, arrayList2));
+        System.out.printf("List1 contains all items from List2 - %s%n", arrayList1.addAll(4, arrayList2));
         System.out.println(arrayList1);
         System.out.printf("capacity = %d%n", arrayList1.getCapacity());
+
+        ArrayList<Integer> arrayList3 = new ArrayList<>();
+        arrayList3.add(2);
+        arrayList3.add(null);
+
+        System.out.println(arrayList3);
+
+        System.out.printf("Retain status = %s%n", arrayList1.retainAll(arrayList3));
+        arrayList1.trimToSize();
+        System.out.println(arrayList1);
     }
 }

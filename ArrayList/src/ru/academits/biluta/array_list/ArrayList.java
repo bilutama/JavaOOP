@@ -93,7 +93,6 @@ public class ArrayList<T> implements List<T> {
                 }
             }
         } else {
-            //TODO: check for Class Cast need
             for (int i = 0; i < size; ++i) {
                 if (object.equals(items[i])) {
                     return true;
@@ -227,14 +226,12 @@ public class ArrayList<T> implements List<T> {
             return false;
         }
 
-        System.out.printf("DEBUG capacity = %d%n", getCapacity());
+        checkIfIndexIsInBounds(index, true);
         ensureCapacity(size + collection.size());
-        System.out.printf("DEBUG ensur.cap. = %d%n", getCapacity());
 
-
-        System.arraycopy(items, index, items, index + collection.size(), size - index-1);
-
+        System.arraycopy(items, index, items, index + collection.size(), size - index);
         size += collection.size();
+
         Iterator<? extends T> collectionIterator = collection.iterator();
         int currentIndex = index;
 
@@ -258,9 +255,20 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public boolean retainAll(Collection<?> c) {
-        //TODO: ++modCount
-        return false;
+    public boolean retainAll(Collection<?> collection) {
+        if (size == 0) {
+            return false;
+        }
+
+        int initialSize = size;
+
+        for (int i = initialSize - 1; i >= 0; --i) {
+            if (!collection.contains(items[i])) {
+                remove(i);
+            }
+        }
+
+        return size != initialSize;
     }
 
     @Override
@@ -338,11 +346,11 @@ public class ArrayList<T> implements List<T> {
                     return i;
                 }
             }
-        }
-
-        for (int i = size - 1; i > -1; --i) {
-            if (object.equals(items[i])) {
-                return i;
+        } else {
+            for (int i = size - 1; i > -1; --i) {
+                if (object.equals(items[i])) {
+                    return i;
+                }
             }
         }
 
