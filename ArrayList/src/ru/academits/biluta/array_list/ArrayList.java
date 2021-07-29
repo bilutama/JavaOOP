@@ -9,7 +9,7 @@ public class ArrayList<T> implements List<T> {
     private int modCount;
 
     public ArrayList() {
-        //noinspection MoveFieldAssignmentToInitializer
+        //noinspection unchecked
         items = (T[]) new Object[INITIAL_CAPACITY];
         size = 0;
     }
@@ -19,6 +19,7 @@ public class ArrayList<T> implements List<T> {
             throw new IllegalArgumentException(String.format("Wrong capacity %d, should be > 0", capacity));
         }
 
+        //noinspection unchecked
         items = (T[]) new Object[capacity];
         size = 0;
     }
@@ -28,7 +29,7 @@ public class ArrayList<T> implements List<T> {
         return items.length;
     }
 
-    private void checkIfIndexIsInBounds(int index, boolean isUpperBoundIncluded) {
+    private void checkIndex(int index, boolean isUpperBoundIncluded) {
         int upperBound = isUpperBoundIncluded ? size + 1 : size;
 
         if (index < 0 || index >= upperBound) {
@@ -109,6 +110,10 @@ public class ArrayList<T> implements List<T> {
 
         @Override
         public boolean hasNext() {
+            if (currentModCount != modCount) {
+                throw new ConcurrentModificationException("ArrayList has been modified");
+            }
+
             return currentIndex + 1 < size;
         }
 
@@ -143,10 +148,11 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public <T1> T1[] toArray(T1[] a) {
+    public <T1> T1[] toArray(T1[] array) {
         //TODO: implement
+        //Arrays.copyOf(items, size, new)
 
-        return null;
+        return array;
     }
 
     @Override
@@ -164,6 +170,7 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean remove(Object object) {
+        // TODO: remove link
         if (size == 0) {
             return false;
         }
@@ -196,6 +203,10 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean containsAll(Collection<?> collection) {
+        if (this == collection) {
+            return true;
+        }
+
         for (Object element : collection) {
             if (!contains(element)) {
                 return false;
@@ -226,7 +237,7 @@ public class ArrayList<T> implements List<T> {
             return false;
         }
 
-        checkIfIndexIsInBounds(index, true);
+        checkIndex(index, true);
         ensureCapacity(size + collection.size());
 
         System.arraycopy(items, index, items, index + collection.size(), size - index);
@@ -245,6 +256,12 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean removeAll(Collection<?> collection) {
+        // TODO: remove link
+        if (this == collection) {
+            size = 0;
+            return false;
+        }
+
         for (Object element : collection) {
             while (remove(element)) {
                 ++modCount;
@@ -256,6 +273,11 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean retainAll(Collection<?> collection) {
+        // TODO: remove links
+        if (this == collection) {
+            return true;
+        }
+
         if (size == 0) {
             return false;
         }
@@ -279,13 +301,13 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public T get(int index) {
-        checkIfIndexIsInBounds(index, false);
+        checkIndex(index, false);
         return items[index];
     }
 
     @Override
     public T set(int index, T element) {
-        checkIfIndexIsInBounds(index, false);
+        checkIndex(index, false);
         T previousElement = items[index];
         items[index] = element;
         return previousElement;
@@ -293,7 +315,7 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public void add(int index, T element) {
-        checkIfIndexIsInBounds(index, true);
+        checkIndex(index, true);
 
         if (index == size) {
             add(element);
@@ -310,7 +332,8 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public T remove(int index) {
-        checkIfIndexIsInBounds(index, false);
+        // TODO: remove link
+        checkIndex(index, false);
         T element = items[index];
         System.arraycopy(items, index + 1, items, index, size - index - 1);
         --size;

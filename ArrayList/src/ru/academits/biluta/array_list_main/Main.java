@@ -43,7 +43,7 @@ public class Main {
 
         System.out.println(arrayList3);
 
-        System.out.printf("Retain status = %s%n", arrayList1.retainAll(arrayList3));
+        System.out.printf("Retain status = %s%n", arrayList1.retainAll(arrayList1));
         arrayList1.trimToSize();
         System.out.println(arrayList1);
     }
