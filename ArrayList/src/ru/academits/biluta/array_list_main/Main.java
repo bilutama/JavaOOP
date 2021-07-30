@@ -40,7 +40,7 @@ public class Main {
         ArrayList<Integer> arrayList3 = new ArrayList<>();
         Integer val = 2;
         arrayList3.add(val);
-        arrayList3.add(null);
+        arrayList3.add(7);
 
         System.out.println(val);
         System.out.println(arrayList3);
@@ -53,5 +53,17 @@ public class Main {
         System.out.println(val);
         System.out.println(arrayList3);
 
+        Integer[] array = new Integer[1];
+        array[0] = 0;
+        System.out.println("ARRAY:");
+        for (Integer i : array) {
+            System.out.println(i);
+        }
+
+        array = arrayList3.toArray(array);
+        System.out.println("UPD ARRAY:");
+        for (Integer i : array) {
+            System.out.println(i);
+        }
     }
 }

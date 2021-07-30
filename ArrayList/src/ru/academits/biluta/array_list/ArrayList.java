@@ -135,9 +135,12 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public <T1> T1[] toArray(T1[] array) {
-        //TODO: implement
-        //Arrays.copyOf(items, size, new)
+    public <T> T[] toArray(T[] array) {
+        if (array.length < size) {
+            Arrays.copyOf();
+        }
+
+        System.arraycopy(items, 0, array, 0, size);
 
         return array;
     }
