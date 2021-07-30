@@ -87,17 +87,9 @@ public class ArrayList<T> implements List<T> {
             return false;
         }
 
-        if (object == null) {
-            for (int i = 0; i < size; ++i) {
-                if (items[i] == null) {
-                    return true;
-                }
-            }
-        } else {
-            for (int i = 0; i < size; ++i) {
-                if (object.equals(items[i])) {
-                    return true;
-                }
+        for (int i = 0; i < size; ++i) {
+            if (Objects.equals(items[i], object)) {
+                return true;
             }
         }
 
@@ -110,10 +102,6 @@ public class ArrayList<T> implements List<T> {
 
         @Override
         public boolean hasNext() {
-            if (currentModCount != modCount) {
-                throw new ConcurrentModificationException("ArrayList has been modified");
-            }
-
             return currentIndex + 1 < size;
         }
 
@@ -127,7 +115,6 @@ public class ArrayList<T> implements List<T> {
                 throw new NoSuchElementException(String.format("Index %d is the last one", currentIndex));
             }
 
-            //TODO: check implementation ConcurrentModificationException
             ++currentIndex;
             return items[currentIndex];
         }
@@ -143,7 +130,7 @@ public class ArrayList<T> implements List<T> {
         if (size == 0) {
             return new Object[0];
         }
-        // TODO: check return statement
+
         return Arrays.copyOf(items, size);
     }
 
@@ -170,34 +157,19 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean remove(Object object) {
-        // TODO: remove link
         if (size == 0) {
             return false;
         }
 
-        if (object == null) {
-            for (int i = 0; i < size; ++i) {
-                if (items[i] == null) {
-                    System.arraycopy(items, i, items, i + 1, size - i - 1);
-                    --size;
-                    ++modCount;
-                    return true;
-                }
-            }
-        } else {
-            for (int i = 0; i < size; ++i) {
-                if (object.equals(items[i])) {
-                    if (i < size - 1) {
-                        System.arraycopy(items, i, items, i + 1, size - i - 1);
-                    }
-
-                    ++modCount;
-                    --size;
-                    return true;
-                }
+        for (int i = 0; i < size; ++i) {
+            if (Objects.equals(items[i], object)) {
+                System.arraycopy(items, i, items, i + 1, size - i - 1);
+                items[size - 1] = null;
+                --size;
+                ++modCount;
+                return true;
             }
         }
-
         return false;
     }
 
@@ -256,7 +228,6 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean removeAll(Collection<?> collection) {
-        // TODO: remove link
         if (this == collection) {
             size = 0;
             return false;
@@ -273,12 +244,7 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean retainAll(Collection<?> collection) {
-        // TODO: remove links
-        if (this == collection) {
-            return true;
-        }
-
-        if (size == 0) {
+        if (this == collection || size == 0) {
             return false;
         }
 
@@ -295,6 +261,8 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public void clear() {
+        //noinspection unchecked
+        items = (T[]) new Object[INITIAL_CAPACITY];
         size = 0;
         ++modCount;
     }
@@ -332,10 +300,11 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public T remove(int index) {
-        // TODO: remove link
         checkIndex(index, false);
         T element = items[index];
         System.arraycopy(items, index + 1, items, index, size - index - 1);
+
+        items[size - 1] = null;
         --size;
         ++modCount;
 

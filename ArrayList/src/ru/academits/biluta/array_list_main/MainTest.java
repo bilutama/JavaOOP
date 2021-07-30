@@ -15,7 +15,10 @@ public class MainTest {
 
         ArrayList<Integer> arrayList2 = new ArrayList<>();
 
-        arrayList.retainAll(arrayList2);
-        System.out.println(arrayList);
+        Integer[] arr = new Integer[10];
+        arr = arrayList.toArray(arr);
+        for (Integer i : arr) {
+            System.out.println(i);
+        }
     }
 }

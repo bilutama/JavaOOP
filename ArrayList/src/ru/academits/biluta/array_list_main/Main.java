@@ -38,13 +38,20 @@ public class Main {
         System.out.printf("capacity = %d%n", arrayList1.getCapacity());
 
         ArrayList<Integer> arrayList3 = new ArrayList<>();
-        arrayList3.add(2);
+        Integer val = 2;
+        arrayList3.add(val);
         arrayList3.add(null);
 
+        System.out.println(val);
         System.out.println(arrayList3);
 
         System.out.printf("Retain status = %s%n", arrayList1.retainAll(arrayList1));
         arrayList1.trimToSize();
         System.out.println(arrayList1);
+
+        val = 3;
+        System.out.println(val);
+        System.out.println(arrayList3);
+
     }
 }
