@@ -24,8 +24,7 @@ public class ArrayList<T> implements List<T> {
         size = 0;
     }
 
-    // TODO: turn private
-    public int getCapacity() {
+    private int getCapacity() {
         return items.length;
     }
 
@@ -135,13 +134,13 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public <T> T[] toArray(T[] array) {
+    public <T1> T1[] toArray(T1[] array) {
         if (array.length < size) {
-            Arrays.copyOf();
+            //noinspection unchecked
+            return (T1[]) Arrays.copyOf(items, size, array.getClass());
         }
 
         System.arraycopy(items, 0, array, 0, size);
-
         return array;
     }
 
@@ -166,13 +165,14 @@ public class ArrayList<T> implements List<T> {
 
         for (int i = 0; i < size; ++i) {
             if (Objects.equals(items[i], object)) {
-                System.arraycopy(items, i, items, i + 1, size - i - 1);
+                System.arraycopy(items, i + 1, items, i, size - i - 1);
                 items[size - 1] = null;
                 --size;
                 ++modCount;
                 return true;
             }
         }
+
         return false;
     }
 
@@ -232,17 +232,23 @@ public class ArrayList<T> implements List<T> {
     @Override
     public boolean removeAll(Collection<?> collection) {
         if (this == collection) {
+            //noinspection unchecked
+            items = (T[]) new Object[INITIAL_CAPACITY];
             size = 0;
-            return false;
+            return true;
         }
 
+        int initialSize = size;
+
         for (Object element : collection) {
-            while (remove(element)) {
-                ++modCount;
+            while (true) {
+                if (!remove(element)) {
+                    break;
+                }
             }
         }
 
-        return false;
+        return size != initialSize;
     }
 
     @Override
@@ -316,17 +322,9 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public int indexOf(Object object) {
-        if (object == null) {
-            for (int i = 0; i < size; ++i) {
-                if (items[i] == null) {
-                    return i;
-                }
-            }
-        } else {
-            for (int i = 0; i < size; ++i) {
-                if (object.equals(items[i])) {
-                    return i;
-                }
+        for (int i = 0; i < size; ++i) {
+            if (Objects.equals(items[i], object)) {
+                return i;
             }
         }
 
@@ -335,17 +333,9 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public int lastIndexOf(Object object) {
-        if (object == null) {
-            for (int i = size - 1; i > -1; --i) {
-                if (items[i] == null) {
-                    return i;
-                }
-            }
-        } else {
-            for (int i = size - 1; i > -1; --i) {
-                if (object.equals(items[i])) {
-                    return i;
-                }
+        for (int i = size - 1; i > -1; --i) {
+            if (Objects.equals(items[i], object)) {
+                return i;
             }
         }
 
