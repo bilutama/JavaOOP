@@ -285,6 +285,11 @@ public class ArrayList<T> implements List<T> {
     @Override
     public T set(int index, T element) {
         checkIndex(index, false);
+
+        if (Objects.equals(element, items[index])) {
+            return element;
+        }
+
         T previousElement = items[index];
         items[index] = element;
         ++modCount;
