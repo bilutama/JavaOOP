@@ -2,6 +2,8 @@ package ru.academits.biluta.array_list_main;
 
 import ru.academits.biluta.array_list.ArrayList;
 
+import java.util.Iterator;
+
 public class Main {
     public static void main(String[] args) {
         ArrayList<Integer> arrayList1 = new ArrayList<>(5);
@@ -59,7 +61,7 @@ public class Main {
         System.out.println();
 
         array1 = arrayList3.toArray(array1);
-        System.out.print("Array (updated): ");
+        System.out.print("Array (added items List3): ");
 
         for (Integer i : array1) {
             System.out.printf("%d ", i);

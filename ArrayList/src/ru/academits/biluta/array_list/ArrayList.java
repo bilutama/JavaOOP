@@ -287,6 +287,7 @@ public class ArrayList<T> implements List<T> {
         checkIndex(index, false);
         T previousElement = items[index];
         items[index] = element;
+        ++modCount;
         return previousElement;
     }
 
