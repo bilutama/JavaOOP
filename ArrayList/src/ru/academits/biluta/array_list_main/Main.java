@@ -66,5 +66,15 @@ public class Main {
         }
 
         System.out.println();
+
+        Object[] array2 = new Integer[0];
+
+        array2 = arrayList2.toArray();
+
+        System.out.print("toArray: ");
+
+        for (Object i : array2) {
+            System.out.printf("%s ", i);
+        }
     }
 }

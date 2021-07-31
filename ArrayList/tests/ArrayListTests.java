@@ -17,7 +17,7 @@ class ArrayListTests {
     }
 
     @org.junit.jupiter.api.Test
-    @DisplayName("Get item")
+    @DisplayName("Get an item by index")
     void get() {
         Assertions.assertNull(arrayList.get(0));
         Assertions.assertNull(arrayList.get(3));
@@ -29,7 +29,7 @@ class ArrayListTests {
     }
 
     @org.junit.jupiter.api.Test
-    @DisplayName("Set value")
+    @DisplayName("Set value by index")
     void set() {
         Assertions.assertNull(arrayList.set(5, 0));
         Assertions.assertNull(arrayList.set(3, 0));
@@ -45,7 +45,7 @@ class ArrayListTests {
     }
 
     @org.junit.jupiter.api.Test
-    @DisplayName("Add item")
+    @DisplayName("Add an item")
     void add() {
         Assertions.assertEquals("[null, 1, 2, null, 3, null]", arrayList.toString());
 
@@ -59,7 +59,7 @@ class ArrayListTests {
     }
 
     @org.junit.jupiter.api.Test
-    @DisplayName("Add items from Collection")
+    @DisplayName("Add items from external Collection")
     void addAll() {
         ArrayList<Integer> newList = new ArrayList<>();
         newList.add(null);
@@ -78,7 +78,7 @@ class ArrayListTests {
     }
 
     @org.junit.jupiter.api.Test
-    @DisplayName("Contents item")
+    @DisplayName("Contents the item")
     void contain() {
         Assertions.assertTrue(arrayList.contains(2));
         Assertions.assertTrue(arrayList.contains(null));
@@ -86,7 +86,7 @@ class ArrayListTests {
     }
 
     @org.junit.jupiter.api.Test
-    @DisplayName("Contents all items from Collection")
+    @DisplayName("Contents all items from external Collection")
     void containAll() {
         ArrayList<Integer> newList1 = new ArrayList<>();
         newList1.add(null);
@@ -103,21 +103,21 @@ class ArrayListTests {
     }
 
     @org.junit.jupiter.api.Test
-    @DisplayName("Index of an item")
+    @DisplayName("Index of the item")
     void indexOf() {
         Assertions.assertEquals(4, arrayList.indexOf(3));
         Assertions.assertEquals(0, arrayList.indexOf(null));
     }
 
     @org.junit.jupiter.api.Test
-    @DisplayName("Last index of an item")
+    @DisplayName("Last index of the item")
     void lastIndexOf() {
         Assertions.assertEquals(4, arrayList.lastIndexOf(3));
         Assertions.assertEquals(5, arrayList.lastIndexOf(null));
     }
 
     @org.junit.jupiter.api.Test
-    @DisplayName("Remove items by first occurrence")
+    @DisplayName("Remove first occurrence of the item")
     void remove() {
         Integer val4 = 10;
         Assertions.assertFalse(arrayList.remove(val4));
@@ -151,7 +151,7 @@ class ArrayListTests {
     }
 
     @org.junit.jupiter.api.Test
-    @DisplayName("Remove items by index")
+    @DisplayName("Remove an item by index")
     void removeByIndex() {
         Assertions.assertEquals(3, arrayList.remove(4));
         Assertions.assertNull(arrayList.remove(0));
@@ -175,7 +175,7 @@ class ArrayListTests {
     }
 
     @org.junit.jupiter.api.Test
-    @DisplayName("Retain items that external Collection contains")
+    @DisplayName("Retain only those items that external Collection contains")
     void retainAll() {
         ArrayList<Integer> newList1 = new ArrayList<>();
         newList1.add(null);
@@ -193,6 +193,22 @@ class ArrayListTests {
         Assertions.assertTrue(arrayList.retainAll(newList2));
         Assertions.assertFalse(arrayList.retainAll(newList2));
         Assertions.assertEquals("[null, null, 3, null]", arrayList.toString());
+    }
+
+    @Test
+    @DisplayName("Export list to array")
+    void toArray() {
+        Object[] array;
+        array = arrayList.toArray();
+        Assertions.assertArrayEquals(array, new Integer[]{null, 1, 2, null, 3, null});
+    }
+
+    @Test
+    @DisplayName("Export list to array with casting")
+    void toArrayWithCasting() {
+        Integer[] array = new Integer[0];
+        array = arrayList.toArray(array);
+        Assertions.assertArrayEquals(array, new Integer[]{null, 1, 2, null, 3, null});
     }
 
     @Test
