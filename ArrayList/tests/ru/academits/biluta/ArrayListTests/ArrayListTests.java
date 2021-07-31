@@ -1,3 +1,5 @@
+package ru.academits.biluta.ArrayListTests;
+
 import org.junit.jupiter.api.*;
 import ru.academits.biluta.array_list.ArrayList;
 
