@@ -1,7 +1,5 @@
 package ru.academits.biluta.hash_table;
 
-import ru.academits.biluta.list.SinglyLinkedList;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
