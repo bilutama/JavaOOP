@@ -23,8 +23,8 @@ public class LambdasTask1 {
         persons.forEach(System.out::println);
 
         // Задача А - поток с отображением списка объектов Person в список строк
-        List<String> List = persons.stream().
-                map(Person::getName)
+        List<String> List = persons.stream()
+                .map(Person::getName)
                 .distinct()
                 .sorted()
                 .collect(Collectors.toList());
