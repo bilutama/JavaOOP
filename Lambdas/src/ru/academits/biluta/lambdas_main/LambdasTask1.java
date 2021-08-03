@@ -47,14 +47,14 @@ public class LambdasTask1 {
         // Задача В
         int minorAge = 18;
 
-        List<Person> underagePersons = persons.stream()
+        List<Person> underagePeople = persons.stream()
                 .filter(x -> x.getAge() < minorAge)
                 .collect(Collectors.toList());
 
         System.out.printf("People younger %dy.o.:%n", minorAge);
-        underagePersons.forEach(System.out::println);
+        underagePeople.forEach(System.out::println);
 
-        underagePersons.stream()
+        underagePeople.stream()
                 .mapToInt(Person::getAge)
                 .average()
                 .ifPresentOrElse(
