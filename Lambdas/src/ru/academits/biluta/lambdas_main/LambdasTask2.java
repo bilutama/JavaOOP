@@ -11,6 +11,6 @@ public class LambdasTask2 {
         int numberCount = scanner.nextInt();
 
         System.out.println("Square roots from a stream:");
-        DoubleStream.iterate(1, x -> x + 1).limit(numberCount).map(Math::sqrt).forEach(System.out::println);
+        DoubleStream.iterate(1, x -> x + 1).limit(numberCount).map(Math::sqrt).forEach(x -> System.out.printf("%.3f%n", x));
     }
 }

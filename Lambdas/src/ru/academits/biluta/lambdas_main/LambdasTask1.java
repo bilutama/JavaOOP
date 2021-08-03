@@ -45,7 +45,7 @@ public class LambdasTask1 {
         System.out.println();
 
         // Задача В
-        int minorAge = 25;
+        int minorAge = 18;
 
         List<Person> underagePersons = persons.stream()
                 .filter(x -> x.getAge() < minorAge)
@@ -72,10 +72,7 @@ public class LambdasTask1 {
                 );
 
         System.out.println("Average age of people grouped by name:");
-
-        for (Map.Entry<String, Double> item : averageAgeByName.entrySet()) {
-            System.out.printf("%s - %.1f%n", item.getKey(), item.getValue());
-        }
+        averageAgeByName.forEach((x, y) -> System.out.printf("%s - %.1f%n", x, y));
 
         // Задача Д
         int lowerAge = 20;
@@ -90,7 +87,7 @@ public class LambdasTask1 {
 
         System.out.printf("People older %d and younger %d:%n", lowerAge, upperAge);
         System.out.println(peopleGroup.stream().map(Person::getName).collect(Collectors.joining(", ")));
-        System.out.println("To compare with ages:");
+        System.out.println("Same people with ages:");
         System.out.println(peopleGroup);
     }
 }
