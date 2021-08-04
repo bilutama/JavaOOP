@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 public class LambdasTask1 {
     public static void main(String[] args) {
-
         List<Person> persons = new LinkedList<>(Arrays.asList(
                 new Person("Vasya", 12),
                 new Person("Petya", 17),
