@@ -77,6 +77,13 @@ class ArrayListTests {
         Assertions.assertNull(arrayList.get(0));
         Assertions.assertEquals(10, arrayList.get(1));
         Assertions.assertEquals(1, arrayList.get(4));
+
+        ArrayList<Integer> newListNotInitialized = null;
+        Assertions.assertThrows(NullPointerException.class, () -> arrayList.addAll(newListNotInitialized));
+
+        ArrayList<Integer> newListOfZeroSize = new ArrayList<>();
+        arrayList.addAll(newListOfZeroSize);
+        Assertions.assertEquals("[null, 10, 20, null, 1, 2, null, 3, null, null, 10, 20]", arrayList.toString());
     }
 
     @org.junit.jupiter.api.Test

@@ -2,8 +2,6 @@ package ru.academits.biluta.array_list_main;
 
 import ru.academits.biluta.array_list.ArrayList;
 
-import java.util.Iterator;
-
 public class Main {
     public static void main(String[] args) {
         ArrayList<Integer> arrayList1 = new ArrayList<>(5);
@@ -46,11 +44,7 @@ public class Main {
 
         System.out.printf("List3: %s%n", arrayList3);
 
-        Integer[] array1 = new Integer[4];
-        array1[0] = 1;
-        array1[1] = null;
-        array1[2] = 0;
-        array1[3] = null;
+        Integer[] array1 = {1, null, 0, null};
 
         System.out.print("Array: ");
 
@@ -63,16 +57,13 @@ public class Main {
         array1 = arrayList3.toArray(array1);
         System.out.print("Array (added items List3): ");
 
-        for (Integer i : array1) {
-            System.out.printf("%d ", i);
+        for (Integer element : array1) {
+            System.out.printf("%d ", element);
         }
 
         System.out.println();
 
-        Object[] array2 = new Integer[0];
-
-        array2 = arrayList2.toArray();
-
+        Object[] array2 = arrayList2.toArray();
         System.out.print("toArray: ");
 
         for (Object i : array2) {
