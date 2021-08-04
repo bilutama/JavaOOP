@@ -16,7 +16,7 @@ public class FibonacciNumbers {
         return getMatrixInPower(BASIC_MATRIX, fibonacciNumberIndex)[0][1];
     }
 
-    public static long[][] getMatricesProduct(long[][] matrix1, long[][] matrix2) {
+    private static long[][] getMatricesProduct(long[][] matrix1, long[][] matrix2) {
         if (matrix1[0].length != matrix2.length) {
             throw new UnsupportedOperationException("Multiplication of matrices is impossible");
         }
@@ -34,7 +34,7 @@ public class FibonacciNumbers {
         return matrixProduct;
     }
 
-    public static long[][] getMatrixInPower(long[][] matrix, long power) {
+    private static long[][] getMatrixInPower(long[][] matrix, long power) {
         long[][] matrixInPower;
 
         if (power == 0) {
