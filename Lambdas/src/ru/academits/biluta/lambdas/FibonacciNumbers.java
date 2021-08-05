@@ -9,8 +9,8 @@ public class FibonacciNumbers {
     private final static long INDEX_UPPER_LIMIT = 92;
 
     public static long getFibonacciNumber(long fibonacciNumberIndex) {
-        if (fibonacciNumberIndex < 0 || fibonacciNumberIndex > INDEX_UPPER_LIMIT) {
-            throw new IndexOutOfBoundsException(String.format("Wrong index %d, should be in range 0..%d", fibonacciNumberIndex, INDEX_UPPER_LIMIT));
+        if (fibonacciNumberIndex < 1 || fibonacciNumberIndex > INDEX_UPPER_LIMIT) {
+            throw new IndexOutOfBoundsException(String.format("Wrong index %d, should be in range 1..%d", fibonacciNumberIndex, INDEX_UPPER_LIMIT));
         }
 
         return getMatrixInPower(BASIC_MATRIX, fibonacciNumberIndex)[0][1];
