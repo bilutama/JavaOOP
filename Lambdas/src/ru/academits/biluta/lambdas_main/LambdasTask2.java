@@ -17,7 +17,7 @@ public class LambdasTask2 {
         System.out.println("Enter Fibonacci numbers count (less or equal to 92):");
         numbersCount = scanner.nextInt();
 
-        // Fibonacci numbers stream for specific indices, i.e. for any index iterator (x -> 2*x or x -> x + 3)
+        // Fibonacci numbers stream for specific indices, i.e. for any index iterator (for example, x -> x + 1, x -> 2 * x or x -> x + 3)
         Stream.iterate(1, x -> x + 1).limit(Math.min(numbersCount, 92)).map(FibonacciNumbers::getFibonacciNumber).forEach(System.out::println);
 
         System.out.println("Enter Fibonacci numbers count (less or equal to 92) - simplified stream:");
