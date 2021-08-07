@@ -8,7 +8,6 @@ import java.util.stream.Stream;
 
 public class LambdasTask2 {
     public static void main(String[] args) {
-        int LONG_FIBONACCI_NUMBER_MAXIMUM_INDEX = 92;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -24,7 +23,7 @@ public class LambdasTask2 {
 
         // Fibonacci numbers stream for specific indices, i.e. for any index iterator (for example, x -> x + 1, x -> 2 * x or x -> x + 3)
         Stream.iterate(1, x -> x + 1)
-                .limit(Math.min(numbersCount, LONG_FIBONACCI_NUMBER_MAXIMUM_INDEX))
+                .limit(numbersCount)
                 .map(FibonacciNumbers::getFibonacciNumber)
                 .forEach(System.out::println);
 
@@ -32,8 +31,9 @@ public class LambdasTask2 {
         numbersCount = scanner.nextInt();
 
         // Simplified Fibonacci numbers stream for standard indices sequence 1, 2, 3, ...
+        // Unsafe stream, since for indices >92 numbers are wrong as are limited by LONG type
         Stream.iterate(new long[]{0, 1}, x -> new long[]{x[1], x[0] + x[1]})
-                .limit(Math.min(numbersCount, LONG_FIBONACCI_NUMBER_MAXIMUM_INDEX))
+                .limit(numbersCount)
                 .map(x -> x[1])
                 .forEach(System.out::println);
     }
