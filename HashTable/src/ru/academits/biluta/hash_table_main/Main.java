@@ -22,8 +22,8 @@ public class Main {
 
         System.out.println("Printing items with Iterator:");
 
-        for (String s : hashTable1) {
-            System.out.println(s);
+        for (String string : hashTable1) {
+            System.out.println(string);
         }
 
         System.out.println();
@@ -36,7 +36,7 @@ public class Main {
 
         Object[] strings = hashTable1.toArray();
 
-        System.out.println("Printing items with Iterator:");
+        System.out.println("Export HashTable to Array:");
 
         for (Object item : strings) {
             System.out.println(item);
