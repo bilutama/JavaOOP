@@ -1,20 +1,17 @@
 package ru.academits.biluta.hash_table;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 
 public class HashTable<T> implements Collection<T> {
-    final int DEFAULT_CAPACITY = 30;
+    final int DEFAULT_CAPACITY = 10;
 
     private LinkedList<T>[] hashTable;
     private int size; // items count in table
     private int modCount;
-    private double loadRatio;
+    private double loadFactor;
 
     public HashTable() {
-        hashTable = (LinkedList<T>[]) new Object[DEFAULT_CAPACITY];
+        hashTable = (LinkedList<T>[]) new LinkedList[DEFAULT_CAPACITY];
     }
 
     public HashTable(int capacity) {
@@ -22,11 +19,42 @@ public class HashTable<T> implements Collection<T> {
             throw new IllegalArgumentException(String.format("Capacity %d has to be not less than %d", capacity, DEFAULT_CAPACITY));
         }
 
-        hashTable = (LinkedList<T>[]) new Object[capacity];
+        hashTable = (LinkedList<T>[]) new LinkedList[capacity];
     }
 
-    private void updateLoadRatio() {
-        loadRatio = (double) size / hashTable.length;
+    private void rebuildHasTable() {
+        int newCapacity = 2 * hashTable.length;
+
+        LinkedList<T>[] newHashTable = (LinkedList<T>[]) new LinkedList[newCapacity];
+
+        for (int i = 0; i < hashTable.length; ++i) {
+
+        }
+    }
+
+    @Override
+    public String toString() {
+        if (size == 0) {
+            return "";
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < hashTable.length; ++i) {
+            if (hashTable[i] != null && hashTable[i].size() > 0) {
+                stringBuilder.append(String.format("%d :", i));
+                stringBuilder.append(hashTable[i]).append(String.format("%n"));
+            }
+        }
+
+        stringBuilder.append(String.format("Size %d%n", size));
+        stringBuilder.append(String.format("Load factor %.1f", loadFactor));
+
+        return stringBuilder.toString();
+    }
+
+    private void updateLoadFactor() {
+        loadFactor = (double) size / hashTable.length;
     }
 
     private int itemHashCode(T item) {
@@ -48,9 +76,69 @@ public class HashTable<T> implements Collection<T> {
         return hashTable[itemHashCode((T) object)].contains(object);
     }
 
+    private class HashTableIterator implements Iterator<T> {
+        private int currentItemIndex = -1;
+        private int currentListIndex = 0;
+        private int itemsInListsPassed = 0;
+        Iterator<T> currentListIterator;
+
+        private final int modCountInitial = modCount;
+
+        // Constructor returns the first item and index of the first list
+        public HashTableIterator() {
+            if (size == 0) {
+                return;
+            }
+
+            for (int i = 0; i < hashTable.length; ++i) {
+                if (hashTable[i] != null && hashTable[i].size() != 0) {
+                    currentListIndex = i;
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentItemIndex < size - 1;
+        }
+
+        @Override
+        public T next() {
+            if (modCount != modCountInitial) {
+                throw new ConcurrentModificationException("ArrayList has been modified");
+            }
+
+            if (!hasNext()) {
+                throw new NoSuchElementException(String.format("Index %d is the last one", currentItemIndex));
+            }
+
+            ++currentItemIndex;
+
+            for (int i = currentListIndex; i < hashTable.length; ++i) {
+
+                if (hashTable[i] == null || hashTable[i].size() == 0) {
+                    continue;
+                }
+
+                currentListIterator = hashTable[currentListIndex].listIterator(0);
+
+                if (currentListIterator.hasNext()) {
+                    currentListIndex = i;
+                    return currentListIterator.next();
+                } else {
+                    ++currentListIndex;
+                    itemsInListsPassed += hashTable[i].size();
+                }
+            }
+
+            return null;
+        }
+    }
+
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new HashTableIterator();
     }
 
     @Override
@@ -65,18 +153,23 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean add(T item) {
+        if (hashTable[itemHashCode(item)] == null) {
+            hashTable[itemHashCode(item)] = new LinkedList<>();
+        }
+
         hashTable[itemHashCode(item)].add(item);
         ++size;
         ++modCount;
-        updateLoadRatio();
+        updateLoadFactor();
         return true;
     }
 
     @Override
     public boolean remove(Object object) {
         if (hashTable[itemHashCode((T) object)].remove(object)) {
+            --size;
             ++modCount;
-            updateLoadRatio();
+            updateLoadFactor();
             return true;
         }
 
@@ -126,28 +219,17 @@ public class HashTable<T> implements Collection<T> {
 
         int initialSize = size;
 
-        for (int i = 0; i < hashTable.length; ++i) {
-            if (hashTable[i] == null) {
+        for (LinkedList<T> linkedList : hashTable) {
+            if (linkedList == null || linkedList.size() == 0) {
                 continue;
             }
 
-            for (T item: hashTable[i]) {
-                for (Object object: collection) {
-                    if (itemHashCode((T)object) == i && !hashTable[i].contains(object)) {
-                        hashTable[i].remove(item);
-                    }
-                }
-            }
+            int linkedListInitialSize = linkedList.size();
+            linkedList.retainAll(collection);
+            size += linkedList.size() - linkedListInitialSize;
         }
 
-        /*for (LinkedList<T> linkedList : hashTable) {
-            if (linkedList == null) {
-                continue;
-            }
-
-            linkedList.removeIf(item -> !collection.contains(item));
-        }*/
-
+        updateLoadFactor();
         return size != initialSize;
     }
 
