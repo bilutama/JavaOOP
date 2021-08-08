@@ -48,8 +48,8 @@ public class Main {
 
         System.out.print("Array: ");
 
-        for (Integer i : array1) {
-            System.out.printf("%d ", i);
+        for (Integer element : array1) {
+            System.out.printf("%d ", element);
         }
 
         System.out.println();
