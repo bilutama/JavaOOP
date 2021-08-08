@@ -19,7 +19,7 @@ public class Main {
         arrayList1.add(4, null);
         System.out.println(arrayList1);
 
-        System.out.printf("Remove element be value - %s%n", arrayList1.remove(null));
+        System.out.printf("Remove item be value - %s%n", arrayList1.remove(null));
         System.out.println(arrayList1);
 
         ArrayList<Integer> arrayList2 = new ArrayList<>();
@@ -48,8 +48,8 @@ public class Main {
 
         System.out.print("Array: ");
 
-        for (Integer element : array1) {
-            System.out.printf("%d ", element);
+        for (Integer item : array1) {
+            System.out.printf("%d ", item);
         }
 
         System.out.println();
@@ -57,8 +57,8 @@ public class Main {
         array1 = arrayList3.toArray(array1);
         System.out.print("Array (added items List3): ");
 
-        for (Integer element : array1) {
-            System.out.printf("%d ", element);
+        for (Integer item : array1) {
+            System.out.printf("%d ", item);
         }
 
         System.out.println();
@@ -66,8 +66,8 @@ public class Main {
         Object[] array2 = arrayList2.toArray();
         System.out.print("toArray: ");
 
-        for (Object i : array2) {
-            System.out.printf("%s ", i);
+        for (Object item : array2) {
+            System.out.printf("%s ", item);
         }
     }
 }
