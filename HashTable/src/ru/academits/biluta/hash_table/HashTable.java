@@ -3,8 +3,9 @@ package ru.academits.biluta.hash_table;
 import java.util.*;
 
 public class HashTable<T> implements Collection<T> {
-    final int DEFAULT_CAPACITY = 10;
-    final double MAXIMUM_LOAD_FACTOR = 0.7;
+    final static int MINIMUM_CAPACITY = 5;
+    final static int DEFAULT_CAPACITY = 10;
+    final static double MAXIMUM_LOAD_FACTOR = 0.7;
 
     private LinkedList<T>[] hashTable;
     private int size; // Items count in the hashTable
@@ -14,6 +15,15 @@ public class HashTable<T> implements Collection<T> {
     public HashTable() {
         //noinspection unchecked
         hashTable = (LinkedList<T>[]) new LinkedList[DEFAULT_CAPACITY];
+    }
+
+    public HashTable(int capacity) {
+        if (capacity < MINIMUM_CAPACITY) {
+            throw new IllegalArgumentException(String.format("Wrong capacity %d, shoud be not less than %d", capacity, MINIMUM_CAPACITY));
+        }
+
+        //noinspection unchecked
+        hashTable = (LinkedList<T>[]) new LinkedList[capacity];
     }
 
     private void rebuildHashTable() {

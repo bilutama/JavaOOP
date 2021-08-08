@@ -65,5 +65,19 @@ public class Main {
         hashTable1.clear();
         System.out.println("Clear hashTable1:");
         System.out.println(hashTable1);
+        System.out.println();
+
+        hashTable1.addAll(Arrays.asList("theater", "revenge", "thesis"));
+
+        HashTable<String> hashTable2 = new HashTable<>(15);
+
+        hashTable2.addAll(hashTable1);
+
+        System.out.println("HashTable1:");
+        System.out.println(hashTable1);
+        System.out.println();
+
+        System.out.println("HashTable2:");
+        System.out.println(hashTable2);
     }
 }
