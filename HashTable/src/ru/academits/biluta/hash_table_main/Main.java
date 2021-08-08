@@ -60,5 +60,10 @@ public class Main {
 
         hashTable1.retainAll(Arrays.asList("spokesperson", "filter", "closed", "stuff", "relative"));
         System.out.println(hashTable1);
+        System.out.println();
+
+        hashTable1.clear();
+        System.out.println("Clear hashTable1:");
+        System.out.println(hashTable1);
     }
 }

@@ -61,8 +61,8 @@ public class HashTable<T> implements Collection<T> {
         return Math.abs(item.hashCode() % hashTable.length);
     }
 
-    private int getItemHashCode(T item, int newLength) {
-        return Math.abs(item.hashCode() % newLength);
+    private int getItemHashCode(T item, int hashTableLength) {
+        return Math.abs(item.hashCode() % hashTableLength);
     }
 
     @Override
@@ -289,5 +289,7 @@ public class HashTable<T> implements Collection<T> {
     @Override
     public void clear() {
         Arrays.fill(hashTable, null);
+        size = 0;
+        loadFactor = 0.0;
     }
 }
