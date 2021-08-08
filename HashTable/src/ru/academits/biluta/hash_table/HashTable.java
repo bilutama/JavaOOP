@@ -79,7 +79,7 @@ public class HashTable<T> implements Collection<T> {
     private class HashTableIterator implements Iterator<T> {
         private int currentItemIndex = -1;
         private int currentListIndex = 0;
-        private int itemsInListsPassed = 0;
+        private boolean isEndOfList;
         Iterator<T> currentListIterator;
 
         private final int modCountInitial = modCount;
@@ -113,23 +113,17 @@ public class HashTable<T> implements Collection<T> {
                 throw new NoSuchElementException(String.format("Index %d is the last one", currentItemIndex));
             }
 
-            ++currentItemIndex;
-
-            for (int i = currentListIndex; i < hashTable.length; ++i) {
-
-                if (hashTable[i] == null || hashTable[i].size() == 0) {
-                    continue;
-                }
-
+            if (isEndOfList || currentListIterator == null) {
                 currentListIterator = hashTable[currentListIndex].listIterator(0);
+            }
 
+            while (hasNext()) {
                 if (currentListIterator.hasNext()) {
-                    currentListIndex = i;
+                    ++currentItemIndex;
                     return currentListIterator.next();
-                } else {
-                    ++currentListIndex;
-                    itemsInListsPassed += hashTable[i].size();
                 }
+
+                ++currentListIndex;
             }
 
             return null;
