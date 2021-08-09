@@ -40,7 +40,7 @@ public class Main {
 
         Object[] strings = hashTable1.toArray();
 
-        System.out.println("Export HashTable to Array:");
+        System.out.println("Export hashTable1 to Array:");
 
         for (Object item : strings) {
             System.out.println(item);
