@@ -1,4 +1,4 @@
-package ru.academits.biluta.list;
+package ru.academits.biluta.list_plus;
 
 class ListItem<T> {
     private T data;

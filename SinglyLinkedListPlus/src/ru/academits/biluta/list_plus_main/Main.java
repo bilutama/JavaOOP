@@ -1,13 +1,13 @@
-package ru.academits.biluta.list_main;
+package ru.academits.biluta.list_plus_main;
 
-import ru.academits.biluta.list.SinglyLinkedList;
+import ru.academits.biluta.list_plus.SinglyLinkedListPlus;
 
 import java.util.NoSuchElementException;
 
 public class Main {
     public static void main(String[] args) {
         try {
-            SinglyLinkedList<String> list1 = new SinglyLinkedList<>(null);
+            SinglyLinkedListPlus<String> list1 = new SinglyLinkedListPlus<>(null);
             System.out.printf("%s - List1%n", list1);
 
             list1.reverse();
@@ -32,7 +32,7 @@ public class Main {
         System.out.println();
 
         try {
-            SinglyLinkedList<String> list2 = new SinglyLinkedList<>("b");
+            SinglyLinkedListPlus<String> list2 = new SinglyLinkedListPlus<>("b");
             System.out.println("List2:");
             System.out.println(list2);
             list2.insertFirst("c");
@@ -57,7 +57,7 @@ public class Main {
             list2.insertFirst(null);
             System.out.println(list2);
 
-            SinglyLinkedList<String> list3 = list2.copy();
+            SinglyLinkedListPlus<String> list3 = list2.copy();
             System.out.println("List3 is a copy of List1:");
             System.out.println(list3);
 
@@ -82,7 +82,7 @@ public class Main {
             System.out.println(list2);
             System.out.println();
 
-            SinglyLinkedList<Integer> list4 = new SinglyLinkedList<>();
+            SinglyLinkedListPlus<Integer> list4 = new SinglyLinkedListPlus<>();
             System.out.printf("Inserting by index in List4 – %s%n", list4.insertByIndex(0, 2));
             System.out.println("List4:");
             System.out.println(list4);
@@ -90,7 +90,7 @@ public class Main {
             list4.insertByIndex(2, 4);
             System.out.println(list4);
             System.out.printf("List4 length = %d%n", list4.getLength());
-            index = 2;
+            index = 1;
             System.out.printf("Removing item by index %d, it's value was %d%n", index, list4.removeByIndex(index));
             System.out.println(list4);
         } catch (NoSuchElementException | IndexOutOfBoundsException e) {

@@ -1,17 +1,17 @@
-package ru.academits.biluta.list;
+package ru.academits.biluta.list_plus;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-public class SinglyLinkedList<T> {
-    private ListItem<T> head;
+public class SinglyLinkedListPlus<T> {
+    private ListPlusItem<T> head;
     private int length;
 
-    public SinglyLinkedList() {
+    public SinglyLinkedListPlus() {
     }
 
-    public SinglyLinkedList(T data) {
-        head = new ListItem<>(data);
+    public SinglyLinkedListPlus(T data) {
+        head = new ListPlusItem<>(data);
         length = 1;
     }
 
@@ -24,7 +24,7 @@ public class SinglyLinkedList<T> {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("[");
 
-        for (ListItem<T> iterator = head; iterator != null; iterator = iterator.getNext()) {
+        for (ListPlusItem<T> iterator = head; iterator != null; iterator = iterator.getNext()) {
             stringBuilder.append(iterator.getData());
             stringBuilder.append(", ");
         }
@@ -49,8 +49,8 @@ public class SinglyLinkedList<T> {
         return head.getData();
     }
 
-    private ListItem<T> getItemByIndex(int index) {
-        ListItem<T> iterator = head;
+    private ListPlusItem<T> getItemByIndex(int index) {
+        ListPlusItem<T> iterator = head;
         int i = 0;
 
         while (i != index) {
@@ -77,7 +77,7 @@ public class SinglyLinkedList<T> {
     public T setByIndex(int index, T data) {
         checkIndex(index, false);
 
-        ListItem<T> itemByIndex = getItemByIndex(index);
+        ListPlusItem<T> itemByIndex = getItemByIndex(index);
         T oldData = itemByIndex.getData();
         itemByIndex.setData(data);
 
@@ -91,7 +91,7 @@ public class SinglyLinkedList<T> {
             return removeFirst();
         }
 
-        ListItem<T> previousItem = getItemByIndex(index - 1);
+        ListPlusItem<T> previousItem = getItemByIndex(index - 1);
 
         T data = previousItem.getNext().getData();
         previousItem.setNext(previousItem.getNext().getNext());
@@ -101,7 +101,7 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean insertFirst(T data) {
-        head = new ListItem<>(data, head);
+        head = new ListPlusItem<>(data, head);
         ++length;
         return true;
     }
@@ -124,8 +124,8 @@ public class SinglyLinkedList<T> {
             return insertFirst(data);
         }
 
-        ListItem<T> previousItem = getItemByIndex(index - 1);
-        ListItem<T> item = new ListItem<>(data, previousItem.getNext());
+        ListPlusItem<T> previousItem = getItemByIndex(index - 1);
+        ListPlusItem<T> item = new ListPlusItem<>(data, previousItem.getNext());
         previousItem.setNext(item);
         ++length;
 
@@ -133,8 +133,8 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean remove(T data) {
-        ListItem<T> currentItem = head;
-        ListItem<T> previousItem = null;
+        ListPlusItem<T> currentItem = head;
+        ListPlusItem<T> previousItem = null;
 
         while (currentItem != null) {
             if (Objects.equals(data, currentItem.getData())) {
@@ -160,8 +160,8 @@ public class SinglyLinkedList<T> {
             return;
         }
 
-        ListItem<T> previous = head;
-        ListItem<T> next = head.getNext();
+        ListPlusItem<T> previous = head;
+        ListPlusItem<T> next = head.getNext();
 
         head = next;
         next = next.getNext();
@@ -177,18 +177,18 @@ public class SinglyLinkedList<T> {
         head.setNext(previous);
     }
 
-    public SinglyLinkedList<T> copy() {
-        SinglyLinkedList<T> listCopy = new SinglyLinkedList<>();
+    public SinglyLinkedListPlus<T> copy() {
+        SinglyLinkedListPlus<T> listCopy = new SinglyLinkedListPlus<>();
 
         if (length == 0) {
             return listCopy;
         }
 
-        listCopy.head = new ListItem<>(head.getData());
-        ListItem<T> previous = listCopy.head;
+        listCopy.head = new ListPlusItem<>(head.getData());
+        ListPlusItem<T> previous = listCopy.head;
 
-        for (ListItem<T> iterator = head.getNext(); iterator != null; iterator = iterator.getNext()) {
-            ListItem<T> next = new ListItem<>(iterator.getData());
+        for (ListPlusItem<T> iterator = head.getNext(); iterator != null; iterator = iterator.getNext()) {
+            ListPlusItem<T> next = new ListPlusItem<>(iterator.getData());
             previous.setNext(next);
             previous = next;
         }
