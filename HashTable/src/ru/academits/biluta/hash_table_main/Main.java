@@ -78,7 +78,7 @@ public class Main {
         System.out.println(hashTable1);
         System.out.println();
 
-        System.out.println("add 3 items to cleared table:");
+        System.out.println("add 3 items to cleared hashTable1:");
         hashTable1.addAll(Arrays.asList("theater", "revenge", "thesis"));
 
         System.out.println("Initialize hashTable2 and add all the items from hashTable1:");
