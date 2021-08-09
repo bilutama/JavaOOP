@@ -253,6 +253,10 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean addAll(Collection<? extends T> collection) {
+        if (collection.size() == 0) {
+            return false;
+        }
+
         for (T item : collection) {
             add(item);
         }
