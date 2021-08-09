@@ -6,6 +6,8 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
+        System.out.println("Initialize hashTable1, add 3 items:");
+
         HashTable<String> hashTable1 = new HashTable<>();
 
         hashTable1.addAll(Arrays.asList("closed", "name", "hear"));
@@ -14,6 +16,7 @@ public class Main {
         System.out.println(hashTable1);
         System.out.println();
 
+        System.out.println("add yet 11 items:");
         hashTable1.addAll(Arrays.asList("origin", "injection", "stuff", "software", "earthflax", "housewife"));
         hashTable1.addAll(Arrays.asList("consumption", "swell", "pawn", "recession", "clique"));
 
@@ -28,6 +31,7 @@ public class Main {
 
         System.out.println();
 
+        System.out.println("remove items \"origin\", \"consumption\", \"swell\", \"debt\":");
         hashTable1.remove("origin");
         hashTable1.removeAll(Arrays.asList("consumption", "swell", "debt"));
 
@@ -44,23 +48,28 @@ public class Main {
 
         System.out.println();
 
+        System.out.println("add yet 4 items:");
         hashTable1.addAll(Arrays.asList("young", "film", "copy", "national"));
         System.out.println(hashTable1);
         System.out.println();
 
+        System.out.println("add yet 3 items:");
         hashTable1.addAll(Arrays.asList("theater", "revenge", "thesis"));
         System.out.println(hashTable1);
         System.out.println();
 
+        System.out.println("add yet 7 items:");
         hashTable1.addAll(Arrays.asList("filter", "relative", "spokesperson", "free", "save", "rage", "career"));
         System.out.println(hashTable1);
         System.out.println();
 
+        System.out.println("add yet 2 items:");
         hashTable1.addAll(Arrays.asList("water", "fire"));
         System.out.println(hashTable1);
         System.out.println();
 
-        hashTable1.retainAll(Arrays.asList("spokesperson", "filter", "closed", "stuff", "relative"));
+        System.out.println("Retain only these items: \"spokesperson\", \"filter\", \"closed\", \"stuff\":");
+        hashTable1.retainAll(Arrays.asList("spokesperson", "filter", "closed", "stuff"));
         System.out.println(hashTable1);
         System.out.println();
 
@@ -69,10 +78,11 @@ public class Main {
         System.out.println(hashTable1);
         System.out.println();
 
+        System.out.println("add 3 items to cleared table:");
         hashTable1.addAll(Arrays.asList("theater", "revenge", "thesis"));
 
+        System.out.println("Initialize hashTable2 :");
         HashTable<String> hashTable2 = new HashTable<>(15);
-
         hashTable2.addAll(hashTable1);
 
         System.out.println("HashTable1:");
