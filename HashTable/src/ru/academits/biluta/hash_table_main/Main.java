@@ -81,7 +81,7 @@ public class Main {
         System.out.println("add 3 items to cleared table:");
         hashTable1.addAll(Arrays.asList("theater", "revenge", "thesis"));
 
-        System.out.println("Initialize hashTable2 :");
+        System.out.println("Initialize hashTable2 and add all the items from hashTable1:");
         HashTable<String> hashTable2 = new HashTable<>(15);
         hashTable2.addAll(hashTable1);
 
