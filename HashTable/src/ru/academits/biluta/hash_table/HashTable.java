@@ -19,7 +19,7 @@ public class HashTable<T> implements Collection<T> {
 
     public HashTable(int capacity) {
         if (capacity < MINIMUM_CAPACITY) {
-            throw new IllegalArgumentException(String.format("Wrong capacity %d, shoud be not less than %d", capacity, MINIMUM_CAPACITY));
+            throw new IllegalArgumentException(String.format("Wrong capacity %d, should be not less than %d", capacity, MINIMUM_CAPACITY));
         }
 
         //noinspection unchecked
@@ -68,7 +68,7 @@ public class HashTable<T> implements Collection<T> {
     }
 
     private int getItemHashCode(T item) {
-        return Math.abs(item.hashCode() % hashTable.length);
+        return getItemHashCode(item, hashTable.length);
     }
 
     private int getItemHashCode(T item, int hashTableLength) {
@@ -107,7 +107,7 @@ public class HashTable<T> implements Collection<T> {
             for (int i = 0; i < hashTable.length; ++i) {
                 if (hashTable[i] != null && hashTable[i].size() != 0) {
                     listIndex = i;
-                    listIterator = hashTable[i].iterator();
+                    listIterator = hashTable[listIndex].iterator();
                     break;
                 }
             }
@@ -130,6 +130,7 @@ public class HashTable<T> implements Collection<T> {
 
             ++itemIndex;
 
+            // Iterating to the next not null and not empty list
             if (!listIterator.hasNext()) {
                 ++listIndex;
 
@@ -156,12 +157,12 @@ public class HashTable<T> implements Collection<T> {
         }
 
         Object[] hashTableArray = new Object[size];
-        int index = 0;
+        int arrayCurrentIndex = 0;
 
         for (LinkedList<T> list : hashTable) {
             if (list != null && list.size() != 0) {
-                System.arraycopy(list.toArray(), 0, hashTableArray, index, list.size());
-                index += list.size();
+                System.arraycopy(list.toArray(), 0, hashTableArray, arrayCurrentIndex, list.size());
+                arrayCurrentIndex += list.size();
             }
         }
 
@@ -171,12 +172,12 @@ public class HashTable<T> implements Collection<T> {
     @Override
     public <T1> T1[] toArray(T1[] array) {
         Object[] hashTableArray = new Object[size];
-        int index = 0;
+        int arrayCurrentIndex = 0;
 
         for (LinkedList<T> list : hashTable) {
             if (list != null && list.size() != 0) {
-                System.arraycopy(list.toArray(), 0, hashTableArray, index, list.size());
-                index += list.size();
+                System.arraycopy(list.toArray(), 0, hashTableArray, arrayCurrentIndex, list.size());
+                arrayCurrentIndex += list.size();
             }
         }
 
