@@ -24,7 +24,7 @@ public class Person {
         return age;
     }
 
-    public String toString(){
+    public String toString() {
         return String.format("%s %dy.o.", name, age);
     }
 }
