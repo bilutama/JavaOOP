@@ -98,7 +98,7 @@ public class HashTable<T> implements Collection<T> {
 
         private final int initialModCount = modCount;
 
-        // Constructor initialize the first not empty and not null list index and its iterator
+        // Constructor initializes the first not empty and not null list index and its iterator
         private HashTableIterator() {
             for (int i = 0; i < hashTable.length; ++i) {
                 if (hashTable[i] != null && hashTable[i].size() != 0) {
