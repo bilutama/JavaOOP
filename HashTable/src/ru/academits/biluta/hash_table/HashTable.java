@@ -207,10 +207,6 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean remove(Object object) {
-        if (size == 0) {
-            return false;
-        }
-
         //noinspection unchecked
         int objectHash = getItemHash((T) object);
 
@@ -277,8 +273,11 @@ public class HashTable<T> implements Collection<T> {
             }
 
             int linkedListInitialSize = linkedList.size();
-            linkedList.retainAll(collection);
-            size += linkedList.size() - linkedListInitialSize;
+
+            if (linkedList.retainAll(collection)) {
+                size += linkedList.size() - linkedListInitialSize;
+                ++modCount;
+            }
         }
 
         updateLoadFactor();
@@ -287,6 +286,10 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public void clear() {
+        if (size > 0) {
+            ++modCount;
+        }
+
         Arrays.fill(hashTable, null);
         size = 0;
         loadFactor = 0.0;
