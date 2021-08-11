@@ -4,7 +4,7 @@ import ru.academits.biluta.array_list.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<Integer> arrayList1 = new ArrayList<>(5);
+        ArrayList<Integer> arrayList1 = new ArrayList<>(0);
 
         System.out.println(arrayList1);
 
