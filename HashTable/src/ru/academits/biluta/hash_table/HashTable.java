@@ -33,7 +33,7 @@ public class HashTable<T> implements Collection<T> {
         LinkedList<T>[] newHashTable = (LinkedList<T>[]) new LinkedList[newCapacity];
 
         for (T item : this) {
-            int newHash = getItemHashCode(item, newCapacity);
+            int newHash = getItemHash(item, newCapacity);
 
             if (newHashTable[newHash] == null) {
                 newHashTable[newHash] = new LinkedList<>();
@@ -67,11 +67,11 @@ public class HashTable<T> implements Collection<T> {
         loadFactor = (double) size / hashTable.length;
     }
 
-    private int getItemHashCode(T item) {
-        return getItemHashCode(item, hashTable.length);
+    private int getItemHash(T item) {
+        return getItemHash(item, hashTable.length);
     }
 
-    private int getItemHashCode(T item, int hashTableLength) {
+    private int getItemHash(T item, int hashTableLength) {
         return Math.abs(item.hashCode() % hashTableLength);
     }
 
@@ -88,7 +88,7 @@ public class HashTable<T> implements Collection<T> {
     @Override
     public boolean contains(Object object) {
         //noinspection unchecked
-        return hashTable[getItemHashCode((T) object)].contains(object);
+        return hashTable[getItemHash((T) object)].contains(object);
     }
 
     private class HashTableIterator implements Iterator<T> {
@@ -187,7 +187,7 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean add(T item) {
-        int itemHash = getItemHashCode(item);
+        int itemHash = getItemHash(item);
 
         if (hashTable[itemHash] == null) {
             hashTable[itemHash] = new LinkedList<>();
@@ -212,7 +212,7 @@ public class HashTable<T> implements Collection<T> {
         }
 
         //noinspection unchecked
-        int objectHash = getItemHashCode((T) object);
+        int objectHash = getItemHash((T) object);
 
         if (hashTable[objectHash] == null || hashTable[objectHash].size() == 0) {
             return false;
