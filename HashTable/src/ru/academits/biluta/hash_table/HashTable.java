@@ -117,7 +117,7 @@ public class HashTable<T> implements Collection<T> {
         @Override
         public T next() {
             if (modCount != initialModCount) {
-                throw new ConcurrentModificationException("ArrayList has been modified");
+                throw new ConcurrentModificationException("HashTable has been modified");
             }
 
             if (!hasNext()) {
