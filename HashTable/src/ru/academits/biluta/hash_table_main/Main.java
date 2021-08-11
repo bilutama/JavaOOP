@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Initialize hashTable1, add 3 items:");
+        System.out.println("Initialize hashTable1, add 6 items:");
 
         HashTable<String> hashTable1 = new HashTable<>();
 
