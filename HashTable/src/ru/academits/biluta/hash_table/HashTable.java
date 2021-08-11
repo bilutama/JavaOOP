@@ -100,10 +100,6 @@ public class HashTable<T> implements Collection<T> {
 
         // Constructor initialize the first not empty and not null list index and its iterator
         private HashTableIterator() {
-            if (size == 0) {
-                return;
-            }
-
             for (int i = 0; i < hashTable.length; ++i) {
                 if (hashTable[i] != null && hashTable[i].size() != 0) {
                     listIndex = i;
@@ -152,10 +148,6 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public Object[] toArray() {
-        if (size == 0) {
-            return new Object[0];
-        }
-
         Object[] hashTableArray = new Object[size];
         int arrayCurrentIndex = 0;
 
@@ -238,10 +230,6 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean containsAll(Collection<?> collection) {
-        if (this == collection) {
-            return true;
-        }
-
         for (Object object : collection) {
             if (!contains(object)) {
                 return false;
@@ -281,10 +269,6 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean retainAll(Collection<?> collection) {
-        if (this == collection || size == 0) {
-            return false;
-        }
-
         int initialSize = size;
 
         for (LinkedList<T> linkedList : hashTable) {
