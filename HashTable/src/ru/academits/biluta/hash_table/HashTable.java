@@ -126,7 +126,7 @@ public class HashTable<T> implements Collection<T> {
 
             ++itemIndex;
 
-            // Iterating to the next not null and not empty list
+            // Iterate to the next not null and not empty list when no items in the current list
             if (!listIterator.hasNext()) {
                 ++listIndex;
 
