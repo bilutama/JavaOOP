@@ -14,8 +14,8 @@ public class ArrayList<T> implements List<T> {
     }
 
     public ArrayList(int capacity) {
-        if (capacity < 1) {
-            throw new IllegalArgumentException(String.format("Wrong capacity %d, should be > 0", capacity));
+        if (capacity < 0) {
+            throw new IllegalArgumentException(String.format("Wrong capacity %d, should be >= 0", capacity));
         }
 
         //noinspection unchecked
@@ -50,7 +50,7 @@ public class ArrayList<T> implements List<T> {
             return "[]";
         }
 
-        StringBuilder stringBuilder = new StringBuilder().append("[");
+        StringBuilder stringBuilder = new StringBuilder("[");
 
         for (int i = 0; i < size; ++i) {
             stringBuilder.append(items[i]).append(", ");
@@ -76,16 +76,12 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean contains(Object object) {
-        if (size == 0) {
-            return false;
-        }
-
         return indexOf(object) != -1;
     }
 
     private class ArrayListIterator implements Iterator<T> {
         private int currentIndex = -1;
-        private final int modCountInitial = modCount;
+        private final int initialModCount = modCount;
 
         @Override
         public boolean hasNext() {
@@ -94,7 +90,7 @@ public class ArrayList<T> implements List<T> {
 
         @Override
         public T next() {
-            if (modCount != modCountInitial) {
+            if (modCount != initialModCount) {
                 throw new ConcurrentModificationException("ArrayList has been modified");
             }
 
@@ -114,10 +110,6 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public Object[] toArray() {
-        if (size == 0) {
-            return new Object[0];
-        }
-
         return Arrays.copyOf(items, size);
     }
 
@@ -162,10 +154,10 @@ public class ArrayList<T> implements List<T> {
             return false;
         }
 
-        int indexOfObject = indexOf(object);
+        int index = indexOf(object);
 
-        if (indexOfObject != -1) {
-            remove(indexOfObject);
+        if (index != -1) {
+            remove(index);
             return true;
         }
 
@@ -174,10 +166,6 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean containsAll(Collection<?> collection) {
-        if (this == collection) {
-            return true;
-        }
-
         for (Object item : collection) {
             if (!contains(item)) {
                 return false;
@@ -189,17 +177,7 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean addAll(Collection<? extends T> collection) {
-        if (collection.size() == 0) {
-            return false;
-        }
-
-        ensureCapacity(size + collection.size());
-
-        for (T item : collection) {
-            add(item);
-        }
-
-        return true;
+        return addAll(size, collection);
     }
 
     @Override
@@ -213,6 +191,7 @@ public class ArrayList<T> implements List<T> {
 
         System.arraycopy(items, index, items, index + collection.size(), size - index);
         size += collection.size();
+        ++modCount;
 
         int currentIndex = index;
 
@@ -243,10 +222,6 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean retainAll(Collection<?> collection) {
-        if (this == collection || size == 0) {
-            return false;
-        }
-
         int initialSize = size;
 
         for (int i = initialSize - 1; i >= 0; --i) {
