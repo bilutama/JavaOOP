@@ -3,9 +3,9 @@ package ru.academits.biluta.hash_table;
 import java.util.*;
 
 public class HashTable<T> implements Collection<T> {
-    final static int MINIMUM_CAPACITY = 5;
-    final static int DEFAULT_CAPACITY = 10;
-    final static double MAXIMUM_LOAD_FACTOR = 0.7;
+    private final static int MINIMUM_CAPACITY = 5;
+    private final static int DEFAULT_CAPACITY = 10;
+    private final static double MAXIMUM_LOAD_FACTOR = 0.7;
 
     private LinkedList<T>[] hashTable;
     private int size; // Items count in the hashTable
@@ -207,6 +207,10 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean remove(Object object) {
+        if (size == 0) {
+            return false;
+        }
+
         //noinspection unchecked
         int objectHash = getItemHash((T) object);
 
@@ -286,12 +290,11 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public void clear() {
-        if (size > 0) {
+        if (size != 0) {
+            Arrays.fill(hashTable, null);
             ++modCount;
+            size = 0;
+            loadFactor = 0.0;
         }
-
-        Arrays.fill(hashTable, null);
-        size = 0;
-        loadFactor = 0.0;
     }
 }
