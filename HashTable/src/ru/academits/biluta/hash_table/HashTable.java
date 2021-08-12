@@ -277,8 +277,11 @@ public class HashTable<T> implements Collection<T> {
             }
 
             int linkedListInitialSize = linkedList.size();
-            linkedList.retainAll(collection);
-            size += linkedList.size() - linkedListInitialSize;
+
+            if (linkedList.retainAll(collection)) {
+                size += linkedList.size() - linkedListInitialSize;
+                ++modCount;
+            }
         }
 
         updateLoadFactor();
@@ -287,8 +290,11 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public void clear() {
-        Arrays.fill(hashTable, null);
-        size = 0;
-        loadFactor = 0.0;
+        if (size != 0) {
+            Arrays.fill(hashTable, null);
+            ++modCount;
+            size = 0;
+            loadFactor = 0.0;
+        }
     }
 }
