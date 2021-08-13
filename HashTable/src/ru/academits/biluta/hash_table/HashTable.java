@@ -61,11 +61,11 @@ public class HashTable<T> implements Collection<T> {
         return stringBuilder.toString();
     }
 
-    private int getItemHash(T item) {
+    private int getItemHash(Object item) {
         return getItemHash(item, listsArray.length);
     }
 
-    private int getItemHash(T item, int listsArrayLength) {
+    private int getItemHash(Object item, int listsArrayLength) {
         if (item == null) {
             return 0;
         }
@@ -85,8 +85,7 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public boolean contains(Object object) {
-        //noinspection unchecked
-        int itemHash = getItemHash((T) object);
+        int itemHash = getItemHash(object);
 
         if (listsArray[itemHash] == null) {
             return false;
@@ -203,8 +202,7 @@ public class HashTable<T> implements Collection<T> {
             return false;
         }
 
-        //noinspection unchecked
-        int objectHash = getItemHash((T) object);
+        int objectHash = getItemHash(object);
 
         if (listsArray[objectHash] == null) {
             return false;
