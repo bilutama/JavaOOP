@@ -3,18 +3,17 @@ package ru.academits.biluta.hash_table;
 import java.util.*;
 
 public class HashTable<T> implements Collection<T> {
-    private final static int MINIMUM_CAPACITY = 5;
+    private final static int MINIMUM_CAPACITY = 1;
     private final static int DEFAULT_CAPACITY = 10;
     private final static double MAXIMUM_LOAD_FACTOR = 0.7;
 
-    private LinkedList<T>[] hashTable;
-    private int size; // Items count in the hashTable
+    private LinkedList<T>[] listsArray;
+    private int size; // Items count in the listsArray
     private int modCount;
-    private double loadFactor;
 
     public HashTable() {
         //noinspection unchecked
-        hashTable = (LinkedList<T>[]) new LinkedList[DEFAULT_CAPACITY];
+        listsArray = (LinkedList<T>[]) new LinkedList[DEFAULT_CAPACITY];
     }
 
     public HashTable(int capacity) {
@@ -23,11 +22,11 @@ public class HashTable<T> implements Collection<T> {
         }
 
         //noinspection unchecked
-        hashTable = (LinkedList<T>[]) new LinkedList[capacity];
+        listsArray = (LinkedList<T>[]) new LinkedList[capacity];
     }
 
     private void rebuildHashTable() {
-        int newCapacity = 2 * hashTable.length;
+        int newCapacity = 2 * listsArray.length;
 
         //noinspection unchecked
         LinkedList<T>[] newHashTable = (LinkedList<T>[]) new LinkedList[newCapacity];
@@ -42,37 +41,36 @@ public class HashTable<T> implements Collection<T> {
             newHashTable[newHash].add(item);
         }
 
-        hashTable = newHashTable;
+        listsArray = newHashTable;
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder().append(String.format("HASH | ITEMS%n"));
 
-        for (int i = 0; i < hashTable.length; ++i) {
-            if (hashTable[i] != null && hashTable[i].size() > 0) {
+        for (int i = 0; i < listsArray.length; ++i) {
+            if (listsArray[i] != null && listsArray[i].size() > 0) {
                 stringBuilder.append(String.format("%4d | ", i));
-                stringBuilder.append(hashTable[i]).append(String.format("%n"));
+                stringBuilder.append(listsArray[i]).append(String.format("%n"));
             }
         }
 
-        stringBuilder.append(String.format("Capacity %d%n", hashTable.length));
+        stringBuilder.append(String.format("Capacity %d%n", listsArray.length));
         stringBuilder.append(String.format("Size %d%n", size));
-        stringBuilder.append(String.format("Load factor %.2f", loadFactor));
 
         return stringBuilder.toString();
     }
 
-    private void updateLoadFactor() {
-        loadFactor = (double) size / hashTable.length;
-    }
-
     private int getItemHash(T item) {
-        return getItemHash(item, hashTable.length);
+        return getItemHash(item, listsArray.length);
     }
 
-    private int getItemHash(T item, int hashTableLength) {
-        return Math.abs(item.hashCode() % hashTableLength);
+    private int getItemHash(T item, int listsArrayLength) {
+        if (item == null) {
+            return 0;
+        }
+
+        return Math.abs(item.hashCode() % listsArrayLength);
     }
 
     @Override
@@ -88,22 +86,28 @@ public class HashTable<T> implements Collection<T> {
     @Override
     public boolean contains(Object object) {
         //noinspection unchecked
-        return hashTable[getItemHash((T) object)].contains(object);
+        int itemHash = getItemHash((T) object);
+
+        if (listsArray[itemHash] == null) {
+            return false;
+        }
+
+        return listsArray[itemHash].contains(object);
     }
 
     private class HashTableIterator implements Iterator<T> {
         private int itemIndex = -1;
         private int listIndex;
-        Iterator<T> listIterator;
+        private Iterator<T> listIterator;
 
         private final int initialModCount = modCount;
 
         // Constructor initializes the first not empty and not null list index and its iterator
         private HashTableIterator() {
-            for (int i = 0; i < hashTable.length; ++i) {
-                if (hashTable[i] != null && hashTable[i].size() != 0) {
+            for (int i = 0; i < listsArray.length; ++i) {
+                if (listsArray[i] != null && listsArray[i].size() != 0) {
                     listIndex = i;
-                    listIterator = hashTable[listIndex].iterator();
+                    listIterator = listsArray[listIndex].iterator();
                     break;
                 }
             }
@@ -130,11 +134,11 @@ public class HashTable<T> implements Collection<T> {
             if (!listIterator.hasNext()) {
                 ++listIndex;
 
-                while (hashTable[listIndex] == null || hashTable[listIndex].size() == 0) {
+                while (listsArray[listIndex] == null || listsArray[listIndex].size() == 0) {
                     ++listIndex;
                 }
 
-                listIterator = hashTable[listIndex].iterator();
+                listIterator = listsArray[listIndex].iterator();
             }
 
             return listIterator.next();
@@ -148,38 +152,36 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public Object[] toArray() {
-        Object[] hashTableArray = new Object[size];
-        int arrayCurrentIndex = 0;
+        Object[] itemsArray = new Object[size];
+        int index = 0;
 
-        for (LinkedList<T> list : hashTable) {
-            if (list != null && list.size() != 0) {
-                System.arraycopy(list.toArray(), 0, hashTableArray, arrayCurrentIndex, list.size());
-                arrayCurrentIndex += list.size();
-            }
+        for (T item : this) {
+            itemsArray[index] = item;
+            ++index;
         }
 
-        return hashTableArray;
+        return itemsArray;
     }
 
     @Override
     public <T1> T1[] toArray(T1[] array) {
-        Object[] hashTableArray = new Object[size];
+        Object[] listArray = new Object[size];
         int arrayCurrentIndex = 0;
 
-        for (LinkedList<T> list : hashTable) {
+        for (LinkedList<T> list : listsArray) {
             if (list != null && list.size() != 0) {
-                System.arraycopy(list.toArray(), 0, hashTableArray, arrayCurrentIndex, list.size());
+                System.arraycopy(list.toArray(), 0, listArray, arrayCurrentIndex, list.size());
                 arrayCurrentIndex += list.size();
             }
         }
 
         if (array.length < size) {
             //noinspection unchecked
-            return (T1[]) hashTableArray;
+            return (T1[]) listArray;
         }
 
         //noinspection SuspiciousSystemArraycopy
-        System.arraycopy(hashTableArray, 0, array, 0, size);
+        System.arraycopy(listArray, 0, array, 0, size);
         array[size] = null;
 
         return array;
@@ -189,16 +191,15 @@ public class HashTable<T> implements Collection<T> {
     public boolean add(T item) {
         int itemHash = getItemHash(item);
 
-        if (hashTable[itemHash] == null) {
-            hashTable[itemHash] = new LinkedList<>();
+        if (listsArray[itemHash] == null) {
+            listsArray[itemHash] = new LinkedList<>();
         }
 
-        hashTable[itemHash].add(item);
+        listsArray[itemHash].add(item);
         ++size;
         ++modCount;
-        updateLoadFactor();
 
-        if (loadFactor > MAXIMUM_LOAD_FACTOR) {
+        if ((double) size / listsArray.length > MAXIMUM_LOAD_FACTOR) {
             rebuildHashTable();
         }
 
@@ -214,14 +215,13 @@ public class HashTable<T> implements Collection<T> {
         //noinspection unchecked
         int objectHash = getItemHash((T) object);
 
-        if (hashTable[objectHash] == null || hashTable[objectHash].size() == 0) {
+        if (listsArray[objectHash] == null || listsArray[objectHash].size() == 0) {
             return false;
         }
 
-        if (hashTable[objectHash].remove(object)) {
+        if (listsArray[objectHash].remove(object)) {
             --size;
             ++modCount;
-            updateLoadFactor();
             return true;
         }
 
@@ -271,30 +271,28 @@ public class HashTable<T> implements Collection<T> {
     public boolean retainAll(Collection<?> collection) {
         int initialSize = size;
 
-        for (LinkedList<T> linkedList : hashTable) {
-            if (linkedList == null || linkedList.size() == 0) {
+        for (LinkedList<T> list : listsArray) {
+            if (list == null || list.size() == 0) {
                 continue;
             }
 
-            int linkedListInitialSize = linkedList.size();
+            int listInitialSize = list.size();
 
-            if (linkedList.retainAll(collection)) {
-                size += linkedList.size() - linkedListInitialSize;
+            if (list.retainAll(collection)) {
+                size += list.size() - listInitialSize;
                 ++modCount;
             }
         }
 
-        updateLoadFactor();
         return size != initialSize;
     }
 
     @Override
     public void clear() {
         if (size != 0) {
-            Arrays.fill(hashTable, null);
+            Arrays.fill(listsArray, null);
             ++modCount;
             size = 0;
-            loadFactor = 0.0;
         }
     }
 }
