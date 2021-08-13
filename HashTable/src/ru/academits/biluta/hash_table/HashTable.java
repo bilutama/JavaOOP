@@ -108,7 +108,7 @@ public class HashTable<T> implements Collection<T> {
                 if (listsArray[i] != null && listsArray[i].size() != 0) {
                     listIndex = i;
                     listIterator = listsArray[listIndex].iterator();
-                    break;
+                    return;
                 }
             }
         }
@@ -165,23 +165,14 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public <T1> T1[] toArray(T1[] array) {
-        Object[] listArray = new Object[size];
-        int arrayCurrentIndex = 0;
-
-        for (LinkedList<T> list : listsArray) {
-            if (list != null && list.size() != 0) {
-                System.arraycopy(list.toArray(), 0, listArray, arrayCurrentIndex, list.size());
-                arrayCurrentIndex += list.size();
-            }
-        }
+        //noinspection unchecked
+        T1[] itemsArray = (T1[]) toArray();
 
         if (array.length < size) {
-            //noinspection unchecked
-            return (T1[]) listArray;
+            return itemsArray;
         }
 
-        //noinspection SuspiciousSystemArraycopy
-        System.arraycopy(listArray, 0, array, 0, size);
+        System.arraycopy(itemsArray, 0, array, 0, size);
         array[size] = null;
 
         return array;
@@ -215,7 +206,7 @@ public class HashTable<T> implements Collection<T> {
         //noinspection unchecked
         int objectHash = getItemHash((T) object);
 
-        if (listsArray[objectHash] == null || listsArray[objectHash].size() == 0) {
+        if (listsArray[objectHash] == null) {
             return false;
         }
 
@@ -280,10 +271,10 @@ public class HashTable<T> implements Collection<T> {
 
             if (list.retainAll(collection)) {
                 size += list.size() - listInitialSize;
-                ++modCount;
             }
         }
 
+        ++modCount;
         return size != initialSize;
     }
 
