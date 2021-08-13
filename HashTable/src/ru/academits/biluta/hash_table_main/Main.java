@@ -17,7 +17,7 @@ public class Main {
         System.out.println();
 
         System.out.println("add yet 11 items:");
-        hashTable1.addAll(Arrays.asList("origin", "injection", "stuff", "software", "earthflax", "housewife"));
+        hashTable1.addAll(Arrays.asList("origin", "injection", "stuff", "software", null, "housewife"));
         hashTable1.addAll(Arrays.asList("consumption", "swell", "pawn", "recession", "clique"));
 
         System.out.println(hashTable1);
@@ -78,8 +78,8 @@ public class Main {
         System.out.println(hashTable1);
         System.out.println();
 
-        System.out.println("add 3 items to cleared hashTable1:");
-        hashTable1.addAll(Arrays.asList("theater", "revenge", "thesis"));
+        System.out.println("add 4 items to cleared hashTable1:");
+        hashTable1.addAll(Arrays.asList("theater", null, "revenge", "thesis"));
 
         System.out.println("Initialize hashTable2 and add all the items from hashTable1:");
         HashTable<String> hashTable2 = new HashTable<>(15);
