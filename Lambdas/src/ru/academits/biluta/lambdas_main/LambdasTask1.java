@@ -70,7 +70,7 @@ public class LambdasTask1 {
         final int UPPER_AGE = 45;
 
         List<Person> peopleGroup = people.stream()
-                .filter(p -> (p.getAge() >= LOWER_AGE && p.getAge() <= UPPER_AGE))
+                .filter(p -> p.getAge() >= LOWER_AGE && p.getAge() <= UPPER_AGE)
                 .sorted((p1, p2) -> p2.getAge() - p1.getAge())
                 .collect(Collectors.toList());
 

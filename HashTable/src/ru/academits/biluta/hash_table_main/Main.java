@@ -23,6 +23,8 @@ public class Main {
         System.out.println(hashTable1);
         System.out.println();
 
+        hashTable1.remove(null);
+
         System.out.println("Printing items with Iterator:");
 
         for (String string : hashTable1) {

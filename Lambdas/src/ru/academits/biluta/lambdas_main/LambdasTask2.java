@@ -9,20 +9,21 @@ public class LambdasTask2 {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter square roots count:");
-        int numbersCount = scanner.nextInt();
+        int squareRootsCount = scanner.nextInt();
+
         DoubleStream.iterate(1, x -> x + 1)
                 .map(Math::sqrt)
-                .limit(numbersCount)
+                .limit(squareRootsCount)
                 .forEach(x -> System.out.printf("%.3f%n", x));
 
         System.out.println("Enter Fibonacci numbers count (less or equal to 92):");
-        numbersCount = scanner.nextInt();
+        int fibonacciNumbersCount = scanner.nextInt();
 
         // Simplified Fibonacci numbers stream for standard indices sequence 1, 2, 3, ...
         // Unsafe stream, since for indices >92 numbers are wrong as are limited by LONG type
         Stream.iterate(new long[]{0, 1}, x -> new long[]{x[1], x[0] + x[1]})
-                .limit(numbersCount)
-                .map(x -> x[1])
+                .map(x -> x[0])
+                .limit(fibonacciNumbersCount)
                 .forEach(System.out::println);
     }
 }
