@@ -91,7 +91,23 @@ public class Main {
         System.out.println(hashTable1);
         System.out.println();
 
+        hashTable2.add(null);
         System.out.println("HashTable2:");
         System.out.println(hashTable2);
+        System.out.println();
+
+        System.out.println(hashTable2.retainAll(Arrays.asList(null, "theater")));
+        System.out.println(hashTable2.retainAll(Arrays.asList(null, "theater")));
+        System.out.println("HashTable2 after retainAll:");
+        System.out.println(hashTable2);
+        System.out.println();
+
+        String[] stringArray = new String[0];
+        stringArray = hashTable2.toArray(stringArray);
+
+        System.out.println("toArray(T1):");
+        for (String string : stringArray) {
+            System.out.println(string);
+        }
     }
 }
