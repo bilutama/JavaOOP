@@ -66,11 +66,7 @@ public class HashTable<T> implements Collection<T> {
     }
 
     private static int getItemHash(Object item, int listsLength) {
-        if (item == null) {
-            return 0;
-        }
-
-        return Math.abs(item.hashCode() % listsLength);
+        return item == null ? 0 : Math.abs(item.hashCode() % listsLength);
     }
 
     @Override
