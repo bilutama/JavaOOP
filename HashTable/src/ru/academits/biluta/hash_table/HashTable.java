@@ -160,6 +160,10 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public <T1> T1[] toArray(T1[] array) {
+        if (size == 0) {
+            return array;
+        }
+
         //noinspection unchecked
         T1[] itemsArray = (T1[]) Arrays.copyOf(toArray(), size, array.getClass());
 

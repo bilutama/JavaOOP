@@ -6,6 +6,17 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
+        HashTable<String> emptyHashTable = new HashTable<>();
+        String[] oneStringArray = new String[1];
+        oneStringArray = emptyHashTable.toArray(oneStringArray);
+
+        System.out.println("empty hashTable - toArray(T1):");
+        for (String string : emptyHashTable) {
+            System.out.println(string);
+        }
+
+        System.out.println();
+
         System.out.println("Initialize hashTable1, add 6 items:");
 
         HashTable<String> hashTable1 = new HashTable<>();
