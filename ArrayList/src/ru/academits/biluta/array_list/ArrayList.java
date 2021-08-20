@@ -115,7 +115,7 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public <T1> T1[] toArray(T1[] array) {
-        if (array.length < size) {
+        if (array.length <= size) {
             //noinspection unchecked
             return (T1[]) Arrays.copyOf(items, size, array.getClass());
         }

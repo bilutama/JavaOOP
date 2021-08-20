@@ -69,5 +69,19 @@ public class Main {
         for (Object item : array2) {
             System.out.printf("%s ", item);
         }
+
+        System.out.println();
+
+        ArrayList<Integer> arrayList4 = new ArrayList<>(0);
+        arrayList4.add(4);
+
+        Integer[] newArrInt = new Integer[1];
+        newArrInt = arrayList4.toArray(newArrInt);
+
+        System.out.print("toArray: ");
+
+        for (Integer item : newArrInt) {
+            System.out.printf("%d ", item);
+        }
     }
 }
