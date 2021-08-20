@@ -11,6 +11,11 @@ public class Main {
         oneStringArray = emptyHashTable.toArray(oneStringArray);
 
         System.out.println("empty hashTable - toArray(T1):");
+
+        for (String string : oneStringArray) {
+            System.out.println(string);
+        }
+
         System.out.println(emptyHashTable);
         System.out.println();
 
