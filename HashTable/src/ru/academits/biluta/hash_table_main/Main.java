@@ -6,24 +6,24 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        HashTable<String> singleItemHashTable = new HashTable<>();
-        singleItemHashTable.add("test");
-        String[] oneStringArray = new String[1];
-        oneStringArray = singleItemHashTable.toArray(oneStringArray);
+        HashTable<String> testHashTable = new HashTable<>();
+        testHashTable.add("test");
+        String[] stringArray = new String[1];
+        stringArray = testHashTable.toArray(stringArray);
 
         System.out.println("empty hashTable - toArray(T1):");
 
-        for (String string : oneStringArray) {
+        for (String string : stringArray) {
             System.out.println(string);
         }
 
         System.out.println();
 
         String[] emptyStringArray = new String[0];
-        singleItemHashTable.retainAll(Arrays.asList(emptyStringArray));
+        testHashTable.retainAll(Arrays.asList(emptyStringArray));
 
         System.out.println("empty hashTable - retainAll:");
-        System.out.println(singleItemHashTable);
+        System.out.println(testHashTable);
 
         System.out.println();
 
@@ -123,12 +123,12 @@ public class Main {
         System.out.println(hashTable2);
         System.out.println();
 
-        String[] stringArray = new String[0];
-        stringArray = hashTable2.toArray(stringArray);
+        String[] stringArray2 = new String[0];
+        stringArray2 = hashTable2.toArray(stringArray2);
 
         System.out.println("toArray(T1):");
 
-        for (String string : stringArray) {
+        for (String string : stringArray2) {
             System.out.println(string);
         }
 
