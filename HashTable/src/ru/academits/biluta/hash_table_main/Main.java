@@ -7,6 +7,7 @@ import java.util.Arrays;
 public class Main {
     public static void main(String[] args) {
         HashTable<String> emptyHashTable = new HashTable<>();
+        emptyHashTable.add("test");
         String[] oneStringArray = new String[1];
         oneStringArray = emptyHashTable.toArray(oneStringArray);
 

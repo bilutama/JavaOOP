@@ -167,7 +167,7 @@ public class HashTable<T> implements Collection<T> {
         //noinspection unchecked
         T1[] itemsArray = (T1[]) Arrays.copyOf(toArray(), size, array.getClass());
 
-        if (array.length < size) {
+        if (array.length <= size) {
             return itemsArray;
         }
 
