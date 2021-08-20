@@ -6,10 +6,10 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        HashTable<String> emptyHashTable = new HashTable<>();
-        emptyHashTable.add("test");
+        HashTable<String> singleItemHashTable = new HashTable<>();
+        singleItemHashTable.add("test");
         String[] oneStringArray = new String[1];
-        oneStringArray = emptyHashTable.toArray(oneStringArray);
+        oneStringArray = singleItemHashTable.toArray(oneStringArray);
 
         System.out.println("empty hashTable - toArray(T1):");
 
@@ -20,10 +20,10 @@ public class Main {
         System.out.println();
 
         String[] emptyStringArray = new String[0];
-        emptyHashTable.retainAll(Arrays.asList(emptyStringArray));
+        singleItemHashTable.retainAll(Arrays.asList(emptyStringArray));
 
         System.out.println("empty hashTable - retainAll:");
-        System.out.println(emptyHashTable);
+        System.out.println(singleItemHashTable);
 
         System.out.println();
 
