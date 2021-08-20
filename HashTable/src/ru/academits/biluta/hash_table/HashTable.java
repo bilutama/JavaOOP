@@ -160,18 +160,13 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public <T1> T1[] toArray(T1[] array) {
-        if (size == 0) {
-            return array;
-        }
-
-        //noinspection unchecked
-        T1[] itemsArray = (T1[]) Arrays.copyOf(toArray(), size, array.getClass());
-
         if (array.length <= size) {
-            return itemsArray;
+            //noinspection unchecked
+            return (T1[]) Arrays.copyOf(toArray(), size, array.getClass());
         }
 
-        System.arraycopy(itemsArray, 0, array, 0, size);
+        //noinspection SuspiciousSystemArraycopy
+        System.arraycopy(toArray(), 0, array, 0, size);
         array[size] = null;
 
         return array;
