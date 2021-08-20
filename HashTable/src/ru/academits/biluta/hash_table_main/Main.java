@@ -12,6 +12,7 @@ public class Main {
 
         System.out.println("empty hashTable - toArray(T1):");
         System.out.println(emptyHashTable);
+        System.out.println();
 
         String[] emptyStringArray = new String[0];
         emptyHashTable.retainAll(Arrays.asList(emptyStringArray));
@@ -128,7 +129,7 @@ public class Main {
 
         System.out.println();
 
-        System.out.println("HashTable2 after retainAll:");
+        System.out.println("HashTable2 after retainAll (emptyStringArray):");
         hashTable2.retainAll(Arrays.asList(emptyStringArray));
         System.out.println(hashTable2);
     }
