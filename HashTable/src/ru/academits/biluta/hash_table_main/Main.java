@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         HashTable<String> testHashTable = new HashTable<>();
         testHashTable.add("test");
-        String[] stringArray = new String[4];
+        String[] stringArray = new String[1];
         stringArray = testHashTable.toArray(stringArray);
 
         System.out.println("empty hashTable - toArray(T1):");

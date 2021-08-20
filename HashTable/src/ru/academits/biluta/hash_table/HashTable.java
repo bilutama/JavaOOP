@@ -160,14 +160,17 @@ public class HashTable<T> implements Collection<T> {
 
     @Override
     public <T1> T1[] toArray(T1[] array) {
-        if (array.length <= size) {
+        if (array.length < size) {
             //noinspection unchecked
             return (T1[]) Arrays.copyOf(toArray(), size, array.getClass());
         }
 
         //noinspection SuspiciousSystemArraycopy
         System.arraycopy(toArray(), 0, array, 0, size);
-        array[size] = null;
+
+        if (array.length > size) {
+            array[size] = null;
+        }
 
         return array;
     }
