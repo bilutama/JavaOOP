@@ -115,14 +115,17 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public <T1> T1[] toArray(T1[] array) {
-        if (array.length <= size) {
+        if (array.length < size) {
             //noinspection unchecked
             return (T1[]) Arrays.copyOf(items, size, array.getClass());
         }
 
         //noinspection SuspiciousSystemArraycopy
         System.arraycopy(items, 0, array, 0, size);
-        array[size] = null;
+
+        if (array.length > size) {
+            array[size] = null;
+        }
 
         return array;
     }
