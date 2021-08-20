@@ -16,7 +16,6 @@ public class Main {
             System.out.println(string);
         }
 
-        System.out.println(emptyHashTable);
         System.out.println();
 
         String[] emptyStringArray = new String[0];
