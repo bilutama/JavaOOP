@@ -3,7 +3,6 @@ package ru.academits.biluta.tree;
 public class TreeNode<T extends Comparable<T>> {
     private TreeNode<T> left;
     private TreeNode<T> right;
-    private TreeNode<T> parent;
     private final T data;
 
     public TreeNode(T data) {
@@ -40,13 +39,5 @@ public class TreeNode<T extends Comparable<T>> {
 
     public void setRight(TreeNode<T> right) {
         this.right = right;
-    }
-
-    public TreeNode<T> getParent() {
-        return parent;
-    }
-
-    public void setParent(TreeNode<T> parent) {
-        this.parent = parent;
     }
 }

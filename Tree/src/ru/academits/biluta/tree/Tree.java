@@ -24,7 +24,6 @@ public class Tree<T extends Comparable<T>> {
                     continue;
                 } else {
                     currentNode.addLeft(value);
-                    currentNode.getLeft().setParent(currentNode);
                     ++size;
                     return;
                 }
@@ -35,7 +34,6 @@ public class Tree<T extends Comparable<T>> {
                 currentNode = currentNode.getRight();
             } else {
                 currentNode.addRight(value);
-                currentNode.getRight().setParent(currentNode);
                 ++size;
                 return;
             }
@@ -65,6 +63,11 @@ public class Tree<T extends Comparable<T>> {
     }
 
     public boolean remove(T data) {
+        if (size == 0) {
+            return false;
+        }
+
+
         TreeNode<T> node = find(data);
 
         //node is not found
@@ -84,12 +87,12 @@ public class Tree<T extends Comparable<T>> {
                 node = null;
             } else {
                 // Node has left child
-                node.getParent().setLeft(node.getLeft());
+
             }
         } else {
             if (node.getLeft() == null) {
                 // Node has right child
-                node.getParent().setLeft(node.getRight());
+
             } else {
                 // Node has both children
                 //TODO: implement deletion with both children
