@@ -1,20 +1,35 @@
 package ru.academits.biluta.tree;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
 public class Tree<T extends Comparable<T>> {
     private int size;
-    public TreeNode<T> head;
+    private TreeNode<T> root;
 
     public Tree(T data) {
-        head = new TreeNode<>(data);
+        root = new TreeNode<>(data);
         size = 1;
+    }
+
+    public TreeNode<T> getRoot() {
+        return root;
+    }
+
+    public void addAll(Collection<T> collection) {
+        for (T element : collection) {
+            add(element);
+        }
     }
 
     public void add(T value) {
         if (size == 0) {
-            head = new TreeNode<>(value);
+            root = new TreeNode<>(value);
         }
 
-        TreeNode<T> currentNode = head;
+        TreeNode<T> currentNode = root;
 
         while (true) {
             // value less than the current node
@@ -40,12 +55,12 @@ public class Tree<T extends Comparable<T>> {
         }
     }
 
-    public TreeNode<T> find(T value) {
+    public boolean find(T value) {
         if (size == 0) {
-            return null;
+            return false;
         }
 
-        TreeNode<T> node = head;
+        TreeNode<T> node = root;
 
         while (!node.getData().equals(value)) {
             if (value.compareTo(node.getData()) < 0) {
@@ -55,11 +70,21 @@ public class Tree<T extends Comparable<T>> {
             }
 
             if (node == null) {
-                return null;
+                return false;
             }
         }
 
-        return node;
+        return true;
+    }
+
+    public boolean removeAll(Collection<T> collection) {
+        int initialSize = size;
+
+        for (T element : collection) {
+            remove(element);
+        }
+
+        return size != initialSize;
     }
 
     public boolean remove(T value) {
@@ -67,21 +92,13 @@ public class Tree<T extends Comparable<T>> {
             return false;
         }
 
-        // deleting head
-        /*
-        if (value.equals(head.getData())) {
-            //TODO: delete head
-            return false;
-        }
-         */
-
-        TreeNode<T> node = head;
+        TreeNode<T> node = root;
         TreeNode<T> parentNode = null;
-        // Flag to mark relationship between node and its parentNode
+        // Relationship flag between node and its parentNode
         boolean isLeftChild = false;
 
 
-        // finding a node
+        // Find a node
         while (!value.equals(node.getData())) {
             parentNode = node;
 
@@ -93,72 +110,175 @@ public class Tree<T extends Comparable<T>> {
                 isLeftChild = false;
             }
 
+            // node is not found
             if (node == null) {
                 return false;
             }
         }
 
         // Selecting deleting algorithm depending on children count
-
-
-        if (node.getLeft() == null) {
-            if (node.getRight() == null) {
-                // node has no leaves
-                if (node == head) {
-                    head = null;
-                    return true;
-                }
-
-                if (isLeftChild) {
-                    parentNode.setLeft(null);
-                } else {
-                    parentNode.setRight(null);
-                }
-
+        // OPTION 1 - node has no children
+        if (node.getLeft() == null && node.getRight() == null) {
+            // deleting the root
+            if (parentNode == null) {
+                root = null;
+                --size;
                 return true;
             }
 
-            // node has right leaf
+            if (isLeftChild) {
+                parentNode.setLeft(null);
+            } else {
+                parentNode.setRight(null);
+            }
+
+            --size;
+            return true;
+        }
+
+        // OPTION 2 - node has only right child
+        if (node.getLeft() == null) {
+            // deleting the root
+            if (parentNode == null) {
+                root = node.getRight();
+                --size;
+                return true;
+            }
+
             if (isLeftChild) {
                 parentNode.setLeft(node.getRight());
             } else {
                 parentNode.setRight(node.getRight());
             }
 
+            --size;
             return true;
         }
 
-        // has left leaf
+        // OPTION 3 - node has only left child
         if (node.getRight() == null) {
-            // has left leaf
+            // deleting the root
+            if (parentNode == null) {
+                root = node.getLeft();
+                --size;
+                return true;
+            }
+
             if (isLeftChild) {
                 parentNode.setLeft(node.getLeft());
             } else {
                 parentNode.setRight(node.getLeft());
             }
+
+            --size;
+            return true;
         }
 
-        // has both leaves
-        // TODO: delete when has both leaves
+        // OPTION 4 - node has both children
+        TreeNode<T> leftmostParent = node;
+        TreeNode<T> leftmostNode = node.getRight();
 
+        // Find the leftmost node in the right subtree
+        while (leftmostNode.getLeft() != null) {
+            leftmostParent = leftmostNode;
+            leftmostNode = leftmostNode.getLeft();
+        }
+
+        if (leftmostNode.getRight() == null) {
+            // Check if right subtree has one node, i.e. the leftmost node is the right child of its parent
+            if (node.getRight() == leftmostNode) {
+                leftmostParent.setRight(null);
+            } else {
+                leftmostParent.setLeft(null);
+            }
+        } else {
+            // If the leftmost node has the right child then link node's parent and successor
+            leftmostParent.setLeft(leftmostNode.getRight());
+            leftmostNode.setRight(null);
+        }
+
+        // Relink node's children to the new node
+        leftmostNode.setLeft(node.getLeft());
+        leftmostNode.setRight(node.getRight());
+
+        // Delete the root, i.e. replace root with the leftmost node
+        if (parentNode == null) {
+            root = leftmostNode;
+            --size;
+            return true;
+        }
+
+        // Relink parent if node is not the root
+        if (isLeftChild) {
+            parentNode.setLeft(leftmostNode);
+        } else {
+            parentNode.setRight(leftmostNode);
+        }
+
+        --size;
         return true;
-    }
-
-    private TreeNode<T> leftmostNode(TreeNode<T> subtreeRoot) {
-        if (subtreeRoot == null) {
-            return null;
-        }
-
-        TreeNode<T> node = subtreeRoot;
-
-        while (node.getLeft() != null) {
-            node = node.getLeft();
-        }
-
-        return node;
     }
 
     public int size() {
         return size;
+    }
+
+    public void breadthTraversal() {
+        Queue<TreeNode<T>> queue = new LinkedList<>();
+
+        TreeNode<T> currentNode = root;
+        queue.add(currentNode);
+
+        while (!queue.isEmpty()) {
+            currentNode = queue.poll();
+
+            // Do some work with a node from queue
+            System.out.print(currentNode.getData());
+            System.out.print(" ");
+
+            if (currentNode.getLeft() != null) {
+                queue.add(currentNode.getLeft());
+            }
+
+            if (currentNode.getRight() != null) {
+                queue.add(currentNode.getRight());
+            }
+        }
+    }
+
+    public void depthTraversal() {
+        Stack<TreeNode<T>> stack = new Stack<>();
+
+        TreeNode<T> currentNode = root;
+        stack.add(currentNode);
+
+        while (!stack.isEmpty()) {
+            currentNode = stack.pop();
+
+            // Do some work with a node from stack
+            System.out.print(currentNode.getData());
+            System.out.print(" ");
+
+            if (currentNode.getRight() != null) {
+                stack.add(currentNode.getRight());
+            }
+
+            if (currentNode.getLeft() != null) {
+                stack.add(currentNode.getLeft());
+            }
+        }
+    }
+
+    public void depthTraversalRecursively(TreeNode<T> subtreeRoot) {
+        System.out.print(subtreeRoot.getData());
+        System.out.print(" ");
+
+        if (subtreeRoot.getLeft() != null) {
+            depthTraversalRecursively(subtreeRoot.getLeft());
+        }
+
+        if (subtreeRoot.getRight() != null) {
+            depthTraversalRecursively(subtreeRoot.getRight());
+        }
     }
 }

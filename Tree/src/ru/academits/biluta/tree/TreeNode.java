@@ -13,10 +13,6 @@ public class TreeNode<T extends Comparable<T>> {
         return data;
     }
 
-//    public void setData(T data) {
-//        this.data = data;
-//    }
-
     public TreeNode<T> getLeft() {
         return left;
     }

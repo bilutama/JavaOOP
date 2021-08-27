@@ -2,18 +2,35 @@ package ru.academits.biluta.tree_main;
 
 import ru.academits.biluta.tree.Tree;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
         Tree<Integer> tree = new Tree<>(10);
-        tree.add(7);
-        tree.add(12);
-        tree.add(6);
-        tree.add(9);
-        tree.add(5);
+        tree.addAll(Arrays.asList(7, 12, 6, 9, 5, 11, 13));
 
-        tree.remove(5);
+        System.out.printf("Item is found - %s%n", tree.find(12));
+        System.out.println();
 
-        System.out.println(tree.find(8));
+        System.out.println("Tree breadth traversal:");
+        tree.breadthTraversal();
+        System.out.println();
 
+        System.out.println("Tree depth traversal:");
+        tree.depthTraversal();
+        System.out.println();
+
+        System.out.println("Tree depth recursive traversal:");
+        tree.depthTraversalRecursively(tree.getRoot());
+        System.out.println();
+
+        System.out.println();
+
+        System.out.printf("deleted - %s, size = %d%n", tree.remove(12), tree.size());
+        tree.depthTraversal();
+        System.out.println();
+
+        System.out.printf("deleted - %s, size = %d%n", tree.removeAll(Arrays.asList(9, 7, 5, 7, 6)), tree.size());
+        tree.depthTraversal();
     }
 }
