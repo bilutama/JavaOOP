@@ -1,9 +1,9 @@
 package ru.academits.biluta.tree;
 
 public class TreeNode<T extends Comparable<T>> {
+    private final T data;
     private TreeNode<T> left;
     private TreeNode<T> right;
-    private final T data;
 
     public TreeNode(T data) {
         this.data = data;

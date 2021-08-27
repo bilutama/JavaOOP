@@ -68,25 +68,29 @@ public class Tree<T extends Comparable<T>> {
         }
 
         // deleting head
+        /*
         if (value.equals(head.getData())) {
             //TODO: delete head
             return false;
         }
+         */
 
         TreeNode<T> node = head;
-        TreeNode<T> nodeParent = null;
-        boolean isNodeLeftChild = false;
+        TreeNode<T> parentNode = null;
+        // Flag to mark relationship between node and its parentNode
+        boolean isLeftChild = false;
+
 
         // finding a node
         while (!value.equals(node.getData())) {
-            nodeParent = node;
+            parentNode = node;
 
             if (value.compareTo(node.getData()) < 0) {
                 node = node.getLeft();
-                isNodeLeftChild = true;
+                isLeftChild = true;
             } else {
                 node = node.getRight();
-                isNodeLeftChild = false;
+                isLeftChild = false;
             }
 
             if (node == null) {
@@ -94,23 +98,31 @@ public class Tree<T extends Comparable<T>> {
             }
         }
 
+        // Selecting deleting algorithm depending on children count
+
+
         if (node.getLeft() == null) {
             if (node.getRight() == null) {
                 // node has no leaves
-                if (isNodeLeftChild) {
-                    nodeParent.setLeft(null);
+                if (node == head) {
+                    head = null;
+                    return true;
+                }
+
+                if (isLeftChild) {
+                    parentNode.setLeft(null);
                 } else {
-                    nodeParent.setRight(null);
+                    parentNode.setRight(null);
                 }
 
                 return true;
             }
 
             // node has right leaf
-            if (isNodeLeftChild) {
-                nodeParent.setLeft(node.getRight());
+            if (isLeftChild) {
+                parentNode.setLeft(node.getRight());
             } else {
-                nodeParent.setRight(node.getRight());
+                parentNode.setRight(node.getRight());
             }
 
             return true;
@@ -119,10 +131,10 @@ public class Tree<T extends Comparable<T>> {
         // has left leaf
         if (node.getRight() == null) {
             // has left leaf
-            if (isNodeLeftChild) {
-                nodeParent.setLeft(node.getLeft());
+            if (isLeftChild) {
+                parentNode.setLeft(node.getLeft());
             } else {
-                nodeParent.setRight(node.getLeft());
+                parentNode.setRight(node.getLeft());
             }
         }
 
@@ -130,6 +142,20 @@ public class Tree<T extends Comparable<T>> {
         // TODO: delete when has both leaves
 
         return true;
+    }
+
+    private TreeNode<T> leftmostNode(TreeNode<T> subtreeRoot) {
+        if (subtreeRoot == null) {
+            return null;
+        }
+
+        TreeNode<T> node = subtreeRoot;
+
+        while (node.getLeft() != null) {
+            node = node.getLeft();
+        }
+
+        return node;
     }
 
     public int size() {
