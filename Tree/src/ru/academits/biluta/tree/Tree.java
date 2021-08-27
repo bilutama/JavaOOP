@@ -17,8 +17,8 @@ public class Tree<T extends Comparable<T>> {
         TreeNode<T> currentNode = head;
 
         while (true) {
-            // new item less than current node
-            if (currentNode.getData().compareTo(value) > 0) {
+            // value less than the current node
+            if (value.compareTo(currentNode.getData()) < 0) {
                 if (currentNode.getLeft() != null) {
                     currentNode = currentNode.getLeft();
                     continue;
@@ -29,7 +29,7 @@ public class Tree<T extends Comparable<T>> {
                 }
             }
 
-            // new item not less than current node
+            // value not less than the current node
             if (currentNode.getRight() != null) {
                 currentNode = currentNode.getRight();
             } else {
@@ -48,7 +48,7 @@ public class Tree<T extends Comparable<T>> {
         TreeNode<T> node = head;
 
         while (!node.getData().equals(value)) {
-            if (node.getData().compareTo(value) > 0) {
+            if (value.compareTo(node.getData()) < 0) {
                 node = node.getLeft();
             } else {
                 node = node.getRight();
@@ -62,44 +62,74 @@ public class Tree<T extends Comparable<T>> {
         return node;
     }
 
-    public boolean remove(T data) {
+    public boolean remove(T value) {
         if (size == 0) {
             return false;
         }
 
-
-        TreeNode<T> node = find(data);
-
-        //node is not found
-        if (node == null) {
+        // deleting head
+        if (value.equals(head.getData())) {
+            //TODO: delete head
             return false;
         }
 
-        // node is a head
-        if (node == head) {
-            //TODO: delete head
+        TreeNode<T> node = head;
+        TreeNode<T> nodeParent = null;
+        boolean isNodeLeftChild = false;
+
+        // finding a node
+        while (!value.equals(node.getData())) {
+            nodeParent = node;
+
+            if (value.compareTo(node.getData()) < 0) {
+                node = node.getLeft();
+                isNodeLeftChild = true;
+            } else {
+                node = node.getRight();
+                isNodeLeftChild = false;
+            }
+
+            if (node == null) {
+                return false;
+            }
         }
 
-        // node is not a head
+        if (node.getLeft() == null) {
+            if (node.getRight() == null) {
+                // node has no leaves
+                if (isNodeLeftChild) {
+                    nodeParent.setLeft(null);
+                } else {
+                    nodeParent.setRight(null);
+                }
+
+                return true;
+            }
+
+            // node has right leaf
+            if (isNodeLeftChild) {
+                nodeParent.setLeft(node.getRight());
+            } else {
+                nodeParent.setRight(node.getRight());
+            }
+
+            return true;
+        }
+
+        // has left leaf
         if (node.getRight() == null) {
-            if (node.getLeft() == null) {
-                // Node has no children
-                node = null;
+            // has left leaf
+            if (isNodeLeftChild) {
+                nodeParent.setLeft(node.getLeft());
             } else {
-                // Node has left child
-
-            }
-        } else {
-            if (node.getLeft() == null) {
-                // Node has right child
-
-            } else {
-                // Node has both children
-                //TODO: implement deletion with both children
+                nodeParent.setRight(node.getLeft());
             }
         }
 
-        return false;
+        // has both leaves
+        // TODO: delete when has both leaves
+
+        return true;
     }
 
     public int size() {

@@ -9,7 +9,11 @@ public class Main {
         tree.add(12);
         tree.add(6);
         tree.add(9);
+        tree.add(5);
+
+        tree.remove(5);
 
         System.out.println(tree.find(8));
+
     }
 }
