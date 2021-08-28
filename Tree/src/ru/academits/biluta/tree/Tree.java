@@ -29,28 +29,28 @@ public class Tree<T extends Comparable<T>> {
             root = new TreeNode<>(value);
         }
 
-        TreeNode<T> currentNode = root;
+        TreeNode<T> node = root;
 
         while (true) {
-            // value less than the current node
-            if (value.compareTo(currentNode.getData()) < 0) {
-                if (currentNode.getLeft() != null) {
-                    currentNode = currentNode.getLeft();
-                    continue;
-                } else {
-                    currentNode.addLeft(value);
+            // OPTION 1 - value less than the current node
+            if (value.compareTo(node.getData()) < 0) {
+                if (node.getLeft() == null) {
+                    node.addLeft(value);
                     ++size;
                     return;
+                } else {
+                    node = node.getLeft();
+                    continue;
                 }
             }
 
-            // value not less than the current node
-            if (currentNode.getRight() != null) {
-                currentNode = currentNode.getRight();
-            } else {
-                currentNode.addRight(value);
+            // OPTION 2 - value not less than the current node
+            if (node.getRight() == null) {
+                node.addRight(value);
                 ++size;
                 return;
+            } else {
+                node = node.getRight();
             }
         }
     }
@@ -94,9 +94,9 @@ public class Tree<T extends Comparable<T>> {
 
         TreeNode<T> node = root;
         TreeNode<T> parentNode = null;
-        // Relationship flag between node and its parentNode
-        boolean isLeftChild = false;
 
+        // Relationship flag between a node and its parent
+        boolean isLeftChild = false;
 
         // Find a node
         while (!value.equals(node.getData())) {
@@ -116,7 +116,7 @@ public class Tree<T extends Comparable<T>> {
             }
         }
 
-        // Selecting deleting algorithm depending on children count
+        // Delete algorithm depends on children count
         // OPTION 1 - node has no children
         if (node.getLeft() == null && node.getRight() == null) {
             // deleting the root
@@ -178,14 +178,15 @@ public class Tree<T extends Comparable<T>> {
         TreeNode<T> leftmostParent = node;
         TreeNode<T> leftmostNode = node.getRight();
 
-        // Find the leftmost node in the right subtree
+        // Find the leftmost node and its parent in the right subtree
         while (leftmostNode.getLeft() != null) {
             leftmostParent = leftmostNode;
             leftmostNode = leftmostNode.getLeft();
         }
 
+        //Check if the leftmost node has right child
         if (leftmostNode.getRight() == null) {
-            // Check if right subtree has one node, i.e. the leftmost node is the right child of its parent
+            // Check if right subtree has one node, i.e. the leftmost node is the _right_ child of its parent
             if (node.getRight() == leftmostNode) {
                 leftmostParent.setRight(null);
             } else {
@@ -197,7 +198,7 @@ public class Tree<T extends Comparable<T>> {
             leftmostNode.setRight(null);
         }
 
-        // Relink node's children to the new node
+        // Link children
         leftmostNode.setLeft(node.getLeft());
         leftmostNode.setRight(node.getRight());
 
@@ -226,22 +227,22 @@ public class Tree<T extends Comparable<T>> {
     public void breadthTraversal() {
         Queue<TreeNode<T>> queue = new LinkedList<>();
 
-        TreeNode<T> currentNode = root;
-        queue.add(currentNode);
+        TreeNode<T> node = root;
+        queue.add(node);
 
         while (!queue.isEmpty()) {
-            currentNode = queue.poll();
+            node = queue.poll();
 
-            // Do some work with a node from queue
-            System.out.print(currentNode.getData());
+            // Do some work with a node from the queue
+            System.out.print(node.getData());
             System.out.print(" ");
 
-            if (currentNode.getLeft() != null) {
-                queue.add(currentNode.getLeft());
+            if (node.getLeft() != null) {
+                queue.add(node.getLeft());
             }
 
-            if (currentNode.getRight() != null) {
-                queue.add(currentNode.getRight());
+            if (node.getRight() != null) {
+                queue.add(node.getRight());
             }
         }
     }
@@ -249,22 +250,22 @@ public class Tree<T extends Comparable<T>> {
     public void depthTraversal() {
         Stack<TreeNode<T>> stack = new Stack<>();
 
-        TreeNode<T> currentNode = root;
-        stack.add(currentNode);
+        TreeNode<T> node = root;
+        stack.add(node);
 
         while (!stack.isEmpty()) {
-            currentNode = stack.pop();
+            node = stack.pop();
 
-            // Do some work with a node from stack
-            System.out.print(currentNode.getData());
+            // Do some work with a node from the stack
+            System.out.print(node.getData());
             System.out.print(" ");
 
-            if (currentNode.getRight() != null) {
-                stack.add(currentNode.getRight());
+            if (node.getRight() != null) {
+                stack.add(node.getRight());
             }
 
-            if (currentNode.getLeft() != null) {
-                stack.add(currentNode.getLeft());
+            if (node.getLeft() != null) {
+                stack.add(node.getLeft());
             }
         }
     }
