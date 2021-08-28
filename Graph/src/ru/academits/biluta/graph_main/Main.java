@@ -16,6 +16,13 @@ public class Main {
         };
 
         Graph<Integer> graph = new Graph<>(graphElements, connections);
+
+        System.out.println("Graph breath traversal:");
         graph.breadthTraversal();
+        System.out.println();
+
+        System.out.println("Graph depth traversal:");
+        graph.depthTraversal();
+        System.out.println();
     }
 }

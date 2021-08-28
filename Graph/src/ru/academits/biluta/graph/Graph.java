@@ -2,6 +2,7 @@ package ru.academits.biluta.graph;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 public class Graph<T> {
     private final T[] graphNodes;
@@ -44,6 +45,37 @@ public class Graph<T> {
                             isVisited[j] = true;
                         }
                     }
+
+                    ++i;
+                }
+            }
+        }
+    }
+
+    public void depthTraversal() {
+        Stack<T> stack = new Stack<>();
+        boolean[] isVisited = new boolean[graphNodes.length];
+
+        for (int i = 0; i < graphNodes.length; ++i) {
+            if (!isVisited[i]) {
+                stack.add(graphNodes[i]);
+                isVisited[i] = true;
+
+                while (!stack.isEmpty()) {
+                    T node = stack.pop();
+
+                    // Do some work with a node from the queue
+                    System.out.print(node);
+                    System.out.print(" ");
+
+                    for (int j = isVisited.length - 1; j >= 0; --j) {
+                        if (connectivityMatrix[j][i] != 0 && !isVisited[j]) {
+                            stack.add(graphNodes[j]);
+                            isVisited[j] = true;
+                        }
+                    }
+
+                    ++i;
                 }
             }
         }
