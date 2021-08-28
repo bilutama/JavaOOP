@@ -186,7 +186,8 @@ public class Tree<T extends Comparable<T>> {
 
         //Check if the leftmost node has right child
         if (leftmostNode.getRight() == null) {
-            // Check if right subtree has one node, i.e. the leftmost node is the _right_ child of its parent
+            // Check if right subtree has one node, i.e. if the leftmost node is the _right_ child of its parent
+            // and delete it from the tree
             if (node.getRight() == leftmostNode) {
                 leftmostParent.setRight(null);
             } else {
