@@ -15,7 +15,7 @@ public class Graph<T> {
         }
 
         if (graphNodes.length != connectivityMatrix.length) {
-            throw new IllegalArgumentException(String.format("Nodes count %d not equals to connectivity matrix dimension %d.",
+            throw new IllegalArgumentException(String.format("Nodes count %d is not equal to connectivity matrix dimension %d.",
                     graphNodes.length, connectivityMatrix.length));
         }
 
@@ -24,60 +24,86 @@ public class Graph<T> {
     }
 
     public void breadthTraversal() {
-        Queue<T> queue = new LinkedList<>();
+        Queue<T> nodesQueue = new LinkedList<>();
+        Queue<Integer> indexQueue = new LinkedList<>();
         boolean[] isVisited = new boolean[graphNodes.length];
 
+        int branchCounter = 1;
+
         for (int i = 0; i < graphNodes.length; ++i) {
-            if (!isVisited[i]) {
-                queue.add(graphNodes[i]);
-                isVisited[i] = true;
+            if (isVisited[i]) {
+                continue;
+            }
 
-                while (!queue.isEmpty()) {
-                    T node = queue.poll();
+            System.out.printf("Branch %d: ", branchCounter);
 
-                    // Do some work with a node from the queue
-                    System.out.print(node);
-                    System.out.print(" ");
+            nodesQueue.add(graphNodes[i]);
+            indexQueue.add(i);
+            isVisited[i] = true;
 
-                    for (int j = 0; j < isVisited.length; ++j) {
-                        if (connectivityMatrix[j][i] != 0 && !isVisited[j]) {
-                            queue.add(graphNodes[j]);
-                            isVisited[j] = true;
-                        }
+            while (!nodesQueue.isEmpty()) {
+                T node = nodesQueue.remove();
+
+                // Do some work with a node from the queue
+                System.out.print(node);
+                System.out.print(" ");
+
+                Integer nodeIndex = indexQueue.remove();
+
+                // put all unvisited children of the node to the queue by index
+                for (int j = 0; j < isVisited.length; ++j) {
+                    if (connectivityMatrix[nodeIndex][j] != 0 && !isVisited[j]) {
+                        nodesQueue.add(graphNodes[j]);
+                        indexQueue.add(j);
+                        isVisited[j] = true;
                     }
-
-                    ++i;
                 }
             }
+
+            ++branchCounter;
+            System.out.println();
         }
     }
 
     public void depthTraversal() {
-        Stack<T> stack = new Stack<>();
+        Stack<T> nodesStack = new Stack<>();
+        Stack<Integer> indexStack = new Stack<>();
         boolean[] isVisited = new boolean[graphNodes.length];
 
+        int branchCounter = 1;
+
         for (int i = 0; i < graphNodes.length; ++i) {
-            if (!isVisited[i]) {
-                stack.add(graphNodes[i]);
-                isVisited[i] = true;
+            if (isVisited[i]) {
+                continue;
+            }
 
-                while (!stack.isEmpty()) {
-                    T node = stack.pop();
+            System.out.printf("Branch %d: ", branchCounter);
 
-                    // Do some work with a node from the queue
-                    System.out.print(node);
-                    System.out.print(" ");
+            nodesStack.add(graphNodes[i]);
+            indexStack.add(i);
+            isVisited[i] = true;
 
-                    for (int j = isVisited.length - 1; j >= 0; --j) {
-                        if (connectivityMatrix[j][i] != 0 && !isVisited[j]) {
-                            stack.add(graphNodes[j]);
-                            isVisited[j] = true;
-                        }
+            while (!nodesStack.isEmpty()) {
+                T node = nodesStack.pop();
+
+                // Do some work with a node from the stack
+                System.out.print(node);
+                System.out.print(" ");
+
+                Integer nodeIndex = indexStack.pop();
+
+                // put all unvisited children of the node to the stack in reverse order by index
+                for (int j = isVisited.length - 1; j >= 0; --j) {
+                    if (connectivityMatrix[nodeIndex][j] != 0 && !isVisited[j]) {
+                        nodesStack.add(graphNodes[j]);
+                        indexStack.add(j);
+                        isVisited[j] = true;
                     }
-
-                    ++i;
                 }
             }
+
+            ++branchCounter;
+            System.out.println();
         }
     }
 }

@@ -4,18 +4,24 @@ import ru.academits.biluta.graph.Graph;
 
 public class Main {
     public static void main(String[] args) {
-        Integer[] graphElements = {1, 2, 3, 4, 5, 6, 7};
+        String[] graphElements = {"A", "B", "E", "D", "C", "F", "G", "H", "J", "X", "Y", "Z", "K"};
         int[][] connections = {
-                {0, 1, 0, 0, 0, 0, 0},
-                {1, 0, 1, 1, 1, 1, 0},
-                {0, 1, 0, 0, 0, 0, 1},
-                {0, 1, 0, 0, 0, 0, 0},
-                {0, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0, 0, 1, 0, 1},
-                {0, 0, 1, 0, 0, 1, 0}
+                {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0},
+                {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         };
 
-        Graph<Integer> graph = new Graph<>(graphElements, connections);
+        Graph<String> graph = new Graph<>(graphElements, connections);
 
         System.out.println("Graph breath traversal:");
         graph.breadthTraversal();
