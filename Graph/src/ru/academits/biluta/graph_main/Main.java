@@ -30,5 +30,37 @@ public class Main {
         System.out.println("Graph depth traversal:");
         graph.depthTraversal();
         System.out.println();
+
+        /* BST as a graph
+               8
+             /   \
+            5     9
+           / \     \
+          4  6     11
+              \    / \
+               7  10  15
+        */
+        Integer[] nodesInt = {8, 5, 9, 4, 6, 11, 7, 10, 15};
+        int[][] connectionsInt = {
+                {0, 1, 1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 1, 1, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 1, 0, 0, 0},
+                {0, 1, 0, 0, 0, 0, 0, 0, 0},
+                {0, 1, 0, 0, 0, 0, 1, 0, 0},
+                {0, 0, 1, 0, 0, 0, 0, 1, 1},
+                {0, 0, 0, 0, 1, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 1, 0, 0, 0}
+        };
+
+        Graph<Integer> graphInt = new Graph<>(nodesInt, connectionsInt);
+
+        System.out.println("Graph breath traversal:");
+        graphInt.breadthTraversal();
+        System.out.println();
+
+        System.out.println("Graph depth traversal:");
+        graphInt.depthTraversal();
+        System.out.println();
     }
 }
