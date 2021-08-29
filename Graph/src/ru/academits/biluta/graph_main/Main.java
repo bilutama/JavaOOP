@@ -23,7 +23,7 @@ public class Main {
 
         Graph<String> graph = new Graph<>(nodes, connections);
 
-        System.out.println("Graph breath traversal:");
+        System.out.println("Graph breadth traversal:");
         graph.breadthTraversal();
         System.out.println();
 
@@ -55,7 +55,7 @@ public class Main {
 
         Graph<Integer> graphInt = new Graph<>(nodesInt, connectionsInt);
 
-        System.out.println("Graph breath traversal:");
+        System.out.println("Graph breadth traversal:");
         graphInt.breadthTraversal();
         System.out.println();
 
