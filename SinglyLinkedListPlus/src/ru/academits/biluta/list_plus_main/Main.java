@@ -22,8 +22,8 @@ public class Main {
         System.out.println("Original list:");
         System.out.println(list1);
 
-        System.out.println("List copy:");
         SinglyLinkedListPlus<String> list2 = list1.deepCopy();
+        System.out.println("List copy:");
         System.out.println(list2);
     }
 }
