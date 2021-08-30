@@ -29,4 +29,12 @@ class ListPlusItem<T> {
     public void setNext(ListPlusItem<T> next) {
         this.next = next;
     }
+
+    public void setRandomItem(ListPlusItem<T> randomItem) {
+        this.randomItem = randomItem;
+    }
+
+    public ListPlusItem<T> getRandomItem() {
+        return randomItem;
+    }
 }

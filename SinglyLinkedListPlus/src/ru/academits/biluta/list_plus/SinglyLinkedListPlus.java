@@ -26,6 +26,8 @@ public class SinglyLinkedListPlus<T> {
 
         for (ListPlusItem<T> iterator = head; iterator != null; iterator = iterator.getNext()) {
             stringBuilder.append(iterator.getData());
+            stringBuilder.append(":");
+            stringBuilder.append(iterator.getRandomItem() == null ? null : iterator.getRandomItem().getData());
             stringBuilder.append(", ");
         }
 
@@ -59,6 +61,18 @@ public class SinglyLinkedListPlus<T> {
         }
 
         return iterator;
+    }
+
+    public void setLinkToRandomItem(int indexSource, int indexDestination) {
+        if (indexSource < 0 || indexSource >= length) {
+            throw new IndexOutOfBoundsException(String.format("Source index %d is out of bounds 0..%d", indexSource, length - 1));
+        }
+
+        if (indexDestination < 0 || indexDestination >= length) {
+            throw new IndexOutOfBoundsException(String.format("Destination index %d is out of bounds 0..%d", indexDestination, length - 1));
+        }
+
+        getItemByIndex(indexSource).setRandomItem(getItemByIndex(indexDestination));
     }
 
     private void checkIndex(int index, boolean isUpperBoundIncluded) {
@@ -195,5 +209,64 @@ public class SinglyLinkedListPlus<T> {
 
         listCopy.length = length;
         return listCopy;
+    }
+
+    public SinglyLinkedListPlus<T> deepCopy() {
+        SinglyLinkedListPlus<T> listDeepCopy = new SinglyLinkedListPlus<>();
+
+        if (length == 0) {
+            return listDeepCopy;
+        }
+
+        ListPlusItem<T> current = head;
+        ListPlusItem<T> next = current;
+
+        // Copy items and insert them after originals
+        while (next != null) {
+            next = current.getNext();
+
+            ListPlusItem<T> copy = new ListPlusItem<>(current.getData());
+            copy.setNext(next);
+            current.setNext(copy);
+
+            current = current.getNext().getNext();
+        }
+
+        //Set copies for random links
+        ListPlusItem<T> original = head;
+        ListPlusItem<T> copy;
+
+        while (original != null) {
+            copy = original.getNext();
+
+            ListPlusItem<T> randomItem = original.getRandomItem();
+
+            if (randomItem != null) {
+                copy.setRandomItem(randomItem.getNext());
+            }
+
+            original = original.getNext().getNext();
+        }
+
+        original = head;
+        copy = original.getNext();
+
+        listDeepCopy.head = copy;
+
+        while (original != null) {
+            original.setNext(copy.getNext());
+
+            if (original.getNext() != null) {
+                copy.setNext(original.getNext().getNext());
+            } else {
+                copy.setNext(null);
+            }
+
+            original = original.getNext();
+            copy = copy.getNext();
+        }
+
+        listDeepCopy.length = length;
+        return listDeepCopy;
     }
 }
