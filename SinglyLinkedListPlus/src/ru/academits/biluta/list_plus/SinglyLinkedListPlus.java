@@ -64,8 +64,8 @@ public class SinglyLinkedListPlus<T> {
     }
 
     public void setLinkToItem(int indexSource, int indexDestination) {
-        checkIndex(indexSource,false);
-        checkIndex(indexDestination,false);
+        checkIndex(indexSource, false);
+        checkIndex(indexDestination, false);
 
         getItemByIndex(indexSource).setRandomItem(getItemByIndex(indexDestination));
     }
