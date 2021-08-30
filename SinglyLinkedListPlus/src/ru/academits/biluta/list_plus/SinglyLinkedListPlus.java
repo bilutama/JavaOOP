@@ -248,6 +248,7 @@ public class SinglyLinkedListPlus<T> {
             original = original.getNext().getNext();
         }
 
+        // Split original and copy
         original = head;
         copy = original.getNext();
 
