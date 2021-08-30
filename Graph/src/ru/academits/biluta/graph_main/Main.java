@@ -24,11 +24,11 @@ public class Main {
         Graph<String> graph = new Graph<>(nodes, connections);
 
         System.out.println("Graph breadth traversal:");
-        graph.breadthTraversal();
+        graph.traverseBreadthFirst();
         System.out.println();
 
         System.out.println("Graph depth traversal:");
-        graph.depthTraversal();
+        graph.traverseDepthFirst();
         System.out.println();
 
         /* BST as a graph
@@ -56,11 +56,11 @@ public class Main {
         Graph<Integer> graphInt = new Graph<>(nodesInt, connectionsInt);
 
         System.out.println("Graph breadth traversal:");
-        graphInt.breadthTraversal();
+        graphInt.traverseBreadthFirst();
         System.out.println();
 
         System.out.println("Graph depth traversal:");
-        graphInt.depthTraversal();
+        graphInt.traverseDepthFirst();
         System.out.println();
     }
 }

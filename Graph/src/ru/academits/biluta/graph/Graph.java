@@ -23,7 +23,7 @@ public class Graph<T> {
         this.connectivityMatrix = connectivityMatrix;
     }
 
-    public void breadthTraversal() {
+    public void traverseBreadthFirst() {
         Queue<T> nodesQueue = new LinkedList<>();
         Queue<Integer> indexQueue = new LinkedList<>();
         boolean[] isVisited = new boolean[nodes.length];
@@ -65,7 +65,7 @@ public class Graph<T> {
         }
     }
 
-    public void depthTraversal() {
+    public void traverseDepthFirst() {
         Stack<T> nodesStack = new Stack<>();
         Stack<Integer> indexStack = new Stack<>();
         boolean[] isVisited = new boolean[nodes.length];
