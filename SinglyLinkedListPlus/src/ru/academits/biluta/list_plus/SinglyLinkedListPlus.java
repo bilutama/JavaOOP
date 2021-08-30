@@ -64,13 +64,8 @@ public class SinglyLinkedListPlus<T> {
     }
 
     public void setLinkToItem(int indexSource, int indexDestination) {
-        if (indexSource < 0 || indexSource >= length) {
-            throw new IndexOutOfBoundsException(String.format("Source index %d is out of bounds 0..%d", indexSource, length - 1));
-        }
-
-        if (indexDestination < 0 || indexDestination >= length) {
-            throw new IndexOutOfBoundsException(String.format("Destination index %d is out of bounds 0..%d", indexDestination, length - 1));
-        }
+        checkIndex(indexSource,false);
+        checkIndex(indexDestination,false);
 
         getItemByIndex(indexSource).setRandomItem(getItemByIndex(indexDestination));
     }
