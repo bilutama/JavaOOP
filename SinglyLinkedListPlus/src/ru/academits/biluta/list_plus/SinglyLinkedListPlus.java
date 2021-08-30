@@ -232,7 +232,7 @@ public class SinglyLinkedListPlus<T> {
             current = current.getNext().getNext();
         }
 
-        //Set copies for random links
+        //Set links for item copies
         ListPlusItem<T> original = head;
         ListPlusItem<T> copy;
 
@@ -248,7 +248,7 @@ public class SinglyLinkedListPlus<T> {
             original = original.getNext().getNext();
         }
 
-        // Split original and copy
+        // Split original list and its copy
         original = head;
         copy = original.getNext();
 

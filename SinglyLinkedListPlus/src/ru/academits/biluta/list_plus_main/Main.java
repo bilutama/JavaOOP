@@ -12,14 +12,17 @@ public class Main {
         list1.insertFirst("B");
         list1.insertFirst("A");
 
+        //set links
         list1.setLinkToRandomItem(0, 6);
         list1.setLinkToRandomItem(2, 2);
         list1.setLinkToRandomItem(3, 2);
         list1.setLinkToRandomItem(4, 2);
         list1.setLinkToRandomItem(5, 4);
 
+        System.out.println("Original list:");
         System.out.println(list1);
 
+        System.out.println("List copy:");
         SinglyLinkedListPlus<String> list2 = list1.deepCopy();
         System.out.println(list2);
     }
