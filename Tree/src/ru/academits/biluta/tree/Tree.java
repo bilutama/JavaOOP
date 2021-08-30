@@ -203,7 +203,7 @@ public class Tree<T extends Comparable<T>> {
         leftmostNode.setLeft(node.getLeft());
         leftmostNode.setRight(node.getRight());
 
-        // Delete the root, i.e. replace root with the leftmost node
+        // Delete the root, i.e. replace it with the leftmost node
         if (parentNode == null) {
             root = leftmostNode;
             --size;
@@ -225,7 +225,7 @@ public class Tree<T extends Comparable<T>> {
         return size;
     }
 
-    public void breadthTraversal() {
+    public void traverseBreadthFirst() {
         Queue<TreeNode<T>> queue = new LinkedList<>();
 
         TreeNode<T> node = root;
@@ -248,7 +248,7 @@ public class Tree<T extends Comparable<T>> {
         }
     }
 
-    public void depthTraversal() {
+    public void traverseDepthFirst() {
         Stack<TreeNode<T>> stack = new Stack<>();
 
         TreeNode<T> node = root;
@@ -271,16 +271,16 @@ public class Tree<T extends Comparable<T>> {
         }
     }
 
-    public void depthTraversalRecursively(TreeNode<T> subtreeRoot) {
+    public void traverseDepthFirstRecursively(TreeNode<T> subtreeRoot) {
         System.out.print(subtreeRoot.getData());
         System.out.print(" ");
 
         if (subtreeRoot.getLeft() != null) {
-            depthTraversalRecursively(subtreeRoot.getLeft());
+            traverseDepthFirstRecursively(subtreeRoot.getLeft());
         }
 
         if (subtreeRoot.getRight() != null) {
-            depthTraversalRecursively(subtreeRoot.getRight());
+            traverseDepthFirstRecursively(subtreeRoot.getRight());
         }
     }
 }

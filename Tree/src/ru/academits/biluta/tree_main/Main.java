@@ -13,24 +13,24 @@ public class Main {
         System.out.println();
 
         System.out.println("Tree breadth traversal:");
-        tree.breadthTraversal();
+        tree.traverseBreadthFirst();
         System.out.println();
 
         System.out.println("Tree depth traversal:");
-        tree.depthTraversal();
+        tree.traverseDepthFirst();
         System.out.println();
 
         System.out.println("Tree depth recursive traversal:");
-        tree.depthTraversalRecursively(tree.getRoot());
+        tree.traverseDepthFirstRecursively(tree.getRoot());
         System.out.println();
 
         System.out.println();
 
         System.out.printf("deleted - %s, size = %d%n", tree.remove(12), tree.size());
-        tree.depthTraversal();
+        tree.traverseDepthFirst();
         System.out.println();
 
         System.out.printf("deleted - %s, size = %d%n", tree.removeAll(Arrays.asList(9, 7, 5, 7, 6)), tree.size());
-        tree.depthTraversal();
+        tree.traverseDepthFirst();
     }
 }
