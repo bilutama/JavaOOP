@@ -63,7 +63,7 @@ public class SinglyLinkedListPlus<T> {
         return iterator;
     }
 
-    public void setLinkToRandomItem(int indexSource, int indexDestination) {
+    public void setLinkToItem(int indexSource, int indexDestination) {
         if (indexSource < 0 || indexSource >= length) {
             throw new IndexOutOfBoundsException(String.format("Source index %d is out of bounds 0..%d", indexSource, length - 1));
         }
