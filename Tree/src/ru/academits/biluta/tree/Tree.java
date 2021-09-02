@@ -1,41 +1,51 @@
 package ru.academits.biluta.tree;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
-public class Tree<T extends Comparable<T>> {
+public class Tree<T> {
     private int size;
     private TreeNode<T> root;
+    Comparator<T> comparator;
 
-    public Tree(T data) {
-        root = new TreeNode<>(data);
-        size = 1;
+    public Tree(Comparator<T> comparator) {
+        this.comparator = comparator;
     }
 
-    public TreeNode<T> getRoot() {
-        return root;
+    public Tree() {
     }
 
-    public void addAll(Collection<T> collection) {
+    private int compare(T data1, T data2){
+        int compared;
+
+        if (comparator == null) {
+            compared = ((Comparable<T>) data1).compareTo(data2);
+        } else {
+            compared = comparator.compare(data1, data2);
+        }
+
+        return compared;
+    }
+
+    public void addAll(Collection<? extends T> collection) {
         for (T element : collection) {
             add(element);
         }
     }
 
-    public void add(T value) {
+    public void add(T data) {
         if (size == 0) {
-            root = new TreeNode<>(value);
+            root = new TreeNode<>(data);
+            ++size;
+            return;
         }
 
         TreeNode<T> node = root;
 
         while (true) {
-            // OPTION 1 - value less than the current node
-            if (value.compareTo(node.getData()) < 0) {
+            // OPTION 1 - data less than the current node
+            if (compare(data, node.getData()) < 0) { //TODO
                 if (node.getLeft() == null) {
-                    node.addLeft(value);
+                    node.addLeft(data);
                     ++size;
                     return;
                 } else {
@@ -44,9 +54,9 @@ public class Tree<T extends Comparable<T>> {
                 }
             }
 
-            // OPTION 2 - value not less than the current node
+            // OPTION 2 - data not less than the current node
             if (node.getRight() == null) {
-                node.addRight(value);
+                node.addRight(data);
                 ++size;
                 return;
             } else {
@@ -55,15 +65,18 @@ public class Tree<T extends Comparable<T>> {
         }
     }
 
-    public boolean find(T value) {
+    public boolean find(T data) {
         if (size == 0) {
             return false;
         }
 
         TreeNode<T> node = root;
 
-        while (!node.getData().equals(value)) {
-            if (value.compareTo(node.getData()) < 0) {
+        // TODO: get rid of equals
+        int comparedElements = compare(data, node.getData());
+
+        while (comparedElements != 0) {
+            if (comparedElements < 0) { //TODO
                 node = node.getLeft();
             } else {
                 node = node.getRight();
@@ -72,6 +85,8 @@ public class Tree<T extends Comparable<T>> {
             if (node == null) {
                 return false;
             }
+
+            comparedElements = compare(data, node.getData());
         }
 
         return true;
@@ -87,7 +102,7 @@ public class Tree<T extends Comparable<T>> {
         return size != initialSize;
     }
 
-    public boolean remove(T value) {
+    public boolean remove(T data) {
         if (size == 0) {
             return false;
         }
@@ -99,10 +114,10 @@ public class Tree<T extends Comparable<T>> {
         boolean isLeftChild = false;
 
         // Find a node
-        while (!value.equals(node.getData())) {
+        while (compare(data, node.getData()) != 0) {
             parentNode = node;
 
-            if (value.compareTo(node.getData()) < 0) {
+            if (compare(data, node.getData()) < 0) { //TODO
                 node = node.getLeft();
                 isLeftChild = true;
             } else {
@@ -271,7 +286,7 @@ public class Tree<T extends Comparable<T>> {
         }
     }
 
-    public void traverseDepthFirstRecursively(TreeNode<T> subtreeRoot) {
+    /*public void traverseDepthFirstRecursively(TreeNode<T> subtreeRoot) {
         System.out.print(subtreeRoot.getData());
         System.out.print(" ");
 
@@ -282,5 +297,5 @@ public class Tree<T extends Comparable<T>> {
         if (subtreeRoot.getRight() != null) {
             traverseDepthFirstRecursively(subtreeRoot.getRight());
         }
-    }
+    }*/
 }

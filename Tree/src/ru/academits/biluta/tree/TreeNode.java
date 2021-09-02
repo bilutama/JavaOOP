@@ -1,6 +1,6 @@
 package ru.academits.biluta.tree;
 
-public class TreeNode<T extends Comparable<T>> {
+class TreeNode<T> {
     private final T data;
     private TreeNode<T> left;
     private TreeNode<T> right;
@@ -22,7 +22,7 @@ public class TreeNode<T extends Comparable<T>> {
     }
 
     public void addLeft(T data) {
-        this.left = new TreeNode<>(data);
+        left = new TreeNode<>(data);
     }
 
     public TreeNode<T> getRight() {
@@ -30,7 +30,7 @@ public class TreeNode<T extends Comparable<T>> {
     }
 
     public void addRight(T data) {
-        this.right = new TreeNode<>(data);
+        right = new TreeNode<>(data);
     }
 
     public void setRight(TreeNode<T> right) {
