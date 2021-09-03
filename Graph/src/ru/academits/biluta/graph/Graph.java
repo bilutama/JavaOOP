@@ -44,7 +44,7 @@ public class Graph<T> {
             while (!nodesQueue.isEmpty()) {
                 T node = nodesQueue.remove();
 
-                // Do some work with a node from the queue
+                // Handle the node from the queue
                 handler.accept(node);
 
                 Integer nodeIndex = indexQueue.remove();
