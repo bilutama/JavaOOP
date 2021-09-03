@@ -1,8 +1,8 @@
 package ru.academits.biluta.people;
 
 public class Person {
-    String name;
-    Integer age;
+    private String name;
+    private Integer age;
 
     public Person(String name, int age) {
         this.name = name;

@@ -1,8 +1,8 @@
 package ru.academits.biluta.people;
 
 public class Student extends Person {
-    String institution;
-    int scholarship;
+    private String institution;
+    private int scholarship;
 
     public Student(String name, int age, String institution, int scholarship) {
         super(name, age);

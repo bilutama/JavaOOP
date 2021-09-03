@@ -1,8 +1,8 @@
 package ru.academits.biluta.people;
 
 public class Worker extends Person {
-    String employer;
-    int salary;
+    private String employer;
+    private int salary;
 
     public Worker(String name, int age, String employer, int salary) {
         super(name, age);
