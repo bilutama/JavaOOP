@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 public class Tree<T> {
     private int size;
     private TreeNode<T> root;
-    Comparator<T> comparator;
+    private Comparator<T> comparator;
 
     public Tree(Comparator<T> comparator) {
         this.comparator = comparator;
