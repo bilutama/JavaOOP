@@ -78,8 +78,8 @@ public class Graph<T> {
 
             System.out.printf("Branch %d: ", branchCounter);
 
-            nodesStack.addLast(nodes[i]);
-            indexStack.addLast(i);
+            nodesStack.addFirst(nodes[i]);
+            indexStack.addFirst(i);
             isVisited[i] = true;
 
             while (!nodesStack.isEmpty()) {
@@ -88,7 +88,7 @@ public class Graph<T> {
                 // Do some work with a node from the stack
                 handler.accept(node);
 
-                Integer nodeIndex = indexStack.pollLast();
+                Integer nodeIndex = indexStack.removeFirst();
 
                 // put all unvisited children of the node to the stack in reverse order by index
                 for (int j = isVisited.length - 1; j >= 0; --j) {
