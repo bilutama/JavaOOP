@@ -286,20 +286,20 @@ public class Tree<T> {
         LinkedList<TreeNode<T>> stack = new LinkedList<>();
 
         TreeNode<T> node = root;
-        stack.addLast(node);
+        stack.addFirst(node);
 
         while (!stack.isEmpty()) {
-            node = stack.pollLast();
+            node = stack.removeFirst();
 
             // Do some work with a node from the stack
             handler.accept(node.getData());
 
             if (node.getRight() != null) {
-                stack.addLast(node.getRight());
+                stack.addFirst(node.getRight());
             }
 
             if (node.getLeft() != null) {
-                stack.addLast(node.getLeft());
+                stack.addFirst(node.getLeft());
             }
         }
     }
