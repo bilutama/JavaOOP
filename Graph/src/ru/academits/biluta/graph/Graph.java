@@ -2,7 +2,7 @@ package ru.academits.biluta.graph;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Stack;
+import java.util.function.Consumer;
 
 public class Graph<T> {
     private final T[] nodes;
@@ -23,7 +23,7 @@ public class Graph<T> {
         this.connectivityMatrix = connectivityMatrix;
     }
 
-    public void traverseBreadthFirst() {
+    public void traverseBreadthFirst(Consumer<T> handler) {
         Queue<T> nodesQueue = new LinkedList<>();
         Queue<Integer> indexQueue = new LinkedList<>();
         boolean[] isVisited = new boolean[nodes.length];
@@ -45,8 +45,7 @@ public class Graph<T> {
                 T node = nodesQueue.remove();
 
                 // Do some work with a node from the queue
-                System.out.print(node);
-                System.out.print(" ");
+                handler.accept(node);
 
                 Integer nodeIndex = indexQueue.remove();
 
@@ -65,9 +64,9 @@ public class Graph<T> {
         }
     }
 
-    public void traverseDepthFirst() {
-        Stack<T> nodesStack = new Stack<>();
-        Stack<Integer> indexStack = new Stack<>();
+    public void traverseDepthFirst(Consumer<T> handler) {
+        LinkedList<T> nodesStack = new LinkedList<>();
+        LinkedList<Integer> indexStack = new LinkedList<>();
         boolean[] isVisited = new boolean[nodes.length];
 
         int branchCounter = 1;
@@ -79,24 +78,23 @@ public class Graph<T> {
 
             System.out.printf("Branch %d: ", branchCounter);
 
-            nodesStack.add(nodes[i]);
-            indexStack.add(i);
+            nodesStack.addLast(nodes[i]);
+            indexStack.addLast(i);
             isVisited[i] = true;
 
             while (!nodesStack.isEmpty()) {
-                T node = nodesStack.pop();
+                T node = nodesStack.pollLast();
 
                 // Do some work with a node from the stack
-                System.out.print(node);
-                System.out.print(" ");
+                handler.accept(node);
 
-                Integer nodeIndex = indexStack.pop();
+                Integer nodeIndex = indexStack.pollLast();
 
                 // put all unvisited children of the node to the stack in reverse order by index
                 for (int j = isVisited.length - 1; j >= 0; --j) {
                     if (connectivityMatrix[nodeIndex][j] != 0 && !isVisited[j]) {
-                        nodesStack.add(nodes[j]);
-                        indexStack.add(j);
+                        nodesStack.addLast(nodes[j]);
+                        indexStack.addLast(j);
                         isVisited[j] = true;
                     }
                 }

@@ -1,6 +1,9 @@
 package ru.academits.biluta.graph_main;
 
+import ru.academits.biluta.data_handler.DataHandler;
 import ru.academits.biluta.graph.Graph;
+
+import java.util.function.Consumer;
 
 public class Main {
     public static void main(String[] args) {
@@ -22,13 +25,14 @@ public class Main {
         };
 
         Graph<String> graph = new Graph<>(nodes, connections);
+        Consumer<String> stringHandler = new DataHandler<>();
 
         System.out.println("Graph breadth traversal:");
-        graph.traverseBreadthFirst();
+        graph.traverseBreadthFirst(stringHandler);
         System.out.println();
 
         System.out.println("Graph depth traversal:");
-        graph.traverseDepthFirst();
+        graph.traverseDepthFirst(stringHandler);
         System.out.println();
 
         /* BST as a graph
@@ -54,13 +58,14 @@ public class Main {
         };
 
         Graph<Integer> graphInt = new Graph<>(nodesInt, connectionsInt);
+        Consumer<Integer> intHandler = new DataHandler<>();
 
         System.out.println("Graph breadth traversal:");
-        graphInt.traverseBreadthFirst();
+        graphInt.traverseBreadthFirst(intHandler);
         System.out.println();
 
         System.out.println("Graph depth traversal:");
-        graphInt.traverseDepthFirst();
+        graphInt.traverseDepthFirst(intHandler);
         System.out.println();
     }
 }
