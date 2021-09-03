@@ -9,7 +9,7 @@ public class Graph<T> {
     private final int[][] connectivityMatrix;
 
     public Graph(T[] nodes, int[][] connectivityMatrix) {
-        if (connectivityMatrix.length != connectivityMatrix[0].length) {
+        if (connectivityMatrix.length > 0 && connectivityMatrix.length != connectivityMatrix[0].length) {
             throw new IllegalArgumentException(String.format("Connectivity matrix has different width %d and height %d",
                     connectivityMatrix[0].length, connectivityMatrix.length));
         }
@@ -24,6 +24,10 @@ public class Graph<T> {
     }
 
     public void traverseBreadthFirst(Consumer<T> handler) {
+        if (nodes.length == 0) {
+            return;
+        }
+
         Queue<T> nodesQueue = new LinkedList<>();
         Queue<Integer> indexQueue = new LinkedList<>();
         boolean[] isVisited = new boolean[nodes.length];
@@ -65,6 +69,10 @@ public class Graph<T> {
     }
 
     public void traverseDepthFirst(Consumer<T> handler) {
+        if (nodes.length == 0) {
+            return;
+        }
+
         LinkedList<T> nodesStack = new LinkedList<>();
         LinkedList<Integer> indexStack = new LinkedList<>();
         boolean[] isVisited = new boolean[nodes.length];

@@ -7,8 +7,8 @@ import java.util.function.Consumer;
 
 public class Main {
     public static void main(String[] args) {
-        String[] nodes = {"A", "B", "E", "D", "C", "F", "G", "H", "J", "X", "Y", "Z", "K"};
-        int[][] connections = {
+        String[] nodes1 = {"A", "B", "E", "D", "C", "F", "G", "H", "J", "X", "Y", "Z", "K"};
+        int[][] connectivityMatrix1 = {
                 {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -24,7 +24,7 @@ public class Main {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         };
 
-        Graph<String> graph = new Graph<>(nodes, connections);
+        Graph<String> graph = new Graph<>(nodes1, connectivityMatrix1);
         Consumer<String> stringHandler = new DataHandler<>();
 
         System.out.println("Graph breadth traversal:");
@@ -44,8 +44,8 @@ public class Main {
               \    / \
                7  10  15
         */
-        Integer[] nodesInt = {8, 5, 9, 4, 6, 11, 7, 10, 15};
-        int[][] connectionsInt = {
+        Integer[] nodes2 = {8, 5, 9, 4, 6, 11, 7, 10, 15};
+        int[][] connectivityMatrix2 = {
                 {0, 1, 1, 0, 0, 0, 0, 0, 0},
                 {1, 0, 0, 1, 1, 0, 0, 0, 0},
                 {1, 0, 0, 0, 0, 1, 0, 0, 0},
@@ -57,7 +57,7 @@ public class Main {
                 {0, 0, 0, 0, 0, 1, 0, 0, 0}
         };
 
-        Graph<Integer> graphInt = new Graph<>(nodesInt, connectionsInt);
+        Graph<Integer> graphInt = new Graph<>(nodes2, connectivityMatrix2);
         Consumer<Integer> intHandler = new DataHandler<>();
 
         System.out.println("Graph breadth traversal:");
@@ -67,5 +67,12 @@ public class Main {
         System.out.println("Graph depth traversal:");
         graphInt.traverseDepthFirst(intHandler);
         System.out.println();
+
+        Integer[] nodes3 = new Integer[0];
+        int[][] connectivityMatrix3 = {};
+
+        Graph<Integer> emptyGraph = new Graph<>(nodes3, connectivityMatrix3);
+        emptyGraph.traverseBreadthFirst(intHandler);
+        emptyGraph.traverseDepthFirst(intHandler);
     }
 }
