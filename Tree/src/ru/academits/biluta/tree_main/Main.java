@@ -13,7 +13,8 @@ import java.util.function.Consumer;
 public class Main {
     public static void main(String[] args) {
         Tree<Integer> tree = new Tree<>();
-        tree.addAll(Arrays.asList(10, 7, 12, 6, 9, 5, 11, 13, null));
+        tree.add(10);
+        tree.addAll(Arrays.asList(7, 12, 6, 9, 5, 11, 13, null));
 
         System.out.printf("Item is found - %s%n", tree.find(12));
         System.out.println();
