@@ -1,10 +1,10 @@
 package ru.academits.biluta.tree_main;
 
 import ru.academits.biluta.data_handler.DataHandler;
-import ru.academits.biluta.person.Person;
-import ru.academits.biluta.person.PersonComparator;
-import ru.academits.biluta.person.Student;
-import ru.academits.biluta.person.Worker;
+import ru.academits.biluta.people.Person;
+import ru.academits.biluta.people.PersonsComparator;
+import ru.academits.biluta.people.Student;
+import ru.academits.biluta.people.Worker;
 import ru.academits.biluta.tree.Tree;
 
 import java.util.Arrays;
@@ -18,46 +18,57 @@ public class Main {
         System.out.printf("Item is found - %s%n", tree.find(12));
         System.out.println();
 
-        Consumer<Integer> intConsumer = new DataHandler<>();
+        Consumer<Integer> intHandler = new DataHandler<>();
         System.out.println("Tree breadth traversal:");
-        tree.traverseBreadthFirst(intConsumer);
+        tree.traverseBreadthFirst(intHandler);
         System.out.println();
 
         System.out.println("Tree depth traversal:");
-        tree.traverseDepthFirst(intConsumer);
+        tree.traverseDepthFirst(intHandler);
         System.out.println();
 
         System.out.println("Tree depth recursive traversal:");
-        tree.traverseDepthFirstRecursively(intConsumer);
+        tree.traverseDepthFirstRecursively(intHandler);
         System.out.println();
 
         System.out.println();
 
         System.out.printf("deleted - %s, size = %d%n", tree.remove(12), tree.size());
-        tree.traverseDepthFirst(intConsumer);
+        tree.traverseDepthFirst(intHandler);
         System.out.println();
 
         System.out.printf("deleted - %s, size = %d%n", tree.removeAll(Arrays.asList(9, 7, 5, 7, 6)), tree.size());
-        tree.traverseDepthFirst(intConsumer);
+        tree.traverseDepthFirst(intHandler);
 
         System.out.println();
+        System.out.println();
 
-        Tree<Person> people = new Tree<>(new PersonComparator());
+        Tree<Person> people = new Tree<>(new PersonsComparator());
+        Consumer<Person> personHandler = new DataHandler<>();
+
+        people.traverseBreadthFirst(personHandler);
+        people.traverseDepthFirst(personHandler);
+
         people.add(new Person("John", 20));
         people.add(new Person("Mike", 25));
         people.add(null);
         people.add(new Person("Eva", 19));
         people.add(new Student("Ivan", 17, "NSU", 5));
-        people.add(new Worker("Andrew", 40, "BAM", 25));
-
-        Consumer<Person> personConsumer = new DataHandler<>();
+        people.add(new Worker("Andrew", 40, "Railways", 25));
 
         System.out.println("Tree breadth traversal:");
-        people.traverseBreadthFirst(personConsumer);
-
+        people.traverseBreadthFirst(personHandler);
         System.out.println();
 
         System.out.println("Tree depth traversal:");
-        people.traverseDepthFirst(personConsumer);
+        people.traverseDepthFirst(personHandler);
+        System.out.println();
+
+        people.remove(new Person("Eva", 19));
+        people.remove(new Student("Ivan", 17, "NSU", 5));
+        people.remove(null);
+
+        System.out.println("Tree breadth traversal after removing some nodes:");
+        people.traverseBreadthFirst(personHandler);
     }
 }

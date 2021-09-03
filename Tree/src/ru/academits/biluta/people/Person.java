@@ -1,4 +1,4 @@
-package ru.academits.biluta.person;
+package ru.academits.biluta.people;
 
 public class Person {
     String name;

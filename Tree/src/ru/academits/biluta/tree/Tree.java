@@ -1,6 +1,9 @@
 package ru.academits.biluta.tree;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.function.Consumer;
 
 public class Tree<T> {
@@ -17,7 +20,7 @@ public class Tree<T> {
 
     private int compareData(T data1, T data2) {
         if (data1 == null && data2 == null) {
-            return 1;
+            return 0;
         } else if (data1 == null) {
             return -1;
         } else if (data2 == null) {
@@ -25,6 +28,7 @@ public class Tree<T> {
         }
 
         if (comparator == null) {
+            //noinspection unchecked
             return ((Comparable<T>) data1).compareTo(data2);
         }
 
