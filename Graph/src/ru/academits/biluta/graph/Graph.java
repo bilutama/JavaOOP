@@ -91,7 +91,7 @@ public class Graph<T> {
             isVisited[i] = true;
 
             while (!nodesStack.isEmpty()) {
-                T node = nodesStack.pollLast();
+                T node = nodesStack.removeFirst();
 
                 // Do some work with a node from the stack
                 handler.accept(node);
@@ -101,8 +101,8 @@ public class Graph<T> {
                 // put all unvisited children of the node to the stack in reverse order by index
                 for (int j = isVisited.length - 1; j >= 0; --j) {
                     if (connectivityMatrix[nodeIndex][j] != 0 && !isVisited[j]) {
-                        nodesStack.addLast(nodes[j]);
-                        indexStack.addLast(j);
+                        nodesStack.addFirst(nodes[j]);
+                        indexStack.addFirst(j);
                         isVisited[j] = true;
                     }
                 }
