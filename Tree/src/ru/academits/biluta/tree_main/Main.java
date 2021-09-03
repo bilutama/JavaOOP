@@ -42,7 +42,7 @@ public class Main {
 
         System.out.println();
 
-        Tree<Person> people = new Tree<Person>(new PersonComparator());
+        Tree<Person> people = new Tree<>(new PersonComparator());
         people.add(new Person("John", 20));
         people.add(new Person("Mike", 25));
         people.add(null);
