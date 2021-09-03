@@ -309,6 +309,10 @@ public class Tree<T> {
     }
 
     private void visitNodeRecursively(TreeNode<T> node, Consumer<T> handler) {
+        if (node == null) {
+            return;
+        }
+
         handler.accept(node.getData());
 
         if (node.getLeft() != null) {

@@ -49,6 +49,7 @@ public class Main {
 
         people.traverseBreadthFirst(personHandler);
         people.traverseDepthFirst(personHandler);
+        people.traverseDepthFirstRecursively(personHandler);
 
         people.add(new Person("John", 20));
         people.add(new Person("Mike", 25));
