@@ -252,7 +252,7 @@ public class Tree<T> {
         return size;
     }
 
-    public void traverseBreadthFirst(Consumer<T> consumer) {
+    public void traverseBreadthFirst(Consumer<T> handler) {
         if (root == null) {
             return;
         }
@@ -266,7 +266,7 @@ public class Tree<T> {
             node = queue.poll();
 
             // Handle node from the queue
-            consumer.accept(node.getData());
+            handler.accept(node.getData());
 
             if (node.getLeft() != null) {
                 queue.add(node.getLeft());
@@ -278,7 +278,7 @@ public class Tree<T> {
         }
     }
 
-    public void traverseDepthFirst(Consumer<T> consumer) {
+    public void traverseDepthFirst(Consumer<T> handler) {
         if (root == null) {
             return;
         }
@@ -292,7 +292,7 @@ public class Tree<T> {
             node = stack.pollLast();
 
             // Do some work with a node from the stack
-            consumer.accept(node.getData());
+            handler.accept(node.getData());
 
             if (node.getRight() != null) {
                 stack.addLast(node.getRight());
@@ -304,19 +304,19 @@ public class Tree<T> {
         }
     }
 
-    public void traverseDepthFirstRecursively(Consumer<T> consumer) {
-        visitNodeRecursively(root, consumer);
+    public void traverseDepthFirstRecursively(Consumer<T> handler) {
+        visitNodeRecursively(root, handler);
     }
 
-    private void visitNodeRecursively(TreeNode<T> node, Consumer<T> consumer) {
-        consumer.accept(node.getData());
+    private void visitNodeRecursively(TreeNode<T> node, Consumer<T> handler) {
+        handler.accept(node.getData());
 
         if (node.getLeft() != null) {
-            visitNodeRecursively(node.getLeft(), consumer);
+            visitNodeRecursively(node.getLeft(), handler);
         }
 
         if (node.getRight() != null) {
-            visitNodeRecursively(node.getRight(), consumer);
+            visitNodeRecursively(node.getRight(), handler);
         }
     }
 }
