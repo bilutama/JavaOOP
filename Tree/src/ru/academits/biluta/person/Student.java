@@ -1,0 +1,21 @@
+package ru.academits.biluta.person;
+
+public class Student extends Person {
+    String institution;
+    int scholarship;
+
+    public Student(String name, int age, String institution, int scholarship) {
+        super(name, age);
+
+        this.institution = institution;
+        this.scholarship = scholarship;
+    }
+
+    public String getInstitution() {
+        return institution;
+    }
+
+    public int getScholarship() {
+        return scholarship;
+    }
+}

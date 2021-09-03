@@ -1,6 +1,7 @@
 package ru.academits.biluta.tree;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class Tree<T> {
     private int size;
@@ -14,16 +15,20 @@ public class Tree<T> {
     public Tree() {
     }
 
-    private int compare(T data1, T data2){
-        int compared;
-
-        if (comparator == null) {
-            compared = ((Comparable<T>) data1).compareTo(data2);
-        } else {
-            compared = comparator.compare(data1, data2);
+    private int compareData(T data1, T data2) {
+        if (data1 == null && data2 == null) {
+            return 1;
+        } else if (data1 == null) {
+            return -1;
+        } else if (data2 == null) {
+            return 1;
         }
 
-        return compared;
+        if (comparator == null) {
+            return ((Comparable<T>) data1).compareTo(data2);
+        }
+
+        return comparator.compare(data1, data2);
     }
 
     public void addAll(Collection<? extends T> collection) {
@@ -43,15 +48,16 @@ public class Tree<T> {
 
         while (true) {
             // OPTION 1 - data less than the current node
-            if (compare(data, node.getData()) < 0) { //TODO
+            if (compareData(data, node.getData()) < 0) {
                 if (node.getLeft() == null) {
                     node.addLeft(data);
                     ++size;
                     return;
-                } else {
-                    node = node.getLeft();
-                    continue;
                 }
+
+                node = node.getLeft();
+                continue;
+
             }
 
             // OPTION 2 - data not less than the current node
@@ -59,9 +65,9 @@ public class Tree<T> {
                 node.addRight(data);
                 ++size;
                 return;
-            } else {
-                node = node.getRight();
             }
+
+            node = node.getRight();
         }
     }
 
@@ -71,12 +77,10 @@ public class Tree<T> {
         }
 
         TreeNode<T> node = root;
+        int comparedData = compareData(data, node.getData());
 
-        // TODO: get rid of equals
-        int comparedElements = compare(data, node.getData());
-
-        while (comparedElements != 0) {
-            if (comparedElements < 0) { //TODO
+        while (comparedData != 0) {
+            if (comparedData < 0) {
                 node = node.getLeft();
             } else {
                 node = node.getRight();
@@ -86,13 +90,13 @@ public class Tree<T> {
                 return false;
             }
 
-            comparedElements = compare(data, node.getData());
+            comparedData = compareData(data, node.getData());
         }
 
         return true;
     }
 
-    public boolean removeAll(Collection<T> collection) {
+    public boolean removeAll(Collection<? extends T> collection) {
         int initialSize = size;
 
         for (T element : collection) {
@@ -114,10 +118,12 @@ public class Tree<T> {
         boolean isLeftChild = false;
 
         // Find a node
-        while (compare(data, node.getData()) != 0) {
+        int comparedData = compareData(data, node.getData());
+
+        while (comparedData != 0) {
             parentNode = node;
 
-            if (compare(data, node.getData()) < 0) { //TODO
+            if (comparedData < 0) {
                 node = node.getLeft();
                 isLeftChild = true;
             } else {
@@ -129,6 +135,8 @@ public class Tree<T> {
             if (node == null) {
                 return false;
             }
+
+            comparedData = compareData(data, node.getData());
         }
 
         // Delete algorithm depends on children count
@@ -240,7 +248,11 @@ public class Tree<T> {
         return size;
     }
 
-    public void traverseBreadthFirst() {
+    public void traverseBreadthFirst(Consumer<T> consumer) {
+        if (root == null) {
+            return;
+        }
+
         Queue<TreeNode<T>> queue = new LinkedList<>();
 
         TreeNode<T> node = root;
@@ -249,9 +261,8 @@ public class Tree<T> {
         while (!queue.isEmpty()) {
             node = queue.poll();
 
-            // Do some work with a node from the queue
-            System.out.print(node.getData());
-            System.out.print(" ");
+            // Handle node from the queue
+            consumer.accept(node.getData());
 
             if (node.getLeft() != null) {
                 queue.add(node.getLeft());
@@ -263,39 +274,45 @@ public class Tree<T> {
         }
     }
 
-    public void traverseDepthFirst() {
-        Stack<TreeNode<T>> stack = new Stack<>();
+    public void traverseDepthFirst(Consumer<T> consumer) {
+        if (root == null) {
+            return;
+        }
+
+        LinkedList<TreeNode<T>> stack = new LinkedList<>();
 
         TreeNode<T> node = root;
-        stack.add(node);
+        stack.addLast(node);
 
         while (!stack.isEmpty()) {
-            node = stack.pop();
+            node = stack.pollLast();
 
             // Do some work with a node from the stack
-            System.out.print(node.getData());
-            System.out.print(" ");
+            consumer.accept(node.getData());
 
             if (node.getRight() != null) {
-                stack.add(node.getRight());
+                stack.addLast(node.getRight());
             }
 
             if (node.getLeft() != null) {
-                stack.add(node.getLeft());
+                stack.addLast(node.getLeft());
             }
         }
     }
 
-    /*public void traverseDepthFirstRecursively(TreeNode<T> subtreeRoot) {
-        System.out.print(subtreeRoot.getData());
-        System.out.print(" ");
+    public void traverseDepthFirstRecursively(Consumer<T> consumer) {
+        visitNodeRecursively(root, consumer);
+    }
 
-        if (subtreeRoot.getLeft() != null) {
-            traverseDepthFirstRecursively(subtreeRoot.getLeft());
+    private void visitNodeRecursively(TreeNode<T> node, Consumer<T> consumer) {
+        consumer.accept(node.getData());
+
+        if (node.getLeft() != null) {
+            visitNodeRecursively(node.getLeft(), consumer);
         }
 
-        if (subtreeRoot.getRight() != null) {
-            traverseDepthFirstRecursively(subtreeRoot.getRight());
+        if (node.getRight() != null) {
+            visitNodeRecursively(node.getRight(), consumer);
         }
-    }*/
+    }
 }

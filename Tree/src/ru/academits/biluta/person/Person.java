@@ -1,6 +1,4 @@
-package ru.academits.biluta.tree_main;
-
-import java.util.Comparator;
+package ru.academits.biluta.person;
 
 public class Person {
     String name;
@@ -21,13 +19,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return name + ":" + age;
-    }
-}
-
-class PersonComparator implements Comparator<Person> {
-    @Override
-    public int compare(Person o1, Person o2) {
-        return Integer.compare(o1.age, o2.age);
+        return String.format("%s:%d", name, age);
     }
 }
