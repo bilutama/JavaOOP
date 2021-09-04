@@ -64,10 +64,11 @@ public class Main {
 
         people.add(new Person("John", 20));
         people.add(new Person("Mike", 25));
-        people.add(null);
-        people.add(new Person("Eva", 19));
-        people.add(new Student("Ivan", 17, "NSU", 5));
-        people.add(new Worker("Andrew", 40, "Railways", 25));
+        people.addAll(Arrays.asList(
+                new Person("Eva", 19),
+                new Student("Ivan", 17, "NSU", 5),
+                new Worker("Andrew", 40, "Railways", 25)
+        ));
 
         System.out.println("Tree breadth traversal:");
         people.traverseBreadthFirst(personHandler);
@@ -78,8 +79,10 @@ public class Main {
         System.out.println();
 
         people.remove(new Person("Eva", 19));
-        people.remove(new Student("Ivan", 17, "NSU", 5));
-        people.remove(null);
+        people.removeAll(Arrays.asList(
+                new Student("Ivan", 17, "NSU", 5),
+                null
+        ));
 
         System.out.println("Tree breadth traversal after removing some nodes:");
         people.traverseBreadthFirst(personHandler);
