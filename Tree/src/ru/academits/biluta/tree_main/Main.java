@@ -52,6 +52,17 @@ public class Main {
         people.traverseDepthFirstRecursively(personHandler);
 
         people.add(new Person("John", 20));
+
+        System.out.println("Tree breadth traversal after added a node:");
+        people.traverseBreadthFirst(personHandler);
+        System.out.println();
+
+        people.remove(new Person("John", 20));
+        System.out.println("Tree breadth traversal after removing the single node:");
+        people.traverseBreadthFirst(personHandler);
+        System.out.println();
+
+        people.add(new Person("John", 20));
         people.add(new Person("Mike", 25));
         people.add(null);
         people.add(new Person("Eva", 19));
