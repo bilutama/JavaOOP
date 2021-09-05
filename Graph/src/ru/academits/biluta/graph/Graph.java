@@ -1,5 +1,6 @@
 package ru.academits.biluta.graph;
 
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
@@ -32,14 +33,10 @@ public class Graph<T> {
         Queue<Integer> indexQueue = new LinkedList<>();
         boolean[] isVisited = new boolean[nodes.length];
 
-        int branchCounter = 1;
-
         for (int i = 0; i < nodes.length; ++i) {
             if (isVisited[i]) {
                 continue;
             }
-
-            System.out.printf("Branch %d: ", branchCounter);
 
             nodesQueue.add(nodes[i]);
             indexQueue.add(i);
@@ -63,7 +60,6 @@ public class Graph<T> {
                 }
             }
 
-            ++branchCounter;
             System.out.println();
         }
     }
@@ -73,18 +69,14 @@ public class Graph<T> {
             return;
         }
 
-        LinkedList<T> nodesStack = new LinkedList<>();
-        LinkedList<Integer> indexStack = new LinkedList<>();
+        Deque<T> nodesStack = new LinkedList<>();
+        Deque<Integer> indexStack = new LinkedList<>();
         boolean[] isVisited = new boolean[nodes.length];
-
-        int branchCounter = 1;
 
         for (int i = 0; i < nodes.length; ++i) {
             if (isVisited[i]) {
                 continue;
             }
-
-            System.out.printf("Branch %d: ", branchCounter);
 
             nodesStack.addFirst(nodes[i]);
             indexStack.addFirst(i);
@@ -108,7 +100,6 @@ public class Graph<T> {
                 }
             }
 
-            ++branchCounter;
             System.out.println();
         }
     }
