@@ -104,18 +104,17 @@ public class Graph<T> {
                 continue;
             }
 
-            // Visit node recursively
-            visitNodeRecursively(handler, i, isVisited);
+            visitNodeRecursively(i, isVisited, handler);
         }
     }
 
-    private void visitNodeRecursively(Consumer<T> handler, int nodeIndex, boolean[] isVisited) {
+    private void visitNodeRecursively(int nodeIndex, boolean[] isVisited, Consumer<T> handler) {
         isVisited[nodeIndex] = true;
         handler.accept(nodes[nodeIndex]);
 
         for (int i = 0; i < isVisited.length; ++i) {
             if (connectivityMatrix[nodeIndex][i] != 0 && !isVisited[i]) {
-                visitNodeRecursively(handler, i, isVisited);
+                visitNodeRecursively(i, isVisited, handler);
             }
         }
     }
