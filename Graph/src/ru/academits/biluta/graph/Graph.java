@@ -13,8 +13,8 @@ public class Graph<T> {
         if (connectivityMatrix.length > 0) {
             for (int[] matrixRow : connectivityMatrix) {
                 if (matrixRow.length != connectivityMatrix.length) {
-                    throw new IllegalArgumentException(String.format("Connectivity matrix has different width %d and height %d",
-                            connectivityMatrix[0].length, connectivityMatrix.length));
+                    throw new IllegalArgumentException(String.format("At least one row in the connectivity matrix has length %d that differs from matrix height %d",
+                            matrixRow.length, connectivityMatrix.length));
                 }
             }
         }
