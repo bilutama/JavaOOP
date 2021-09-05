@@ -35,6 +35,10 @@ public class Main {
         graph.traverseDepthFirst(stringHandler);
         System.out.println();
 
+        System.out.println("Graph depth traversal recursively:");
+        graph.traverseDepthFirstRecursively(stringHandler);
+        System.out.println();
+
         /* BST as a graph
                8
              /   \
@@ -66,6 +70,10 @@ public class Main {
 
         System.out.println("Graph depth traversal:");
         graphInt.traverseDepthFirst(intHandler);
+        System.out.println();
+
+        System.out.println("Graph depth traversal recursively:");
+        graphInt.traverseDepthFirstRecursively(intHandler);
         System.out.println();
 
         Integer[] nodes3 = new Integer[0];

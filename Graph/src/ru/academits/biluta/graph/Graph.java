@@ -55,8 +55,6 @@ public class Graph<T> {
                     }
                 }
             }
-
-            System.out.println();
         }
     }
 
@@ -91,8 +89,6 @@ public class Graph<T> {
                     }
                 }
             }
-
-            System.out.println();
         }
     }
 
@@ -101,6 +97,26 @@ public class Graph<T> {
             return;
         }
 
+        boolean[] isVisited = new boolean[nodes.length];
 
+        for (int i = 0; i < nodes.length; ++i) {
+            if (isVisited[i]) {
+                continue;
+            }
+
+            // Visit node recursively
+            visitNodeRecursively(handler, i, isVisited);
+        }
+    }
+
+    private void visitNodeRecursively(Consumer<T> handler, int nodeIndex, boolean[] isVisited) {
+        isVisited[nodeIndex] = true;
+        handler.accept(nodes[nodeIndex]);
+
+        for (int i = 0; i < isVisited.length; ++i) {
+            if (connectivityMatrix[nodeIndex][i] != 0 && !isVisited[i]) {
+                visitNodeRecursively(handler, i, isVisited);
+            }
+        }
     }
 }
