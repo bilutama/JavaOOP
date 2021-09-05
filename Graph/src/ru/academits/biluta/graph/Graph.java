@@ -10,9 +10,13 @@ public class Graph<T> {
     private final int[][] connectivityMatrix;
 
     public Graph(T[] nodes, int[][] connectivityMatrix) {
-        if (connectivityMatrix.length > 0 && connectivityMatrix.length != connectivityMatrix[0].length) {
-            throw new IllegalArgumentException(String.format("Connectivity matrix has different width %d and height %d",
-                    connectivityMatrix[0].length, connectivityMatrix.length));
+        if (connectivityMatrix.length > 0) {
+            for (int[] matrixRow : connectivityMatrix) {
+                if (matrixRow.length != connectivityMatrix.length) {
+                    throw new IllegalArgumentException(String.format("Connectivity matrix has different width %d and height %d",
+                            connectivityMatrix[0].length, connectivityMatrix.length));
+                }
+            }
         }
 
         if (nodes.length != connectivityMatrix.length) {
@@ -47,7 +51,7 @@ public class Graph<T> {
                 // Handle a node from a queue
                 handler.accept(node);
 
-                // put all unvisited children of the node to the queue by index
+                // Put all indices of unvisited children to the queue
                 for (int j = 0; j < isVisited.length; ++j) {
                     if (connectivityMatrix[nodeIndex][j] != 0 && !isVisited[j]) {
                         indexQueue.add(j);
@@ -78,10 +82,10 @@ public class Graph<T> {
                 Integer nodeIndex = indexStack.removeFirst();
                 T node = nodes[nodeIndex];
 
-                // Do some work with a node from the stack
+                // Handle a node from the stack
                 handler.accept(node);
 
-                // put all unvisited children of the node to the stack in reverse order by index
+                // Put indices of all unvisited children to the stack in reverse order
                 for (int j = isVisited.length - 1; j >= 0; --j) {
                     if (connectivityMatrix[nodeIndex][j] != 0 && !isVisited[j]) {
                         indexStack.addFirst(j);
