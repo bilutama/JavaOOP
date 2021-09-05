@@ -1,9 +1,6 @@
 package ru.academits.biluta.tree;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class Tree<T> {
@@ -283,7 +280,7 @@ public class Tree<T> {
             return;
         }
 
-        LinkedList<TreeNode<T>> stack = new LinkedList<>();
+        Deque<TreeNode<T>> stack = new LinkedList<>();
 
         TreeNode<T> node = root;
         stack.addFirst(node);
