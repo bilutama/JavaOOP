@@ -6,26 +6,39 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Temperature converter");
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception ignored) {
+            }
 
-            JPanel panel = new JPanel(new GridBagLayout());
-            GridBagConstraints constraints = new GridBagConstraints();
+            JFrame frame = new JFrame("Temperature converter");
 
             // set a FRAME
             frame.setSize(320, 200);
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+            // set PANEL
+            JPanel panel = new JPanel();
+            frame.add(panel);
+            panel.setLayout(new GridBagLayout());
+            GridBagConstraints c = new GridBagConstraints();
+
             // set and enable a LABEL
             JLabel label = new JLabel("Choose input and output scales and enter a value:");
             label.setVerticalTextPosition(JLabel.TOP);
             label.setHorizontalTextPosition(JLabel.CENTER);
-            frame.add(label);
+//            c.ipadx = 30;
+//            c.ipady = 20;
+            panel.add(label, c);
 
             // set and enable a BUTTON
             JButton convertButton = new JButton("Convert");
-            frame.add(convertButton, BorderLayout.SOUTH);
+            panel.add(convertButton, c);
 
+            convertButton.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Button was clicked"));
+
+            panel.setVisible(true);
             frame.setVisible(true); // показать фрейм
         });
     }
