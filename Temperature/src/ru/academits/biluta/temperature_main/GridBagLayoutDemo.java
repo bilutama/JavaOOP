@@ -1,6 +1,5 @@
 package ru.academits.biluta.temperature_main;
 
-
 import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.JFrame;

@@ -12,6 +12,7 @@ public class Main {
             }
 
             JFrame frame = new JFrame("Temperature converter");
+            frame.setIconImage(new ImageIcon("Temperature/src/ru/academits/biluta/icons/TC.png").getImage());
 
             // set a FRAME
             frame.setSize(320, 200);
@@ -28,8 +29,10 @@ public class Main {
             JLabel label = new JLabel("Choose input and output scales and enter a value:");
             label.setVerticalTextPosition(JLabel.TOP);
             label.setHorizontalTextPosition(JLabel.CENTER);
-//            c.ipadx = 30;
-//            c.ipady = 20;
+            c.gridx = 5;
+            c.gridy = 5;
+            c.ipadx = 5;
+            c.ipady = 5;
             panel.add(label, c);
 
             // set and enable a BUTTON
