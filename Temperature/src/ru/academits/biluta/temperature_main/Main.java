@@ -2,6 +2,7 @@ package ru.academits.biluta.temperature_main;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
@@ -26,8 +27,10 @@ public class Main {
             JPanel panel = new JPanel();
             frame.add(panel);
             panel.setLayout(new GridBagLayout());
-            Border border = new LineBorder(Color.GRAY, 1, false);
-            panel.setBorder(border);
+//            Border border = new LineBorder(Color.GRAY, 1, false);
+//            panel.setBorder(border);
+            //panel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+            //panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
             GridBagConstraints c = new GridBagConstraints();
 
             //panel.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
@@ -52,6 +55,7 @@ public class Main {
             listModel.addElement("Fahrenheits");
 
             JList<String> unitsFrom = new JList<>(listModel);
+            unitsFrom.setSelectedIndex(0);
 
             c = new GridBagConstraints();
             c.fill = GridBagConstraints.HORIZONTAL;
@@ -80,6 +84,7 @@ public class Main {
             c.gridy = 1;
             c.insets = new Insets(5, 2, 5, 2);
             panel.add(unitsTo, c);
+            unitsTo.setSelectedIndex(0);
 
             // set an input field
             JTextField inputField = new JTextField( 5);
@@ -101,7 +106,7 @@ public class Main {
 
 
             // set an output field
-            JTextField outputField = new JTextField("out",5);
+            JTextField outputField = new JTextField(5);
             outputField.setEditable(false);
             c = new GridBagConstraints();
             c.gridx = 2;

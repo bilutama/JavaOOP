@@ -14,6 +14,6 @@ public class Controller {
 
     public double getTemperature (){
 
-        return
+        return 0.0;
     }
 }
