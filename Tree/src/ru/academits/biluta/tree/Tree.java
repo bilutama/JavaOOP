@@ -19,9 +19,13 @@ public class Tree<T> {
         if (comparator == null) {
             if (data1 == null && data2 == null) {
                 return 0;
-            } else if (data1 == null) {
+            }
+
+            if (data1 == null) {
                 return -1;
-            } else if (data2 == null) {
+            }
+
+            if (data2 == null) {
                 return 1;
             }
 
