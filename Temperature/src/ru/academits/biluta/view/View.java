@@ -42,7 +42,8 @@ public class View {
         c.insets = new Insets(5, 2, 5, 2);
         panel.add(label, c);
 
-        // set LIST units _from_
+        // set LIST units FROM
+        // TODO: set selection model
         DefaultListModel<String> listModel = new DefaultListModel<>();
         listModel.addAll(Model.getScales());
 
@@ -58,6 +59,20 @@ public class View {
         c.insets = new Insets(5, 2, 5, 2);
         panel.add(unitsFrom, c);
 
+        // set LIST units TO
+        // TODO: set selection model
+        JList<String> unitsTo = new JList<>(listModel);
+        unitsTo.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 2;
+        c.gridy = 1;
+        c.insets = new Insets(5, 2, 5, 2);
+
+        panel.add(unitsTo, c);
+        unitsTo.setSelectedIndex(0);
+
         // set BUTTON switch units
         JButton swapUnitsButton = new JButton("<-swap->");
         c = new GridBagConstraints();
@@ -65,30 +80,18 @@ public class View {
         c.gridx = 1;
         c.gridy = 1;
         c.ipadx = 10;
-        //c.weightx = 0.8;
         panel.add(swapUnitsButton, c);
 
-        // set LIST units _to_
-        JList<String> unitsTo = new JList<>(listModel);
-        unitsTo.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-        c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 2;
-        c.gridy = 1;
-        c.insets = new Insets(5, 2, 5, 2);
-        panel.add(unitsTo, c);
-        unitsTo.setSelectedIndex(0);
-
         // set an input field
-        JTextField inputField = new JTextField(5);
-        //inputField.setColumns(5);
+        JTextField inputField = new JTextField(7);
+        inputField.setText("0.0");
         c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 2;
         c.insets = new Insets(10, 2, 10, 2);
         panel.add(inputField, c);
 
-        // set and enable a BUTTON
+        // set CONVERTING BUTTON
         JButton convertButton = new JButton("Convert->");
         c = new GridBagConstraints();
         c.gridx = 1;
@@ -98,7 +101,7 @@ public class View {
         panel.add(convertButton, c);
 
         // set an output field
-        JTextField outputField = new JTextField(5);
+        JTextField outputField = new JTextField(7);
         outputField.setEditable(false);
         c = new GridBagConstraints();
         c.gridx = 2;
@@ -110,6 +113,6 @@ public class View {
         convertButton.addActionListener(controller);
 
         panel.setVisible(true);
-        frame.setVisible(true); // показать фрейм
+        frame.setVisible(true);
     }
 }

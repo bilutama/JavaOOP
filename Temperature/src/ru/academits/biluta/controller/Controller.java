@@ -25,18 +25,21 @@ public class Controller implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         double inputTemperature = 0.0;
+        //inputTextField.setText(String.valueOf(inputTemperature));
 
         try {
             inputTemperature = Double.parseDouble(inputTextField.getText());
-        } catch (NumberFormatException e1) {
+        } catch (NumberFormatException exception1) {
             try {
-                inputTemperature = Double.parseDouble(inputTextField.getText().replace(",","."));
-                inputTextField.setText(String.valueOf(inputTemperature));
+                inputTemperature = Double.parseDouble(inputTextField.getText().replace(",", "."));
             } catch (NumberFormatException ignored) {
+                JOptionPane.showMessageDialog(null, "Check input", "Wrong number format", JOptionPane.ERROR_MESSAGE);
+                return;
             }
         }
+
+        inputTextField.setText(String.valueOf(inputTemperature));
 
         inputUnitsString = inputUnits.getSelectedValue();
         outputUnitsString = outputUnits.getSelectedValue();
