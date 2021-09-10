@@ -16,15 +16,15 @@ public class Tree<T> {
     }
 
     private int compareData(T data1, T data2) {
-        if (data1 == null && data2 == null) {
-            return 0;
-        } else if (data1 == null) {
-            return -1;
-        } else if (data2 == null) {
-            return 1;
-        }
-
         if (comparator == null) {
+            if (data1 == null && data2 == null) {
+                return 0;
+            } else if (data1 == null) {
+                return -1;
+            } else if (data2 == null) {
+                return 1;
+            }
+
             //noinspection unchecked
             return ((Comparable<T>) data1).compareTo(data2);
         }
@@ -58,7 +58,6 @@ public class Tree<T> {
 
                 node = node.getLeft();
                 continue;
-
             }
 
             // OPTION 2 - data not less than the current node
@@ -72,16 +71,16 @@ public class Tree<T> {
         }
     }
 
-    public boolean find(T data) {
+    public boolean contains(T data) {
         if (size == 0) {
             return false;
         }
 
         TreeNode<T> node = root;
-        int comparedData = compareData(data, node.getData());
+        int compareResult = compareData(data, node.getData());
 
-        while (comparedData != 0) {
-            if (comparedData < 0) {
+        while (compareResult != 0) {
+            if (compareResult < 0) {
                 node = node.getLeft();
             } else {
                 node = node.getRight();
@@ -91,7 +90,7 @@ public class Tree<T> {
                 return false;
             }
 
-            comparedData = compareData(data, node.getData());
+            compareResult = compareData(data, node.getData());
         }
 
         return true;
@@ -119,12 +118,12 @@ public class Tree<T> {
         boolean isLeftChild = false;
 
         // Find a node
-        int comparedData = compareData(data, node.getData());
+        int compareResult = compareData(data, node.getData());
 
-        while (comparedData != 0) {
+        while (compareResult != 0) {
             parentNode = node;
 
-            if (comparedData < 0) {
+            if (compareResult < 0) {
                 node = node.getLeft();
                 isLeftChild = true;
             } else {
@@ -137,7 +136,7 @@ public class Tree<T> {
                 return false;
             }
 
-            comparedData = compareData(data, node.getData());
+            compareResult = compareData(data, node.getData());
         }
 
         // Delete algorithm depends on children count

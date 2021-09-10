@@ -16,7 +16,7 @@ public class Main {
         tree.add(10);
         tree.addAll(Arrays.asList(7, 12, 6, 9, 5, 11, 13, null));
 
-        System.out.printf("Item is found - %s%n", tree.find(12));
+        System.out.printf("Item is found - %s%n", tree.contains(12));
         System.out.println();
 
         Consumer<Integer> intHandler = new DataHandler<>();

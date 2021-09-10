@@ -18,8 +18,8 @@ public class View {
         frame.setIconImage(new ImageIcon("Temperature/src/ru/academits/biluta/icons/icon.png").getImage());
 
         // set a FRAME
-        frame.setSize(300, 200);
-        frame.setResizable(false);
+        frame.setSize(310, 210);
+        //frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
