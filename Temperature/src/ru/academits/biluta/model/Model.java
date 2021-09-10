@@ -1,5 +1,6 @@
 package ru.academits.biluta.model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.DoubleFunction;
@@ -68,6 +69,10 @@ public class Model {
                 }
             }
         }
+    }
+
+    public static ArrayList<String> getScales() {
+        return scales;
     }
 
     public static double convert(double value, String direction) {

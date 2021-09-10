@@ -1,14 +1,13 @@
 package ru.academits.biluta.view;
 
 import ru.academits.biluta.controller.Controller;
+import ru.academits.biluta.model.Model;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 
 public class View {
-
-
     public View() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -19,8 +18,8 @@ public class View {
         frame.setIconImage(new ImageIcon("Temperature/src/ru/academits/biluta/icons/icon.png").getImage());
 
         // set a FRAME
-        frame.setSize(300, 170);
-        //frame.setResizable(false);
+        frame.setSize(300, 200);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -28,13 +27,8 @@ public class View {
         JPanel panel = new JPanel();
         frame.add(panel);
         panel.setLayout(new GridBagLayout());
-//            Border border = new LineBorder(Color.GRAY, 1, false);
-//            panel.setBorder(border);
         panel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-        //panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         GridBagConstraints c = new GridBagConstraints();
-
-        //panel.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
         // set and enable a LABEL
         JLabel label = new JLabel("Check scales and enter a value:");
@@ -46,14 +40,11 @@ public class View {
         c.weightx = 0.5;
         c.gridwidth = 3;
         c.insets = new Insets(5, 2, 5, 2);
-        //c.anchor = GridBagConstraints.PAGE_START;
         panel.add(label, c);
 
         // set LIST units _from_
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        listModel.addElement("Kelvin");
-        listModel.addElement("Celsius");
-        listModel.addElement("Fahrenheits");
+        listModel.addAll(Model.getScales());
 
         JList<String> unitsFrom = new JList<>(listModel);
         unitsFrom.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
@@ -80,7 +71,6 @@ public class View {
         // set LIST units _to_
         JList<String> unitsTo = new JList<>(listModel);
         unitsTo.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-        //unitsTo.setSize(50, 20);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 2;
@@ -90,7 +80,7 @@ public class View {
         unitsTo.setSelectedIndex(0);
 
         // set an input field
-        JTextField inputField = new JTextField( 5);
+        JTextField inputField = new JTextField(5);
         //inputField.setColumns(5);
         c = new GridBagConstraints();
         c.gridx = 0;
@@ -121,9 +111,5 @@ public class View {
 
         panel.setVisible(true);
         frame.setVisible(true); // показать фрейм
-    }
-
-    public void setView (){
-
     }
 }
