@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.DoubleFunction;
 
-public class TemperatureConverter {
+public class Model {
     private static final double ABSOLUTE_ZERO_CELSIUS = -273.15;
     private static final double ABSOLUTE_ZERO_FAHRENHEIT = -459.67;
 
@@ -22,11 +22,10 @@ public class TemperatureConverter {
         scales.add("Rankine");
 
         // Add converting functions
-
         converters.put("KelvinToCelsius", t -> t - ABSOLUTE_ZERO_CELSIUS);
         converters.put("CelsiusToKelvin", t -> t + ABSOLUTE_ZERO_CELSIUS);
 
-        // Add Fahrenheit scale
+        // Add Fahrenheit converting functions
         converters.put("FahrenheitToCelsius", t -> (t - 32) / 1.8);
         converters.put("FahrenheitToKelvin", t -> (t - 32) / 1.8 - ABSOLUTE_ZERO_CELSIUS);
 
@@ -72,12 +71,18 @@ public class TemperatureConverter {
     }
 
     public static double convert(double value, String direction) {
-        DoubleFunction<Double> concreteConverter = converters.get(direction);
+        DoubleFunction<Double> converter = converters.get(direction);
 
-        if (concreteConverter == null) {
+        /*System.out.println("Scales available:");
+
+        for (String scale: scales) {
+            System.out.println(scale);
+        }*/
+
+        if (converter == null) {
             throw new IllegalArgumentException(String.format("Invalid argument \"%s\" - no such function", direction));
         }
 
-        return concreteConverter.apply(value);
+        return converter.apply(value);
     }
 }

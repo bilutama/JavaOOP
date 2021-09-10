@@ -1,19 +1,31 @@
 package ru.academits.biluta.controller;
 
-import ru.academits.biluta.model.TemperatureConverter;
-import ru.academits.biluta.view.ConverterWindow;
+import ru.academits.biluta.model.Model;
 
-public class Controller {
-    private TemperatureConverter temperatureConverter;
-    private ConverterWindow converterWindow;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-    public Controller(TemperatureConverter temperatureConverter, ConverterWindow converterWindow) {
-        this.temperatureConverter = temperatureConverter;
-        this.converterWindow = converterWindow;
+public class Controller implements ActionListener {
+    private JTextField inputTextField;
+    private JTextField outputTextField;
+    private JList<String> inputUnits;
+    private JList<String> outputUnits;
+
+    public Controller(JTextField inputTextField, JTextField outputTextField, JList<String> inputUnits, JList<String> outputUnits) {
+        super();
+        this.inputTextField = inputTextField;
+        this.outputTextField = outputTextField;
+        this.inputUnits = inputUnits;
+        this.outputUnits = outputUnits;
     }
 
-    public double getTemperature (){
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        double inputTemperature = Double.parseDouble(inputTextField.getText());
+        String convertingUnits = inputUnits.getSelectedValue() + "To" + outputUnits.getSelectedValue();
 
-        return 0.0;
+        double outputTemperature = Model.convert(inputTemperature, convertingUnits);
+        outputTextField.setText(String.valueOf(outputTemperature));
     }
 }
