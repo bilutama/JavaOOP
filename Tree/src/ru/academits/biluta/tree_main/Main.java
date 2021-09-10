@@ -67,7 +67,8 @@ public class Main {
         people.addAll(Arrays.asList(
                 new Person("Eva", 19),
                 new Student("Ivan", 17, "NSU", 5),
-                new Worker("Andrew", 40, "Railways", 25)
+                new Worker("Andrew", 40, "Railways", 25),
+                null
         ));
 
         System.out.println("Tree breadth traversal:");
