@@ -6,7 +6,7 @@ import java.util.function.DoubleFunction;
 
 public class TemperatureConverter implements Converter {
     private static final double ABSOLUTE_ZERO_CELSIUS = -273.15;
-    private static final double ABSOLUTE_ZERO_FAHRENHEIT = -459.67;
+    //private static final double ABSOLUTE_ZERO_FAHRENHEIT = -459.67;
 
     private static final ArrayList<String> units;
     private static final HashMap<String, DoubleFunction<Double>> converters;
