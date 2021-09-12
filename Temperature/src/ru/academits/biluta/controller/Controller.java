@@ -14,10 +14,13 @@ public class Controller {
         this.view = view;
     }
 
-    public void initController() {
+    public void initializeController() {
         view.getConvertButton().addActionListener(e -> convertValue());
         view.getSwapUnitsButton().addActionListener(e -> swapUnits());
         view.getUnitsListModel().addAll(converter.getUnits());
+
+        view.getUnitsSource().setSelectedIndex(0);
+        view.getUnitsResult().setSelectedIndex(0);
     }
 
     private void convertValue() {

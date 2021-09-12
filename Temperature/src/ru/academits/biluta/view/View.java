@@ -30,8 +30,10 @@ public class View extends JFrame {
         // set FRAME
         frame = new JFrame(header);
         frame.setIconImage(new ImageIcon("Temperature/src/ru/academits/biluta/icons/icon.png").getImage());
+
         Application.getApplication().setDockIconImage(
-                new ImageIcon("Temperature/src/ru/academits/biluta/icons/icon.png").getImage());
+                new ImageIcon("Temperature/src/ru/academits/biluta/icons/thermometer.png").getImage());
+
         frame.setSize(330, 210);
         //frame.setResizable(false);
         frame.setLocationRelativeTo(null);
@@ -66,7 +68,7 @@ public class View extends JFrame {
         c.fill = GridBagConstraints.CENTER;
         c.weightx = 0.5;
         c.gridwidth = 3;
-        c.insets = new Insets(5, 2, 5, 2);
+        c.insets = new Insets(5, 10, 5, 2);
         panel.add(label, c);
 
         unitsSource.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
