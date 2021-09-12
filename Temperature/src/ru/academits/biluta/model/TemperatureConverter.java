@@ -1,39 +1,40 @@
 package ru.academits.biluta.model;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.DoubleFunction;
 
-public class Model {
+public class TemperatureConverter implements Converter {
     private static final double ABSOLUTE_ZERO_CELSIUS = -273.15;
     private static final double ABSOLUTE_ZERO_FAHRENHEIT = -459.67;
 
-    private static final ArrayList<String> scales;
+    private static final ArrayList<String> units;
     private static final HashMap<String, DoubleFunction<Double>> converters;
 
+    private double temperatureResult;
+
     static {
-        scales = new ArrayList<>();
+        units = new ArrayList<>();
         converters = new HashMap<>();
 
-        // Add scales
-        scales.add("Celsius");
-        scales.add("Kelvin");
-        scales.add("Fahrenheit");
-        scales.add("Rankine");
+        // Add units
+        units.add("Celsius");
+        units.add("Kelvin");
+        units.add("Fahrenheit");
+        units.add("Rankine");
 
-        // Add converting functions
+        // Add Celsius and Kelvin
         converters.put("KelvinToCelsius", t -> t - ABSOLUTE_ZERO_CELSIUS);
         converters.put("CelsiusToKelvin", t -> t + ABSOLUTE_ZERO_CELSIUS);
 
-        // Add Fahrenheit converting functions
+        // Add Fahrenheits
         converters.put("FahrenheitToCelsius", t -> (t - 32) / 1.8);
         converters.put("FahrenheitToKelvin", t -> (t - 32) / 1.8 - ABSOLUTE_ZERO_CELSIUS);
 
         converters.put("KelvinToFahrenheit", t -> 1.8 * (t + ABSOLUTE_ZERO_CELSIUS) + 32);
         converters.put("CelsiusToFahrenheit", t -> 1.8 * t + 32);
 
-        // Adding Rankine scale
+        // Add Rankine
         converters.put("KelvinToRankine", t -> 1.8 * t);
         converters.put("CelsiusToRankine", t -> (t - ABSOLUTE_ZERO_CELSIUS) * 1.8);
         converters.put("FahrenheitToRankine", t -> t - ABSOLUTE_ZERO_FAHRENHEIT);
@@ -53,41 +54,40 @@ public class Model {
         double randomTemperatureForModelValidation = 156;
         double epsilon = 1e-5;
 
-        for (int i = 0; i < scales.size(); ++i) {
-            for (int j = 0; j < scales.size(); ++j) {
+        for (int i = 0; i < units.size(); ++i) {
+            for (int j = 0; j < units.size(); ++j) {
                 if (j == i) {
                     continue;
                 }
 
-                String direction = scales.get(i) + "To" + scales.get(j);
-                String reversed = scales.get(j) + "To" + scales.get(i);
+                String direction = units.get(i) + "To" + units.get(j);
+                String reversed = units.get(j) + "To" + units.get(i);
 
                 double tConverted = converters.get(reversed).apply(converters.get(direction).apply(randomTemperatureForModelValidation));
 
                 if (Math.abs(tConverted - randomTemperatureForModelValidation) > epsilon) {
-                    throw new Exception(String.format("Inconsistent conversion formulas between %s and %s", scales.get(i), scales.get(j)));
+                    throw new Exception(String.format("Inconsistent conversion formulas between %s and %s", units.get(i), units.get(j)));
                 }
             }
         }
     }
 
-    public static ArrayList<String> getScales() {
-        return scales;
+    public ArrayList<String> getUnits() {
+        return units;
     }
 
-    public static double convert(double value, String direction) {
+    public double getConvertedValue(double value, String direction) {
+        convert(value, direction);
+        return temperatureResult;
+    }
+
+    private void convert(double value, String direction) {
         DoubleFunction<Double> converter = converters.get(direction);
-
-        /*System.out.println("Scales available:");
-
-        for (String scale: scales) {
-            System.out.println(scale);
-        }*/
 
         if (converter == null) {
             throw new IllegalArgumentException(String.format("Invalid argument \"%s\" - no such function", direction));
         }
 
-        return converter.apply(value);
+        temperatureResult = converter.apply(value);
     }
 }

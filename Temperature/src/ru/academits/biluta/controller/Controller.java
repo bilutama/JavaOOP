@@ -1,56 +1,70 @@
 package ru.academits.biluta.controller;
 
-import ru.academits.biluta.model.Model;
+import ru.academits.biluta.model.Converter;
+import ru.academits.biluta.view.View;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class Controller implements ActionListener {
-    private JTextField inputTextField;
-    private JTextField outputTextField;
-    private JList<String> inputUnits;
-    private JList<String> outputUnits;
+public class Controller {
+    private final Converter converter;
+    private final View view;
 
-    String inputUnitsString;
-    String outputUnitsString;
-
-    public Controller(JTextField inputTextField, JTextField outputTextField, JList<String> inputUnits, JList<String> outputUnits) {
-        super();
-        this.inputTextField = inputTextField;
-        this.outputTextField = outputTextField;
-        this.inputUnits = inputUnits;
-        this.outputUnits = outputUnits;
+    public Controller(Converter converter, View view) {
+        this.converter = converter;
+        this.view = view;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        double inputTemperature = 0.0;
-        //inputTextField.setText(String.valueOf(inputTemperature));
+    public void initController() {
+        view.getConvertButton().addActionListener(e -> convertValue());
+        view.getSwapUnitsButton().addActionListener(e -> swapUnits());
+        view.getUnitsListModel().addAll(converter.getUnits());
+    }
 
-        try {
-            inputTemperature = Double.parseDouble(inputTextField.getText());
-        } catch (NumberFormatException exception1) {
+    private void convertValue() {
+        String inputText = view.getInputField().getText().trim();
+        double inputValue = 0.0;
+
+        if (inputText.equals("")) {
+            view.getInputField().setText(String.valueOf(inputValue));
+        } else {
             try {
-                inputTemperature = Double.parseDouble(inputTextField.getText().replace(",", "."));
-            } catch (NumberFormatException ignored) {
-                JOptionPane.showMessageDialog(null, "Check input", "Wrong number format", JOptionPane.ERROR_MESSAGE);
-                return;
+                inputValue = Double.parseDouble(inputText);
+            } catch (NumberFormatException exception) {
+                try {
+                    inputValue = Double.parseDouble(inputText.replace(",", "."));
+                    view.getInputField().setText(String.valueOf(inputValue));
+                } catch (NumberFormatException ignored) {
+                    showErrorMessage();
+                    return;
+                }
             }
         }
 
-        inputTextField.setText(String.valueOf(inputTemperature));
+        String sourceUnitsString = view.getUnitsSource().getSelectedValue();
+        String resultUnitsString = view.getUnitsResult().getSelectedValue();
 
-        inputUnitsString = inputUnits.getSelectedValue();
-        outputUnitsString = outputUnits.getSelectedValue();
-
-        if (inputUnitsString.equals(outputUnitsString)) {
-            outputTextField.setText(String.valueOf(inputTemperature));
+        if (sourceUnitsString.equals(resultUnitsString)) {
+            view.getResultField().setText(String.valueOf(inputValue));
             return;
         }
 
-        double outputTemperature = Model.convert(inputTemperature, inputUnitsString + "To" + outputUnitsString);
-        outputTemperature = Math.round(outputTemperature * 100) / 100.0;
-        outputTextField.setText(String.valueOf(outputTemperature));
+        double resultValue = converter.getConvertedValue(inputValue, sourceUnitsString + "To" + resultUnitsString);
+        resultValue = Math.round(resultValue * 100) / 100.0;
+        view.getResultField().setText(String.valueOf(resultValue));
+    }
+
+    private void swapUnits() {
+        if (view.getUnitsSource().getSelectedIndex() == view.getUnitsResult().getSelectedIndex()) {
+            return;
+        }
+
+        int tempIndex = view.getUnitsSource().getSelectedIndex();
+        view.getUnitsSource().setSelectedIndex(view.getUnitsResult().getSelectedIndex());
+        view.getUnitsResult().setSelectedIndex(tempIndex);
+        view.getResultField().setText("");
+    }
+
+    private void showErrorMessage(){
+        JOptionPane.showMessageDialog(null, "Check input", "Wrong number format", JOptionPane.ERROR_MESSAGE);
     }
 }
