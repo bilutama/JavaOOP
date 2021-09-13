@@ -4,6 +4,7 @@ import ru.academits.biluta.model.Converter;
 import ru.academits.biluta.view.View;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class Controller {
     private final Converter converter;
@@ -21,6 +22,30 @@ public class Controller {
 
         view.getUnitsSource().setSelectedIndex(0);
         view.getUnitsResult().setSelectedIndex(0);
+    }
+
+    private void checkModelConsistency() {
+        double randomTemperatureToCheckModelConsistency = 156;
+        double epsilon = 1e-5;
+
+        ArrayList<String> units = converter.getUnits();
+
+        for (int i = 0; i < units.size(); ++i) {
+            for (int j = 0; j < units.size(); ++j) {
+                if (j == i) {
+                    continue;
+                }
+
+                String direction = units.get(i) + "To" + units.get(j);
+                String reversed = units.get(j) + "To" + units.get(i);
+
+                double conversionResult = converter.getConvertedValue(converter.getConvertedValue(randomTemperatureToCheckModelConsistency, direction), reversed);
+
+                if (Math.abs(conversionResult - randomTemperatureToCheckModelConsistency) > epsilon) {
+                    showInconsistentConversionFunctionsMessage();
+                }
+            }
+        }
     }
 
     private void convertValue() {
@@ -67,7 +92,11 @@ public class Controller {
         view.getResultField().setText("");
     }
 
-    private void showErrorMessage(){
+    private void showErrorMessage() {
         JOptionPane.showMessageDialog(null, "Check input", "Wrong number format", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void showInconsistentConversionFunctionsMessage() {
+        JOptionPane.showMessageDialog(null, "Warning", "Conversion model is not validated, results may be incorrect.", JOptionPane.ERROR_MESSAGE);
     }
 }

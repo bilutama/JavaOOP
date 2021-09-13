@@ -44,38 +44,7 @@ public class TemperatureConverter implements Converter {
         converters.put("RankineToCelsius", t -> (t - 32 + ABSOLUTE_ZERO_FAHRENHEIT) / 1.8);
         converters.put("RankineToFahrenheit", t -> t + ABSOLUTE_ZERO_FAHRENHEIT);
 */
-        try {
-            checkModelConsistency();
-        } catch (InvalidConversionFunctionsException ex1) {
-            System.out.println(ex1.getMessage());
-            try {
-                throw ex1;
-            } catch (InvalidConversionFunctionsException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private static void checkModelConsistency() throws InvalidConversionFunctionsException {
-        double randomTemperatureToCheckModelConsistency = 156;
-        double epsilon = 1e-5;
-
-        for (int i = 0; i < units.size(); ++i) {
-            for (int j = 0; j < units.size(); ++j) {
-                if (j == i) {
-                    continue;
-                }
-
-                String direction = units.get(i) + "To" + units.get(j);
-                String reversed = units.get(j) + "To" + units.get(i);
-
-                double conversionResult = converters.get(reversed).apply(converters.get(direction).apply(randomTemperatureToCheckModelConsistency));
-
-                if (Math.abs(conversionResult - randomTemperatureToCheckModelConsistency) > epsilon) {
-                    throw new InvalidConversionFunctionsException(String.format("Inconsistent conversion formulas between %s and %s", units.get(i), units.get(j)));
-                }
-            }
-        }
+        //checkModelConsistency();
     }
 
     public ArrayList<String> getUnits() {
