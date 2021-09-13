@@ -6,7 +6,7 @@ import java.util.function.DoubleFunction;
 
 public class TemperatureConverter implements Converter {
     private static final double ABSOLUTE_ZERO_CELSIUS = -273.15;
-    //private static final double ABSOLUTE_ZERO_FAHRENHEIT = -459.67;
+    private static final double ABSOLUTE_ZERO_FAHRENHEIT = -459.67;
 
     private static final ArrayList<String> units;
     private static final HashMap<String, DoubleFunction<Double>> converters;
@@ -21,7 +21,7 @@ public class TemperatureConverter implements Converter {
         units.add("Celsius");
         units.add("Kelvin");
         units.add("Fahrenheit");
-        //units.add("Rankine");
+        units.add("Rankine");
 
         // Add Celsius and Kelvin
         converters.put("KelvinToCelsius", t -> t + ABSOLUTE_ZERO_CELSIUS);
@@ -35,7 +35,6 @@ public class TemperatureConverter implements Converter {
         converters.put("CelsiusToFahrenheit", t -> 1.8 * t + 32);
 
         // Add Rankine
-        /*
         converters.put("KelvinToRankine", t -> 1.8 * t);
         converters.put("CelsiusToRankine", t -> (t - ABSOLUTE_ZERO_CELSIUS) * 1.8);
         converters.put("FahrenheitToRankine", t -> t - ABSOLUTE_ZERO_FAHRENHEIT);
@@ -43,8 +42,6 @@ public class TemperatureConverter implements Converter {
         converters.put("RankineToKelvin", t -> t / 1.8);
         converters.put("RankineToCelsius", t -> (t - 32 + ABSOLUTE_ZERO_FAHRENHEIT) / 1.8);
         converters.put("RankineToFahrenheit", t -> t + ABSOLUTE_ZERO_FAHRENHEIT);
-*/
-        //checkModelConsistency();
     }
 
     public ArrayList<String> getUnits() {

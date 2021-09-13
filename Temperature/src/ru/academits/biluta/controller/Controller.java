@@ -91,7 +91,6 @@ public class Controller {
         int tempIndex = view.getUnitsSource().getSelectedIndex();
         view.getUnitsSource().setSelectedIndex(view.getUnitsResult().getSelectedIndex());
         view.getUnitsResult().setSelectedIndex(tempIndex);
-        view.getResultField().setText("");
     }
 
     private void showErrorMessage() {
