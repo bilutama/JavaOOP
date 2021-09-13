@@ -22,6 +22,8 @@ public class Controller {
 
         view.getUnitsSource().setSelectedIndex(0);
         view.getUnitsResult().setSelectedIndex(0);
+
+        checkModelConsistency();
     }
 
     private void checkModelConsistency() {
