@@ -1,25 +1,20 @@
 package ru.academits.biluta.view;
 
-import com.apple.eawt.Application;
-
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 
 public class View extends JFrame {
-    private JFrame frame;
-    private JPanel panel;
-    private JLabel label;
-    private DefaultListModel<String> unitsListModel;
+    private final DefaultListModel<String> unitsListModel;
 
-    private JList<String> unitsSource;
-    private JList<String> unitsResult;
+    private final JList<String> unitsSource;
+    private final JList<String> unitsResult;
 
-    private JTextField inputTextField;
-    private JTextField resultTextField;
+    private final JTextField inputTextField;
+    private final JTextField resultTextField;
 
-    private JButton swapUnitsButton;
-    private JButton convertButton;
+    private final JButton swapUnitsButton;
+    private final JButton convertButton;
 
     public View(String header) {
         try {
@@ -28,20 +23,17 @@ public class View extends JFrame {
         }
 
         // set FRAME
-        frame = new JFrame(header);
-        frame.setIconImage(new ImageIcon("Temperature/src/ru/academits/biluta/icons/icon.png").getImage());
-
-        Application.getApplication().setDockIconImage(
-                new ImageIcon("Temperature/src/ru/academits/biluta/icons/thermometer.png").getImage());
+        JFrame frame = new JFrame(header);
+        frame.setIconImage(new ImageIcon("Temperature/src/ru/academits/biluta/icons/thermometer.png").getImage());
 
         frame.setSize(330, 210);
-        //frame.setResizable(false);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Initiate components
-        panel = new JPanel();
-        label = new JLabel("Check units and enter a value:");
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Check units and enter a value:");
 
         unitsListModel = new DefaultListModel<>();
         unitsSource = new JList<>(unitsListModel);
@@ -133,83 +125,31 @@ public class View extends JFrame {
         frame.setVisible(true);
     }
 
-    public JFrame getFrame() {
-        return frame;
-    }
-
-    public void setFrame(JFrame frame) {
-        this.frame = frame;
-    }
-
-    public JPanel getPanel() {
-        return panel;
-    }
-
-    public void setPanel(JPanel panel) {
-        this.panel = panel;
-    }
-
-    public JLabel getLabel() {
-        return label;
-    }
-
-    public void setLabel(JLabel label) {
-        this.label = label;
-    }
-
     public DefaultListModel<String> getUnitsListModel() {
         return unitsListModel;
-    }
-
-    public void setUnitsListModel(DefaultListModel<String> unitsListModel) {
-        this.unitsListModel = unitsListModel;
     }
 
     public JList<String> getUnitsSource() {
         return unitsSource;
     }
 
-    public void setUnitsSource(JList<String> unitsSource) {
-        this.unitsSource = unitsSource;
-    }
-
     public JList<String> getUnitsResult() {
         return unitsResult;
-    }
-
-    public void setUnitsResult(JList<String> unitsResult) {
-        this.unitsResult = unitsResult;
     }
 
     public JTextField getInputField() {
         return inputTextField;
     }
 
-    public void setInputField(JTextField inputTextField) {
-        this.inputTextField = inputTextField;
-    }
-
     public JTextField getResultField() {
         return resultTextField;
-    }
-
-    public void setResultField(JTextField resultTextField) {
-        this.resultTextField = resultTextField;
     }
 
     public JButton getSwapUnitsButton() {
         return swapUnitsButton;
     }
 
-    public void setSwapUnitsButton(JButton swapUnitsButton) {
-        this.swapUnitsButton = swapUnitsButton;
-    }
-
     public JButton getConvertButton() {
         return convertButton;
-    }
-
-    public void setConvertButton(JButton convertButton) {
-        this.convertButton = convertButton;
     }
 }
