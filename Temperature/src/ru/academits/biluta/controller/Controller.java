@@ -6,6 +6,7 @@ import ru.academits.biluta.view.View;
 import javax.swing.*;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Controller {
     private final int DEFAULT_ACCURACY = 2;
@@ -67,7 +68,7 @@ public class Controller {
                 try {
                     // swap decimal separator in case of mistype ('.' instead of ',' and vice versa)
                     // and replace input with the corrected value
-                    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+                    DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
 
                     char trueDecimalSeparator = symbols.getDecimalSeparator();
                     char wrongDecimalSeparator = trueDecimalSeparator == ',' ? '.' : ',';
