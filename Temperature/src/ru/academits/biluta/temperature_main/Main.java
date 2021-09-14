@@ -6,6 +6,7 @@ import ru.academits.biluta.model.TemperatureConverter;
 import ru.academits.biluta.view.View;
 
 import javax.swing.*;
+import java.text.DecimalFormatSymbols;
 
 public class Main {
     public static void main(String[] args) {

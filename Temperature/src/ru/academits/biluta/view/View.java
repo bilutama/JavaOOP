@@ -74,7 +74,7 @@ public class View extends JFrame {
         c.insets = new Insets(5, 2, 5, 2);
         panel.add(unitsSource, c);
 
-        // set LIST units result
+        // set units result LIST
         unitsResult.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         unitsResult.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
 
@@ -87,8 +87,7 @@ public class View extends JFrame {
         panel.add(unitsResult, c);
         unitsResult.setSelectedIndex(0);
 
-        // set BUTTON switch units
-
+        // set swap units BUTTON
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.CENTER;
         c.gridx = 1;

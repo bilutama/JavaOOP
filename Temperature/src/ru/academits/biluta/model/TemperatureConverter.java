@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.function.DoubleFunction;
 
 public class TemperatureConverter implements Converter {
+    private static final double UNDEFINED = -999.99;
+
     private static final double ABSOLUTE_ZERO_CELSIUS = -273.15;
     private static final double ABSOLUTE_ZERO_FAHRENHEIT = -459.67;
 
@@ -48,16 +50,18 @@ public class TemperatureConverter implements Converter {
         return units;
     }
 
-    public double getConvertedValue(double value, String direction) {
-        convert(value, direction);
+    public double getConvertedValue(double value, String conversionUnits) {
+        convertValue(value, conversionUnits);
         return temperatureResult;
     }
 
-    private void convert(double value, String direction) {
-        DoubleFunction<Double> converter = converters.get(direction);
+    private void convertValue(double value, String conversionUnits) {
+        DoubleFunction<Double> converter = converters.get(conversionUnits);
 
         if (converter == null) {
-            throw new IllegalArgumentException(String.format("Invalid argument \"%s\" - no such function", direction));
+            temperatureResult = UNDEFINED;
+            return;
+            //throw new IllegalArgumentException(String.format("Invalid argument \"%s\" - no such function", conversionUnits));
         }
 
         temperatureResult = converter.apply(value);

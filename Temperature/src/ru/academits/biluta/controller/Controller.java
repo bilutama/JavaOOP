@@ -4,9 +4,12 @@ import ru.academits.biluta.model.Converter;
 import ru.academits.biluta.view.View;
 
 import javax.swing.*;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 
 public class Controller {
+    private final int DEFAULT_ACCURACY = 2;
+
     private final Converter converter;
     private final View view;
 
@@ -27,7 +30,7 @@ public class Controller {
     }
 
     private void checkModelConsistency() {
-        double randomTemperatureToCheckModelConsistency = 156;
+        double randomValue = 156;
         double epsilon = 1e-5;
 
         ArrayList<String> units = converter.getUnits();
@@ -41,10 +44,10 @@ public class Controller {
                 String direction = units.get(i) + "To" + units.get(j);
                 String reversed = units.get(j) + "To" + units.get(i);
 
-                double conversionResult = converter.getConvertedValue(converter.getConvertedValue(randomTemperatureToCheckModelConsistency, direction), reversed);
+                double conversionResult = converter.getConvertedValue(converter.getConvertedValue(randomValue, direction), reversed);
 
-                if (Math.abs(conversionResult - randomTemperatureToCheckModelConsistency) > epsilon) {
-                    showInconsistentConversionFunctionsMessage();
+                if (Math.abs(conversionResult - randomValue) > epsilon) {
+                    showInconsistentConversionModelMessage();
                 }
             }
         }
@@ -61,7 +64,14 @@ public class Controller {
                 inputValue = Double.parseDouble(inputText);
             } catch (NumberFormatException exception) {
                 try {
-                    inputValue = Double.parseDouble(inputText.replace(",", "."));
+                    // swap decimal separator in case of mistype ('.' instead of ',' and vice versa)
+                    // and replace input with the corrected value
+                    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+
+                    char trueDecimalSeparator = symbols.getDecimalSeparator();
+                    char wrongDecimalSeparator = trueDecimalSeparator == ',' ? '.' : ',';
+
+                    inputValue = Double.parseDouble(inputText.replace(wrongDecimalSeparator, trueDecimalSeparator));
                     view.getInputField().setText(String.valueOf(inputValue));
                 } catch (NumberFormatException ignored) {
                     showErrorMessage();
@@ -70,17 +80,19 @@ public class Controller {
             }
         }
 
-        String sourceUnitsString = view.getUnitsSource().getSelectedValue();
-        String resultUnitsString = view.getUnitsResult().getSelectedValue();
+        String inputUnits = view.getUnitsSource().getSelectedValue();
+        String resultUnits = view.getUnitsResult().getSelectedValue();
 
-        if (sourceUnitsString.equals(resultUnitsString)) {
+        if (inputUnits.equals(resultUnits)) {
             view.getResultField().setText(String.valueOf(inputValue));
             return;
         }
 
-        double resultValue = converter.getConvertedValue(inputValue, sourceUnitsString + "To" + resultUnitsString);
-        resultValue = Math.round(resultValue * 100) / 100.0;
-        view.getResultField().setText(String.valueOf(resultValue));
+        double conversionResult = converter.getConvertedValue(inputValue, inputUnits + "To" + resultUnits);
+        double roundingValue = Math.pow(10, DEFAULT_ACCURACY);
+        conversionResult = Math.round(conversionResult * roundingValue) / roundingValue;
+
+        view.getResultField().setText(String.valueOf(conversionResult));
     }
 
     private void swapUnits() {
@@ -94,10 +106,10 @@ public class Controller {
     }
 
     private void showErrorMessage() {
-        JOptionPane.showMessageDialog(null, "Check input", "Wrong number format", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(view, "Check input", "Wrong number format.", JOptionPane.ERROR_MESSAGE);
     }
 
-    private void showInconsistentConversionFunctionsMessage() {
-        JOptionPane.showMessageDialog(null, "Warning", "Conversion model is not validated, results may be incorrect.", JOptionPane.ERROR_MESSAGE);
+    private void showInconsistentConversionModelMessage() {
+        JOptionPane.showMessageDialog(view, "Warning", "Conversion model is not consistent, results may be incorrect.", JOptionPane.WARNING_MESSAGE);
     }
 }
