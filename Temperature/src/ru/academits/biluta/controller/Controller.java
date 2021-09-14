@@ -111,6 +111,6 @@ public class Controller {
     }
 
     private void showInconsistentConversionModelMessage() {
-        JOptionPane.showMessageDialog(view, "Warning", "Conversion model is not consistent, results may be incorrect.", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(view, "Conversion model is not consistent, results may be incorrect.", "Warning", JOptionPane.WARNING_MESSAGE);
     }
 }
