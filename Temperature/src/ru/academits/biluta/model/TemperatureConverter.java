@@ -53,11 +53,11 @@ public class TemperatureConverter implements Converter {
         return temperatureResult;
     }
 
-    private void convertValue(double inputValue, String conversionUnits) {
-        DoubleFunction<Double> converter = converters.get(conversionUnits);
+    private void convertValue(double inputValue, String sourceToResultUnits) {
+        DoubleFunction<Double> converter = converters.get(sourceToResultUnits);
 
         if (converter == null) {
-            throw new IllegalArgumentException(String.format("No function for units \"%s\"", conversionUnits));
+            throw new IllegalArgumentException(String.format("No function for units \"%s\"", sourceToResultUnits));
         }
 
         temperatureResult = converter.apply(inputValue);
