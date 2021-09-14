@@ -48,6 +48,7 @@ public class Controller {
 
                 if (Math.abs(conversionResult - randomValue) > epsilon) {
                     showInconsistentConversionModelMessage();
+                    return;
                 }
             }
         }
