@@ -6,13 +6,13 @@ import ru.academits.biluta.model.TemperatureConverter;
 import ru.academits.biluta.view.View;
 
 import javax.swing.*;
-import java.text.DecimalFormatSymbols;
 
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+            String windowHeader = "Temperature converter";
             Converter temperatureConverter = new TemperatureConverter();
-            View view = new View("Temperature converter");
+            View view = new View(windowHeader);
             Controller controller = new Controller(temperatureConverter, view);
             controller.initializeController();
         });

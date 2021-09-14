@@ -89,6 +89,7 @@ public class Controller {
         }
 
         double conversionResult = converter.getConvertedValue(inputValue, inputUnits + "To" + resultUnits);
+
         double roundingValue = Math.pow(10, DEFAULT_ACCURACY);
         conversionResult = Math.round(conversionResult * roundingValue) / roundingValue;
 
