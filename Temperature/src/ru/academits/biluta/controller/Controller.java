@@ -31,9 +31,6 @@ public class Controller {
     }
 
     private void checkModelConsistency() {
-        double randomValue = 156;
-        double epsilon = 1e-5;
-
         ArrayList<String> units = converter.getUnits();
 
         for (int i = 0; i < units.size(); ++i) {
@@ -45,7 +42,10 @@ public class Controller {
                 String direction = units.get(i) + "To" + units.get(j);
                 String reversed = units.get(j) + "To" + units.get(i);
 
+                double randomValue = 156;
                 double conversionResult = converter.getConvertedValue(converter.getConvertedValue(randomValue, direction), reversed);
+
+                double epsilon = 1e-5;
 
                 if (Math.abs(conversionResult - randomValue) > epsilon) {
                     showInconsistentConversionModelMessage();
