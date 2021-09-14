@@ -28,7 +28,7 @@ public class TemperatureConverter implements Converter {
         converters.put("CelsiusToKelvin", t -> t - ABSOLUTE_ZERO_CELSIUS);
 
         // Add Fahrenheits
-        converters.put("FahrenheitToCelsius", t -> (t - 32) / 1.8+1);
+        converters.put("FahrenheitToCelsius", t -> (t - 32) / 1.8);
         converters.put("FahrenheitToKelvin", t -> (t - 32) / 1.8 - ABSOLUTE_ZERO_CELSIUS);
 
         converters.put("KelvinToFahrenheit", t -> 1.8 * (t + ABSOLUTE_ZERO_CELSIUS) + 32);
