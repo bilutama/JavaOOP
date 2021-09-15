@@ -99,15 +99,13 @@ public class Controller {
     }
 
     private void swapUnits() {
-
-
         if (view.getUnitsSource().getSelectedIndex() == view.getUnitsResult().getSelectedIndex()) {
             return;
         }
 
-        int tempIndex = view.getUnitsSource().getSelectedIndex();
+        int sourceUnitsIndex = view.getUnitsSource().getSelectedIndex();
         view.getUnitsSource().setSelectedIndex(view.getUnitsResult().getSelectedIndex());
-        view.getUnitsResult().setSelectedIndex(tempIndex);
+        view.getUnitsResult().setSelectedIndex(sourceUnitsIndex);
     }
 
     private void showErrorMessage() {
