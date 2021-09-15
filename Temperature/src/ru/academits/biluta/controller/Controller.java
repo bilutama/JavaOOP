@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class Controller {
-    private final int DEFAULT_ACCURACY = 2;
+    private final static int DEFAULT_ACCURACY = 2;
 
     private final Converter converter;
     private final View view;

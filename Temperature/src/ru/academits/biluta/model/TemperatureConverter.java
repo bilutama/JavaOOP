@@ -35,13 +35,13 @@ public class TemperatureConverter implements Converter {
         converters.put("CelsiusToFahrenheit", t -> 1.8 * t + 32);
 
         // Add Rankine
-        converters.put("KelvinToRankine", t -> 1.8 * t);
-        converters.put("CelsiusToRankine", t -> (t - ABSOLUTE_ZERO_CELSIUS) * 1.8);
-        converters.put("FahrenheitToRankine", t -> t - ABSOLUTE_ZERO_FAHRENHEIT);
-
-        converters.put("RankineToKelvin", t -> t / 1.8);
-        converters.put("RankineToCelsius", t -> (t - 32 + ABSOLUTE_ZERO_FAHRENHEIT) / 1.8);
-        converters.put("RankineToFahrenheit", t -> t + ABSOLUTE_ZERO_FAHRENHEIT);
+//        converters.put("KelvinToRankine", t -> 1.8 * t);
+//        converters.put("CelsiusToRankine", t -> (t - ABSOLUTE_ZERO_CELSIUS) * 1.8);
+//        converters.put("FahrenheitToRankine", t -> t - ABSOLUTE_ZERO_FAHRENHEIT);
+//
+//        converters.put("RankineToKelvin", t -> t / 1.8);
+//        converters.put("RankineToCelsius", t -> (t - 32 + ABSOLUTE_ZERO_FAHRENHEIT) / 1.8);
+//        converters.put("RankineToFahrenheit", t -> t + ABSOLUTE_ZERO_FAHRENHEIT);
     }
 
     public ArrayList<String> getUnits() {
