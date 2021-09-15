@@ -104,7 +104,6 @@ public class View extends JFrame {
         panel.add(inputTextField, c);
 
         // set CONVERTING BUTTON
-
         c = new GridBagConstraints();
         c.gridx = 1;
         c.gridy = 2;

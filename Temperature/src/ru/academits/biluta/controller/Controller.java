@@ -99,6 +99,8 @@ public class Controller {
     }
 
     private void swapUnits() {
+
+
         if (view.getUnitsSource().getSelectedIndex() == view.getUnitsResult().getSelectedIndex()) {
             return;
         }
