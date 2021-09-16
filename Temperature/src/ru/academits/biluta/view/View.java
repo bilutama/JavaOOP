@@ -27,7 +27,7 @@ public class View extends JFrame {
         frame.setIconImage(new ImageIcon("Temperature/src/ru/academits/biluta/icons/thermometer.png").getImage());
 
         frame.setSize(330, 220);
-        //frame.setResizable(false);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
