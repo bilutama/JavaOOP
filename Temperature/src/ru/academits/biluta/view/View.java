@@ -40,12 +40,10 @@ public class View extends JFrame {
         panel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         frame.add(panel);
 
-        GridBagConstraints c = new GridBagConstraints();
-
         // set LABEL
         JLabel label = new JLabel("Check units and enter a value:");
-        //label.setVerticalTextPosition(JLabel.TOP);
         label.setHorizontalTextPosition(JLabel.CENTER);
+        GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 0;
         c.weightx = 0.5;
@@ -58,7 +56,6 @@ public class View extends JFrame {
         unitsSource.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "input"));
         unitsSource.setSelectedIndex(0);
         unitsSource.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
-
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
