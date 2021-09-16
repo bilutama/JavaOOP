@@ -60,7 +60,7 @@ public class View extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 1;
-        c.insets = new Insets(5, 2, 5, 2);
+        c.insets = new Insets(5, 5, 5, 2);
         panel.add(unitsSource, c);
 
         // set resulting units LIST
@@ -71,7 +71,7 @@ public class View extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 2;
         c.gridy = 1;
-        c.insets = new Insets(5, 2, 5, 2);
+        c.insets = new Insets(5, 2, 5, 5);
         panel.add(unitsResult, c);
         unitsResult.setSelectedIndex(0);
 
@@ -90,7 +90,7 @@ public class View extends JFrame {
         c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 2;
-        c.insets = new Insets(10, 2, 10, 2);
+        c.insets = new Insets(10, 5, 10, 2);
         panel.add(inputTextField, c);
 
         // set CONVERTING BUTTON
@@ -108,7 +108,7 @@ public class View extends JFrame {
         c = new GridBagConstraints();
         c.gridx = 2;
         c.gridy = 2;
-        c.insets = new Insets(10, 2, 10, 2);
+        c.insets = new Insets(10, 2, 10, 5);
         panel.add(resultTextField, c);
 
         panel.setVisible(true);
