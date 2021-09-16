@@ -64,10 +64,11 @@ public class Controller {
         } else {
             try {
                 inputValue = Double.parseDouble(inputText);
+                view.getInputField().setText(String.valueOf(inputValue));
             } catch (NumberFormatException exception) {
                 try {
-                    // swap decimal separator in case of mistype ('.' instead of ',' and vice versa)
-                    // and replace input with the corrected value
+                    // swap decimal separator in case of mistype (',' instead of '.' and vice versa)
+                    // and replace input with corrected value
                     DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
 
                     char trueDecimalSeparator = symbols.getDecimalSeparator();

@@ -22,30 +22,20 @@ public class View extends JFrame {
         } catch (Exception ignored) {
         }
 
-        // set FRAME
+        // set the main FRAME
         JFrame frame = new JFrame(header);
         frame.setIconImage(new ImageIcon("Temperature/src/ru/academits/biluta/icons/thermometer.png").getImage());
 
-        frame.setSize(330, 210);
-        frame.setResizable(false);
+        frame.setSize(330, 220);
+        //frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Initiate components
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel("Check units and enter a value:");
-
+        // Initiate UNITS LIST MODEL
         unitsListModel = new DefaultListModel<>();
-        unitsSource = new JList<>(unitsListModel);
-        unitsResult = new JList<>(unitsListModel);
-
-        swapUnitsButton = new JButton("<-swap->");
-        convertButton = new JButton("Convert->");
-
-        inputTextField = new JTextField(7);
-        resultTextField = new JTextField(7);
 
         // set PANEL
+        JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         panel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         frame.add(panel);
@@ -53,17 +43,19 @@ public class View extends JFrame {
         GridBagConstraints c = new GridBagConstraints();
 
         // set LABEL
-        label.setVerticalTextPosition(JLabel.TOP);
+        JLabel label = new JLabel("Check units and enter a value:");
+        //label.setVerticalTextPosition(JLabel.TOP);
         label.setHorizontalTextPosition(JLabel.CENTER);
         c.gridx = 0;
         c.gridy = 0;
-        c.fill = GridBagConstraints.CENTER;
         c.weightx = 0.5;
         c.gridwidth = 3;
-        c.insets = new Insets(5, 10, 5, 2);
+        c.insets = new Insets(5, 10, 10, 10);
         panel.add(label, c);
 
-        unitsSource.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+        // set source units LIST
+        unitsSource = new JList<>(unitsListModel);
+        unitsSource.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "input"));
         unitsSource.setSelectedIndex(0);
         unitsSource.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
 
@@ -74,20 +66,20 @@ public class View extends JFrame {
         c.insets = new Insets(5, 2, 5, 2);
         panel.add(unitsSource, c);
 
-        // set units result LIST
-        unitsResult.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+        // set resulting units LIST
+        unitsResult = new JList<>(unitsListModel);
+        unitsResult.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "output"));
         unitsResult.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
-
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 2;
         c.gridy = 1;
         c.insets = new Insets(5, 2, 5, 2);
-
         panel.add(unitsResult, c);
         unitsResult.setSelectedIndex(0);
 
         // set swap units BUTTON
+        swapUnitsButton = new JButton("<-swap->");
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.CENTER;
         c.gridx = 1;
@@ -96,6 +88,7 @@ public class View extends JFrame {
         panel.add(swapUnitsButton, c);
 
         // set INPUT TEXT FIELD
+        inputTextField = new JTextField(7);
         inputTextField.setText("0.0");
         c = new GridBagConstraints();
         c.gridx = 0;
@@ -104,6 +97,7 @@ public class View extends JFrame {
         panel.add(inputTextField, c);
 
         // set CONVERTING BUTTON
+        convertButton = new JButton("Convert->");
         c = new GridBagConstraints();
         c.gridx = 1;
         c.gridy = 2;
@@ -112,6 +106,7 @@ public class View extends JFrame {
         panel.add(convertButton, c);
 
         // set OUTPUT TEXT FIELD
+        resultTextField = new JTextField(7);
         resultTextField.setEditable(false);
         c = new GridBagConstraints();
         c.gridx = 2;
