@@ -19,7 +19,7 @@ public class Controller {
         this.view = view;
     }
 
-    public void initializeController() {
+    public void initialize() {
         view.getConvertButton().addActionListener(e -> convertValue());
         view.getSwapUnitsButton().addActionListener(e -> swapUnits());
         view.getUnitsListModel().addAll(converter.getUnits());

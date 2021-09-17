@@ -10,11 +10,13 @@ import javax.swing.*;
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            String windowHeader = "Temperature converter";
             Converter temperatureConverter = new TemperatureConverter();
+
+            String windowHeader = "Temperature converter";
             View view = new View(windowHeader);
+
             Controller controller = new Controller(temperatureConverter, view);
-            controller.initializeController();
+            controller.initialize();
         });
     }
 }
