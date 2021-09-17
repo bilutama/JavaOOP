@@ -2,8 +2,8 @@ package ru.academits.biluta.minesweeper;
 
 public enum Complexity {
     EASY(9, 9, 10),
-    NORMAL(15, 15, 15),
-    HARD(35, 25, 20);
+    NORMAL(15, 15, 20),
+    HARD(35, 25, 100);
 
     private final int width;
     private final int height;

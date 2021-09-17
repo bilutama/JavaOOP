@@ -26,13 +26,13 @@ public class Minesweeper {
         openedCells = new int[fieldHeight][fieldWidth];
     }
 
-    public void initializeGame(){
+    public void initializeGame() {
         placeMines(mines, c.getMinesCount());
     }
 
     private void placeMines(int[][] mines, int minesCount) {
         // Get cells indices to place mines
-        Integer[] minedCells = getRandomCellsIndicesForMines(minesCount);
+        Integer[] minedCells = getRandomCellsIndices(minesCount);
 
         // Place mines
         for (int i = 0; i < minesCount; ++i) {
@@ -42,7 +42,28 @@ public class Minesweeper {
         printArray(mines);
     }
 
-    private Integer[] getRandomCellsIndicesForMines(int minesCount) {
+    public int getAdjacentMinesCount(int x, int y) {
+        int xWithIndent = x - 1;
+        int yWithIndent = y - 1;
+
+        final int width = 3;
+        final int height = 3;
+        int adjacentMinesCount = 0;
+
+        for (int i = xWithIndent; i < width; ++i) {
+            for (int j = yWithIndent; j < height; ++j) {
+                if (i < 0 || j < 0 || i >= fieldWidth || j >= fieldHeight) {
+                    continue;
+                }
+
+                adjacentMinesCount += mines[i][j];
+            }
+        }
+
+        return adjacentMinesCount;
+    }
+
+    private Integer[] getRandomCellsIndices(int minesCount) {
         List<Integer> random = IntStream.range(0, fieldHeight * fieldWidth - 1).boxed().collect(Collectors.toList());
         Collections.shuffle(random);
 
