@@ -54,7 +54,6 @@ public class View extends JFrame {
         // set source units LIST
         unitsSource = new JList<>(unitsListModel);
         unitsSource.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "input"));
-        unitsSource.setSelectedIndex(0);
         unitsSource.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -73,7 +72,6 @@ public class View extends JFrame {
         c.gridy = 1;
         c.insets = new Insets(5, 2, 5, 5);
         panel.add(unitsResult, c);
-        unitsResult.setSelectedIndex(0);
 
         // set swap units BUTTON
         swapUnitsButton = new JButton("<-swap->");
