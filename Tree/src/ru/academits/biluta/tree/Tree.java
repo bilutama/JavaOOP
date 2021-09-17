@@ -17,6 +17,11 @@ public class Tree<T> {
 
     private int compareData(T data1, T data2) {
         if (comparator == null) {
+            if (data1 != null && data2 != null) {
+                //noinspection unchecked
+                return ((Comparable<T>) data1).compareTo(data2);
+            }
+
             if (data1 == null && data2 == null) {
                 return 0;
             }
@@ -25,12 +30,7 @@ public class Tree<T> {
                 return -1;
             }
 
-            if (data2 == null) {
-                return 1;
-            }
-
-            //noinspection unchecked
-            return ((Comparable<T>) data1).compareTo(data2);
+            return 1;
         }
 
         return comparator.compare(data1, data2);
