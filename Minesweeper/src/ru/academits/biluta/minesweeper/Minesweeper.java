@@ -39,7 +39,8 @@ public class Minesweeper {
             mines[minedCells[i] / fieldWidth][minedCells[i] % fieldWidth] = 1;
         }
 
-        printArray(mines);
+        //TODO: remove
+        //printArray(mines);
     }
 
     public int getAdjacentMinesCount(int x, int y) {
@@ -68,8 +69,10 @@ public class Minesweeper {
         return minedCells;
     }
 
-    private void updateState() {
+    private void openCells(int x, int y) {
+        if (mines[x][y] != 1) {
 
+        }
     }
 
     // TODO: remove debugging code
