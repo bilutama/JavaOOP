@@ -43,20 +43,15 @@ public class Minesweeper {
     }
 
     public int getAdjacentMinesCount(int x, int y) {
-        int xWithIndent = x - 1;
-        int yWithIndent = y - 1;
-
-        final int width = 3;
-        final int height = 3;
         int adjacentMinesCount = 0;
 
-        for (int i = xWithIndent; i < width; ++i) {
-            for (int j = yWithIndent; j < height; ++j) {
-                if (i < 0 || j < 0 || i >= fieldWidth || j >= fieldHeight) {
-                    continue;
+        for (int j = y - 1; j < y + 2; ++j) {
+            if (j >= 0 && j < fieldHeight) {
+                for (int i = x - 1; i < x + 2; ++i) {
+                    if (i >= 0 && i < fieldWidth) {
+                        adjacentMinesCount += mines[j][i];
+                    }
                 }
-
-                adjacentMinesCount += mines[i][j];
             }
         }
 
