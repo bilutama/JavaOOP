@@ -46,10 +46,9 @@ public class Graph<T> {
 
             while (!indicesQueue.isEmpty()) {
                 Integer nodeIndex = indicesQueue.remove();
-                T node = nodes[nodeIndex];
 
                 // Handle a node from a queue
-                handler.accept(node);
+                handler.accept(nodes[nodeIndex]);
 
                 // Put all indices of unvisited children to the queue
                 for (int j = 0; j < isVisited.length; ++j) {
