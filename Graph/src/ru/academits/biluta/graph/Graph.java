@@ -87,9 +87,15 @@ public class Graph<T> {
 
                 // Put indices of all unvisited children to the stack in reverse order
                 for (int j = isVisited.length - 1; j >= 0; --j) {
-                    if (connectivityMatrix[j][nodeIndex] != 0 && !isVisited[j]) {
-                        indicesStack.addFirst(j);
-                        isVisited[j] = true;
+                    if (connectivityMatrix[j][nodeIndex] != 0) {
+                        if (indicesStack.remove(j)) {
+                            indicesStack.addFirst(j);
+                        }
+
+                        if (!isVisited[j]) {
+                            indicesStack.addFirst(j);
+                            isVisited[j] = true;
+                        }
                     }
                 }
             }
