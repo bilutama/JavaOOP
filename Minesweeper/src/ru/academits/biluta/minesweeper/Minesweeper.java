@@ -5,29 +5,30 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Minesweeper {
-    private int fieldWidth;
-    private int fieldHeight;
+    private int width;
+    private int height;
 
     // Game state
     private int[][] mines;
-    private int[][] flags;
+    private int[][] neighbouringMinesCount;
     private int[][] openedCells;
 
-    Complexity c;
+    // Game level
+    private Level level;
 
-    public Minesweeper(Complexity c) {
-        this.c = c;
+    public Minesweeper(Level level) {
+        this.level = level;
 
-        fieldHeight = c.getHeight();
-        fieldWidth = c.getWidth();
+        height = level.getHeight();
+        width = level.getWidth();
 
-        mines = new int[fieldHeight][fieldWidth];
-        flags = new int[fieldHeight][fieldWidth];
-        openedCells = new int[fieldHeight][fieldWidth];
+        mines = new int[height][width];
+        neighbouringMinesCount = new int[height][width];
+        openedCells = new int[height][width];
     }
 
     public void initializeGame() {
-        placeMines(mines, c.getMinesCount());
+        placeMines(mines, level.getMinesCount());
     }
 
     private void placeMines(int[][] mines, int minesCount) {
@@ -36,7 +37,7 @@ public class Minesweeper {
 
         // Place mines
         for (int i = 0; i < minesCount; ++i) {
-            mines[minedCells[i] / fieldWidth][minedCells[i] % fieldWidth] = 1;
+            mines[minedCells[i] / width][minedCells[i] % width] = 1;
         }
 
         //TODO: remove
@@ -47,9 +48,9 @@ public class Minesweeper {
         int adjacentMinesCount = 0;
 
         for (int j = y - 1; j < y + 2; ++j) {
-            if (j >= 0 && j < fieldHeight) {
+            if (j >= 0 && j < height) {
                 for (int i = x - 1; i < x + 2; ++i) {
-                    if (i >= 0 && i < fieldWidth) {
+                    if (i >= 0 && i < width) {
                         adjacentMinesCount += mines[j][i];
                     }
                 }
@@ -60,7 +61,7 @@ public class Minesweeper {
     }
 
     private Integer[] getRandomCellsIndices(int minesCount) {
-        List<Integer> random = IntStream.range(0, fieldHeight * fieldWidth - 1).boxed().collect(Collectors.toList());
+        List<Integer> random = IntStream.range(0, height * width - 1).boxed().collect(Collectors.toList());
         Collections.shuffle(random);
 
         Integer[] minedCells = new Integer[minesCount];
@@ -70,8 +71,27 @@ public class Minesweeper {
     }
 
     private void openCells(int x, int y) {
-        if (mines[x][y] != 1) {
+        Queue<Cell> cellsToOpen = new LinkedList<>();
+        cellsToOpen.add(new Cell(x, y));
 
+        while (!cellsToOpen.isEmpty()) {
+            Cell current = cellsToOpen.poll();
+            int currentX = current.getX();
+            int currentY = current.getY();
+
+            if ((neighbouringMinesCount[currentX][currentY] = getAdjacentMinesCount(currentX,currentY)) > 0){
+
+                for (int j = currentY - 1; j < currentY + 2; ++j) {
+                    if (j >= 0 && j < height) {
+                        for (int i = currentX - 1; i < currentX + 2; ++i) {
+                            if (i >= 0 && i < width) {
+                                cellsToOpen.add(new Cell(j, i));
+                            }
+                        }
+                    }
+                }
+
+            }
         }
     }
 

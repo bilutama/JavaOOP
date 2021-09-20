@@ -1,21 +1,29 @@
 package ru.academits.biluta.minesweeper_gui;
 
+import ru.academits.biluta.minesweeper.Level;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class View extends JFrame {
-    public View(String header) {
+    public View(String header, Level level) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {
         }
 
+        final int CELL_SIZE = 40;
+        final int ICON_SIZE = 35;
+        final int topPanelHeight = 20;
+
         // set the main FRAME
         JFrame frame = new JFrame(header);
         frame.setIconImage(new ImageIcon("src/ru/academits/biluta/minesweeper_resources/bomb.png").getImage());
 
-        frame.setSize(500, 550);
-        //frame.setResizable(false);
+        //frame.setSize(500, 550);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -25,34 +33,62 @@ public class View extends JFrame {
         JPanel mineField = new JPanel();
         frame.add(mineField, BorderLayout.CENTER);
 
-        int i = 9;
-        int j = 9;
-        mineField.setLayout(new GridLayout(i, j));
+        int width = level.getWidth();
+        int height = level.getHeight();
 
-        JPanel[][] panelHolder = new JPanel[i][j];
-        JButton[][] fieldButton = new JButton[i][j];
-        //setLayout(new GridLayout(i,j));
+        mineField.setLayout(new GridLayout(width, height));
 
-        for(int m = 0; m < i; m++) {
-            for (int n = 0; n < j; n++) {
+        // Set frame size depending on field dimensions
+        mineField.getTopLevelAncestor().setSize(width * CELL_SIZE, height * CELL_SIZE + topPanelHeight);
+
+        JPanel[][] panelHolder = new JPanel[width][height];
+        JButton[][] fieldButton = new JButton[width][height];
+
+        for (int m = 0; m < width; m++) {
+            for (int n = 0; n < height; n++) {
                 panelHolder[m][n] = new JPanel();
                 mineField.add(panelHolder[m][n]);
 
+                panelHolder[m][n].setLayout(new GridLayout());
+
                 fieldButton[m][n] = new JButton();
                 fieldButton[m][n].setFocusable(false);
-                panelHolder[m][n].add(fieldButton[m][n]);
+                panelHolder[m][n].add(fieldButton[m][n], BorderLayout.WEST);
 
+                JPanel panel = panelHolder[m][n];
                 JButton fb = fieldButton[m][n];
-                fieldButton[m][n].addActionListener(e -> {
-                    fb.setVisible(false);
-                    Image image = new ImageIcon("Minesweeper/src/ru/academits/biluta/minesweeper_resources/explosure.png").getImage();
-                    Image scaled = image.getScaledInstance(30, 30, Image.SCALE_FAST);
-                    fb.setIcon(new ImageIcon(scaled));
-                    fb.getParent().add(new JLabel(new ImageIcon(scaled)));
+
+                final String explosionImageFilePath = "Minesweeper/src/ru/academits/biluta/minesweeper_resources/explosion.png";
+                final String flagImageFilePath = "Minesweeper/src/ru/academits/biluta/minesweeper_resources/flag.png";
+                final String bombImageFilePath = "Minesweeper/src/ru/academits/biluta/minesweeper_resources/bomb.png";
+
+                Image explosionImage = new ImageIcon(explosionImageFilePath)
+                        .getImage()
+                        .getScaledInstance(ICON_SIZE, ICON_SIZE, Image.SCALE_FAST);
+                JLabel labelExplosion = new JLabel(new ImageIcon(explosionImage));
+
+                ImageIcon flagImage = new ImageIcon(
+                        new ImageIcon(flagImageFilePath)
+                                .getImage()
+                                .getScaledInstance(ICON_SIZE, ICON_SIZE, Image.SCALE_FAST)
+                );
+
+                fb.addMouseListener(new MouseAdapter() {
+                    public void mouseClicked(MouseEvent e) {
+                        if (e.getButton() == MouseEvent.BUTTON1) {
+                            panel.remove(fb);
+                            panel.add(labelExplosion);
+                            panel.updateUI();
+                        }
+
+                        if (e.getButton() == MouseEvent.BUTTON3) {
+                            fb.setIcon(flagImage);
+                        }
+                    }
                 });
             }
-        }
 
-        frame.setVisible(true);
+            frame.setVisible(true);
+        }
     }
 }

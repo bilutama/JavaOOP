@@ -1,6 +1,6 @@
 package ru.academits.biluta.minesweeper;
 
-public enum Complexity {
+public enum Level {
     EASY(9, 9, 10),
     NORMAL(15, 15, 20),
     HARD(35, 25, 100);
@@ -9,13 +9,13 @@ public enum Complexity {
     private final int height;
     private final int minesCount;
 
-    Complexity(int width, int height, int minesCount) {
+    Level(int width, int height, int minesCount) {
         this.height = height;
         this.width = width;
 
         double MAXIMUM_MINES_COUNT_TO_CAPACITY_RATIO = 0.5;
 
-        // Assure that mines count is not exceeding field capacity multiplied by ratio
+        // Assure that mines count is not exceeding field capacity * ratio
         int maximumMinesCount = (int) (height * width * MAXIMUM_MINES_COUNT_TO_CAPACITY_RATIO);
         this.minesCount = Math.min(minesCount, maximumMinesCount);
     }
