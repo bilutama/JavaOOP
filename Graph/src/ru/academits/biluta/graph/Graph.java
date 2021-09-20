@@ -80,10 +80,9 @@ public class Graph<T> {
 
             while (!indicesStack.isEmpty()) {
                 Integer nodeIndex = indicesStack.removeFirst();
-                T node = nodes[nodeIndex];
 
                 // Handle a node from the stack
-                handler.accept(node);
+                handler.accept(nodes[nodeIndex]);
 
                 for (int j = isVisited.length - 1; j >= 0; --j) {
                     if (connectivityMatrix[j][nodeIndex] != 0) {
