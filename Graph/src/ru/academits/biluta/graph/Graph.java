@@ -90,6 +90,7 @@ public class Graph<T> {
                     if (connectivityMatrix[j][nodeIndex] != 0) {
                         if (indicesStack.remove(j)) {
                             indicesStack.addFirst(j);
+                            continue;
                         }
 
                         if (!isVisited[j]) {
