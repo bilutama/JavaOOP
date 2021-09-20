@@ -85,14 +85,15 @@ public class Graph<T> {
                 // Handle a node from the stack
                 handler.accept(node);
 
-                // Put indices of all unvisited children to the stack in reverse order
                 for (int j = isVisited.length - 1; j >= 0; --j) {
                     if (connectivityMatrix[j][nodeIndex] != 0) {
+                        // Check if the node index is already in the stack and put it on the top
                         if (indicesStack.remove(j)) {
                             indicesStack.addFirst(j);
                             continue;
                         }
 
+                        // Add node index if not visited
                         if (!isVisited[j]) {
                             indicesStack.addFirst(j);
                             isVisited[j] = true;
