@@ -25,23 +25,32 @@ public class Minesweeper {
         mines = new int[height][width];
         neighbouringMinesCount = new int[height][width];
         openedCells = new int[height][width];
-    }
 
-    public void initializeGame() {
         placeMines(mines, level.getMinesCount());
+        countNeighbouringMines();
     }
 
     private void placeMines(int[][] mines, int minesCount) {
         // Get cells indices to place mines
-        Integer[] minedCells = getRandomCellsIndices(minesCount);
+        Integer[] minedCellsIndices = getRandomCellsIndices(minesCount);
 
         // Place mines
         for (int i = 0; i < minesCount; ++i) {
-            mines[minedCells[i] / width][minedCells[i] % width] = 1;
+            mines[minedCellsIndices[i] / width][minedCellsIndices[i] % width] = 1;
         }
 
         //TODO: remove
         //printArray(mines);
+    }
+
+    private void countNeighbouringMines() {
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                if (mines[i][j] != 1) {
+                    neighbouringMinesCount[i][j] = getAdjacentMinesCount(i, j);
+                }
+            }
+        }
     }
 
     public int getAdjacentMinesCount(int x, int y) {
@@ -64,23 +73,22 @@ public class Minesweeper {
         List<Integer> random = IntStream.range(0, height * width - 1).boxed().collect(Collectors.toList());
         Collections.shuffle(random);
 
-        Integer[] minedCells = new Integer[minesCount];
-        new ArrayList<>(random.subList(0, minesCount)).toArray(minedCells);
+        Integer[] minedCellsIndices = new Integer[minesCount];
+        new ArrayList<>(random.subList(0, minesCount)).toArray(minedCellsIndices);
 
-        return minedCells;
+        return minedCellsIndices;
     }
 
-    private void openCells(int x, int y) {
+    private void openCells(Cell cell) {
         Queue<Cell> cellsToOpen = new LinkedList<>();
-        cellsToOpen.add(new Cell(x, y));
+        cellsToOpen.add(cell);
 
         while (!cellsToOpen.isEmpty()) {
             Cell current = cellsToOpen.poll();
             int currentX = current.getX();
             int currentY = current.getY();
 
-            if ((neighbouringMinesCount[currentX][currentY] = getAdjacentMinesCount(currentX,currentY)) > 0){
-
+            if ((neighbouringMinesCount[currentX][currentY] = getAdjacentMinesCount(currentX, currentY)) > 0) {
                 for (int j = currentY - 1; j < currentY + 2; ++j) {
                     if (j >= 0 && j < height) {
                         for (int i = currentX - 1; i < currentX + 2; ++i) {
@@ -90,7 +98,6 @@ public class Minesweeper {
                         }
                     }
                 }
-
             }
         }
     }

@@ -10,9 +10,9 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             Minesweeper minesweeper = new Minesweeper(Level.EASY);
-            minesweeper.initializeGame();
+            minesweeper.initialize();
 
-            View view = new View("Minesweeper", Level.EASY);
+            View view = new View("Minesweeper", Level.NORMAL);
         });
     }
 }

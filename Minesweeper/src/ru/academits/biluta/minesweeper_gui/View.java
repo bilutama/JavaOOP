@@ -8,7 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class View extends JFrame {
-    public View(String header, Level level) {
+    public View(Level level) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {
@@ -19,6 +19,7 @@ public class View extends JFrame {
         final int topPanelHeight = 20;
 
         // set the main FRAME
+        final String header = "Minesweeper";
         JFrame frame = new JFrame(header);
         frame.setIconImage(new ImageIcon("src/ru/academits/biluta/minesweeper_resources/bomb.png").getImage());
 
