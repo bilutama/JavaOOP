@@ -1,6 +1,7 @@
 package ru.academits.biluta.minesweeper;
 
 import java.util.*;
+import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -16,25 +17,28 @@ public class Minesweeper {
     // Game level
     private Level level;
 
-    public Minesweeper(Level level) {
+    public Minesweeper(Level level, Cell firstOpenedCell) {
         this.level = level;
 
         height = level.getHeight();
         width = level.getWidth();
 
+        int firstOpenedCellX = firstOpenedCell.getX();
+        int firstOpenedCellY = firstOpenedCell.getY();
+
         mines = new int[height][width];
         neighbouringMinesCount = new int[height][width];
         openedCells = new int[height][width];
 
-        placeMines(mines, level.getMinesCount());
+        placeMines(mines, level.getMinesCount(), firstOpenedCellY / width + firstOpenedCellX);
         countNeighbouringMines();
     }
 
-    private void placeMines(int[][] mines, int minesCount) {
-        // Get cells indices to place mines
-        Integer[] minedCellsIndices = getRandomCellsIndices(minesCount);
+    private void placeMines(int[][] mines, int minesCount, int excludedIndex) {
+        // Get cells indices to place mines except first opened cell
+        Integer[] minedCellsIndices = getRandomCellsIndices(minesCount, excludedIndex);
 
-        // Place mines
+        // Place mines among closed cells
         for (int i = 0; i < minesCount; ++i) {
             mines[minedCellsIndices[i] / width][minedCellsIndices[i] % width] = 1;
         }
@@ -69,12 +73,12 @@ public class Minesweeper {
         return adjacentMinesCount;
     }
 
-    private Integer[] getRandomCellsIndices(int minesCount) {
-        List<Integer> random = IntStream.range(0, height * width - 1).boxed().collect(Collectors.toList());
-        Collections.shuffle(random);
+    private Integer[] getRandomCellsIndices(int minesCount, int excludedValue) {
+        List<Integer> cellsIndices = IntStream.range(0, height * width - 1).filter(x -> x != excludedValue).boxed().collect(Collectors.toList());
+        Collections.shuffle(cellsIndices);
 
         Integer[] minedCellsIndices = new Integer[minesCount];
-        new ArrayList<>(random.subList(0, minesCount)).toArray(minedCellsIndices);
+        new ArrayList<>(cellsIndices.subList(0, minesCount)).toArray(minedCellsIndices);
 
         return minedCellsIndices;
     }

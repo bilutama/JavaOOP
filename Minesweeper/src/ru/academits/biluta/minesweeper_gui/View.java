@@ -8,42 +8,74 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class View extends JFrame {
+    final static int CELL_SIZE = 40;
+    final static int CELL_ICON_SIZE = 35;
+    final static int MAIN_ICON_SIZE = 50;
+    final static int TOP_PANEL_HEIGHT = 95;
+
+    final static String FRAME_HEADER = "Minesweeper";
+
+    final static String resources = "Minesweeper/src/ru/academits/biluta/minesweeper_resources/";
+    final static String bombImageFilePath = resources + "bomb.png";
+    final static String explosionImageFilePath = resources + "explosion.png";
+    final static String flagImageFilePath = resources + "flag.png";
+    final static String smileImageFilePath = resources + "smile.png";
+    final static String skullImageFilePath = resources + "skull.png";
+
+    private final JButton[][] fieldButton;
+    private final JButton startNewGameButton;
+
     public View(Level level) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {
         }
 
-        final int CELL_SIZE = 40;
-        final int ICON_SIZE = 35;
-        final int topPanelHeight = 20;
-
         // set the main FRAME
-        final String header = "Minesweeper";
-        JFrame frame = new JFrame(header);
-        frame.setIconImage(new ImageIcon("src/ru/academits/biluta/minesweeper_resources/bomb.png").getImage());
+        JFrame frame = new JFrame(FRAME_HEADER + " - " + level.toString().toUpperCase());
+        frame.setIconImage(new ImageIcon(bombImageFilePath).getImage());
 
-        //frame.setSize(500, 550);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel menu = new JPanel();
-        frame.add(menu, BorderLayout.PAGE_START);
+        // Set top panel for the Toolbar
+        JPanel topPanel = new JPanel();
+        topPanel.setSize(100, 20);
+        frame.add(topPanel, BorderLayout.PAGE_START);
 
-        JPanel mineField = new JPanel();
-        frame.add(mineField, BorderLayout.CENTER);
+        // Add toolbar to the panel
+        JToolBar toolBar = new JToolBar();
+        toolBar.setFloatable(false);
+        toolBar.setOrientation(SwingConstants.HORIZONTAL);
+        topPanel.add(toolBar);
+
+        // Add start_new_game button to the panel
+        startNewGameButton = new JButton();
+        startNewGameButton.setFocusable(false);
+
+        ImageIcon smileImage = new ImageIcon(
+                new ImageIcon(smileImageFilePath)
+                        .getImage()
+                        .getScaledInstance(MAIN_ICON_SIZE, MAIN_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
+        );
+
+        startNewGameButton.setIcon(smileImage);
+        toolBar.add(startNewGameButton, BorderLayout.CENTER);
 
         int width = level.getWidth();
         int height = level.getHeight();
 
+        JPanel mineField = new JPanel();
+        frame.add(mineField, BorderLayout.CENTER);
+
         mineField.setLayout(new GridLayout(width, height));
 
         // Set frame size depending on field dimensions
-        mineField.getTopLevelAncestor().setSize(width * CELL_SIZE, height * CELL_SIZE + topPanelHeight);
+        mineField.getTopLevelAncestor().setSize(width * CELL_SIZE, height * CELL_SIZE + TOP_PANEL_HEIGHT);
 
-        JPanel[][] panelHolder = new JPanel[width][height];
-        JButton[][] fieldButton = new JButton[width][height];
+        JPanel[][]panelHolder = new JPanel[width][height];
+        fieldButton = new JButton[width][height];
 
         for (int m = 0; m < width; m++) {
             for (int n = 0; n < height; n++) {
@@ -59,19 +91,16 @@ public class View extends JFrame {
                 JPanel panel = panelHolder[m][n];
                 JButton fb = fieldButton[m][n];
 
-                final String explosionImageFilePath = "Minesweeper/src/ru/academits/biluta/minesweeper_resources/explosion.png";
-                final String flagImageFilePath = "Minesweeper/src/ru/academits/biluta/minesweeper_resources/flag.png";
-                final String bombImageFilePath = "Minesweeper/src/ru/academits/biluta/minesweeper_resources/bomb.png";
 
                 Image explosionImage = new ImageIcon(explosionImageFilePath)
                         .getImage()
-                        .getScaledInstance(ICON_SIZE, ICON_SIZE, Image.SCALE_FAST);
+                        .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING);
                 JLabel labelExplosion = new JLabel(new ImageIcon(explosionImage));
 
                 ImageIcon flagImage = new ImageIcon(
                         new ImageIcon(flagImageFilePath)
                                 .getImage()
-                                .getScaledInstance(ICON_SIZE, ICON_SIZE, Image.SCALE_FAST)
+                                .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
                 );
 
                 fb.addMouseListener(new MouseAdapter() {
@@ -91,5 +120,13 @@ public class View extends JFrame {
 
             frame.setVisible(true);
         }
+    }
+
+    public JButton[][] getFieldButton() {
+        return fieldButton;
+    }
+
+    public JButton getStartNewGameButton() {
+        return startNewGameButton;
     }
 }
