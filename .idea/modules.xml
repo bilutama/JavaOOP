@@ -17,6 +17,7 @@
       <module fileurl="file://$PROJECT_DIR$/SinglyLinkedList/SinglyLinkedList.iml" filepath="$PROJECT_DIR$/SinglyLinkedList/SinglyLinkedList.iml" />
       <module fileurl="file://$PROJECT_DIR$/SinglyLinkedListPlus/SinglyLinkedListPlus.iml" filepath="$PROJECT_DIR$/SinglyLinkedListPlus/SinglyLinkedListPlus.iml" />
       <module fileurl="file://$PROJECT_DIR$/Temperature/Temperature.iml" filepath="$PROJECT_DIR$/Temperature/Temperature.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Temperature_v0/Temperature_v0.iml" filepath="$PROJECT_DIR$/Temperature_v0/Temperature_v0.iml" />
       <module fileurl="file://$PROJECT_DIR$/Tree/Tree.iml" filepath="$PROJECT_DIR$/Tree/Tree.iml" />
       <module fileurl="file://$PROJECT_DIR$/Vector/Vector.iml" filepath="$PROJECT_DIR$/Vector/Vector.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/academit.iml" filepath="$PROJECT_DIR$/.idea/academit.iml" />

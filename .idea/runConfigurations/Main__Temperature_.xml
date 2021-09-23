@@ -1,10 +1,10 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Main (Temperature)" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="ru.academits.biluta.temperature_main.Main" />
+    <option name="MAIN_CLASS_NAME" value="ru.academits.biluta.temperature.main.Main" />
     <module name="Temperature" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="ru.academits.biluta.temperature_main.*" />
+        <option name="PATTERN" value="ru.academits.biluta.temperature.main.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

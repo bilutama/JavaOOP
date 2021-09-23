@@ -1,10 +1,10 @@
-package ru.academits.biluta.view;
+package ru.academits.biluta.temperature.view;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 
-public class View extends JFrame {
+public class View {
     private final DefaultListModel<String> unitsListModel;
 
     private final JList<String> unitsSource;

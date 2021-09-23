@@ -1,9 +1,9 @@
-package ru.academits.biluta.temperature_main;
+package temperature_v0.main;
 
-import ru.academits.biluta.controller.Controller;
-import ru.academits.biluta.model.Converter;
-import ru.academits.biluta.model.TemperatureConverter;
-import ru.academits.biluta.view.View;
+import temperature_v0.controller.Controller;
+import temperature_v0.model.Converter;
+import temperature_v0.model.TemperatureConverter;
+import temperature_v0.view.View;
 
 import javax.swing.*;
 
@@ -12,8 +12,7 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             Converter temperatureConverter = new TemperatureConverter();
 
-            String windowHeader = "Temperature converter";
-            View view = new View(windowHeader);
+            View view = new View("Temperature converter");
 
             Controller controller = new Controller(temperatureConverter, view);
             controller.initialize();

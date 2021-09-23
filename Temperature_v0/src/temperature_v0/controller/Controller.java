@@ -1,7 +1,7 @@
-package ru.academits.biluta.controller;
+package temperature_v0.controller;
 
-import ru.academits.biluta.model.Converter;
-import ru.academits.biluta.view.View;
+import temperature_v0.model.Converter;
+import temperature_v0.view.View;
 
 import javax.swing.*;
 import java.text.DecimalFormatSymbols;
@@ -110,10 +110,10 @@ public class Controller {
     }
 
     private void showErrorMessage() {
-        JOptionPane.showMessageDialog(view, "Check input", "Wrong number format.", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Check input", "Wrong number format.", JOptionPane.ERROR_MESSAGE);
     }
 
     private void showInconsistentConversionModelMessage() {
-        JOptionPane.showMessageDialog(view, "Conversion model is not consistent, results may be incorrect.", "Warning", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Conversion model is not consistent, results may be incorrect.", "Warning", JOptionPane.WARNING_MESSAGE);
     }
 }

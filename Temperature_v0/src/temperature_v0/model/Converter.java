@@ -1,4 +1,4 @@
-package ru.academits.biluta.model;
+package temperature_v0.model;
 
 import java.util.ArrayList;
 
