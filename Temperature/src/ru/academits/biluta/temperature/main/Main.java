@@ -19,7 +19,7 @@ public class Main {
         ));
 
         TemperatureConverter converter = new TemperatureConverter();
-        View view = new ConverterView("Temperature converter", units);
+        View view = new ConverterView(units);
         Controller controller = new Controller(converter, view);
     }
 }

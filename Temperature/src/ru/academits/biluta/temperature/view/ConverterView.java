@@ -25,18 +25,18 @@ public class ConverterView implements View {
     private final JButton swapUnitsButton = new JButton("<-swap->");
     private final JButton convertButton = new JButton("convert->");
 
-    public ConverterView(String header, ArrayList<Units> units) {
-        SwingUtilities.invokeLater(() -> initializeMainFrame(header, units));
+    public ConverterView(ArrayList<Units> units) {
+        SwingUtilities.invokeLater(() -> initializeMainFrame(units));
     }
 
-    private void initializeMainFrame(String header, ArrayList<Units> units) {
+    private void initializeMainFrame(ArrayList<Units> units) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {
         }
 
         // set the main FRAME
-        frame = new JFrame(header);
+        frame = new JFrame("Temperature converter");
         frame.setIconImage(new ImageIcon("Temperature/src/ru/academits/biluta/resources/thermometer.png").getImage());
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
@@ -69,7 +69,7 @@ public class ConverterView implements View {
 
         swapUnitsButton.addActionListener(e -> swapUnits());
 
-        // Set and tune a LAYOUT
+        // Set the LAYOUT
         GroupLayout layout = new GroupLayout(panel);
         panel.setLayout(layout);
         layout.setAutoCreateGaps(true);
@@ -169,6 +169,6 @@ public class ConverterView implements View {
     }
 
     private void showErrorMessage() {
-        JOptionPane.showMessageDialog(frame, "Check input", "Wrong number format.", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(frame, "Check input", "Wrong number format", JOptionPane.ERROR_MESSAGE);
     }
 }
