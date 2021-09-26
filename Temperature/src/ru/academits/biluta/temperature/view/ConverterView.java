@@ -37,7 +37,7 @@ public class ConverterView implements View {
 
         // set the main FRAME
         frame = new JFrame("Temperature converter");
-        frame.setIconImage(new ImageIcon("Temperature/src/ru/academits/biluta/resources/thermometer.png").getImage());
+        frame.setIconImage(new ImageIcon("Temperature/src/ru/academits/biluta/temperature/resources/thermometer.png").getImage());
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
