@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Main (Temperature)" type="Application" factoryName="Application">
+  <configuration default="false" name="Temperature" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="ru.academits.biluta.temperature.main.Main" />
     <module name="Temperature" />
     <extension name="coverage">

@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Main (Graph)" type="Application" factoryName="Application">
+  <configuration default="false" name="Graph" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="ru.academits.biluta.graph_main.Main" />
     <module name="Graph" />
     <extension name="coverage">

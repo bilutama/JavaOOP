@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Main (ArrayList)" type="Application" factoryName="Application">
+  <configuration default="false" name="ArrayList" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="ru.academits.biluta.array_list_main.Main" />
     <module name="ArrayList" />
     <extension name="coverage">

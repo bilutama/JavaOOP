@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Main (Tree)" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="ru.academits.biluta.tree_main.Main" />
-    <module name="Tree" />
+  <configuration default="false" name="ListPlus" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="ru.academits.biluta.list_plus_main.Main" />
+    <module name="SinglyLinkedListPlus" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="ru.academits.biluta.tree_main.*" />

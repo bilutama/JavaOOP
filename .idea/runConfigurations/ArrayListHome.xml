@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Main (ArrayListHome)" type="Application" factoryName="Application">
+  <configuration default="false" name="ArrayListHome" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="ru.academits.biluta.array_list_home_main.Main" />
     <module name="ArrayListHome" />
     <option name="PROGRAM_PARAMETERS" value="ArrayListHome/src/ru/academits/biluta/dataFile.txt" />

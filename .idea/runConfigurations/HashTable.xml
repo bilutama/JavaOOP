@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Main (HashTable)" type="Application" factoryName="Application">
+  <configuration default="false" name="HashTable" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="ru.academits.biluta.hash_table_main.Main" />
     <module name="HashTable" />
     <extension name="coverage">
