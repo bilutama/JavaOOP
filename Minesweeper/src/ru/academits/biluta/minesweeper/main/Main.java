@@ -1,8 +1,7 @@
-package ru.academits.biluta.minesweeper_main;
+package ru.academits.biluta.minesweeper.main;
 
-import ru.academits.biluta.minesweeper.Level;
-import ru.academits.biluta.minesweeper.Minesweeper;
-import ru.academits.biluta.minesweeper_gui.View;
+import ru.academits.biluta.minesweeper.logic.Level;
+import ru.academits.biluta.minesweeper.gui.View;
 
 import javax.swing.*;
 

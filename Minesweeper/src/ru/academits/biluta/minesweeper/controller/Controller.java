@@ -1,9 +1,9 @@
-package ru.academits.biluta.minesweeper_controller;
+package ru.academits.biluta.minesweeper.controller;
 
-import ru.academits.biluta.minesweeper.Cell;
-import ru.academits.biluta.minesweeper.Level;
-import ru.academits.biluta.minesweeper.Minesweeper;
-import ru.academits.biluta.minesweeper_gui.View;
+import ru.academits.biluta.minesweeper.logic.Cell;
+import ru.academits.biluta.minesweeper.logic.Level;
+import ru.academits.biluta.minesweeper.logic.Minesweeper;
+import ru.academits.biluta.minesweeper.gui.View;
 
 public class Controller {
     private Minesweeper minesweeper;

@@ -1,7 +1,6 @@
-package ru.academits.biluta.minesweeper;
+package ru.academits.biluta.minesweeper.logic;
 
 import java.util.*;
-import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 

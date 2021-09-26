@@ -1,6 +1,6 @@
-package ru.academits.biluta.minesweeper_gui;
+package ru.academits.biluta.minesweeper.gui;
 
-import ru.academits.biluta.minesweeper.Level;
+import ru.academits.biluta.minesweeper.logic.Level;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,7 @@ public class View extends JFrame {
 
     final static String FRAME_HEADER = "Minesweeper";
 
-    final static String resources = "Minesweeper/src/ru/academits/biluta/minesweeper_resources/";
+    final static String resources = "Minesweeper/src/ru/academits/biluta/minesweeper/resources/";
     final static String bombImageFilePath = resources + "bomb.png";
     final static String explosionImageFilePath = resources + "explosion.png";
     final static String flagImageFilePath = resources + "flag.png";
