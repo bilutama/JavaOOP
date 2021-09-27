@@ -1,7 +1,6 @@
 
 package ru.academits.biluta.temperature.view;
 
-import com.apple.eawt.Application;
 import ru.academits.biluta.temperature.model.units.Units;
 
 import javax.swing.*;
@@ -11,7 +10,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import static javax.swing.GroupLayout.Alignment.*;
+import static javax.swing.GroupLayout.Alignment.CENTER;
 
 public class ConverterView implements View {
     private JFrame frame;
@@ -32,14 +31,14 @@ public class ConverterView implements View {
 
     private void initializeMainFrame(ArrayList<Units> units) {
         try {
-            System.out.println(UIManager.getSystemLookAndFeelClassName());
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {
         }
 
-        // set icon for mac application
         String appIconFilePath = "Temperature/src/ru/academits/biluta/temperature/resources/thermometer.png";
-        Application.getApplication().setDockIconImage(new ImageIcon(appIconFilePath).getImage());
+
+        // Uncomment to set icon when run as a mac app
+        // Application.getApplication().setDockIconImage(new ImageIcon(appIconFilePath).getImage());
 
         // set the main FRAME
         frame = new JFrame("Temperature converter");
