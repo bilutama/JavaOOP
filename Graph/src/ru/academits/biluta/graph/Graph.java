@@ -45,7 +45,7 @@ public class Graph<T> {
             isVisited[i] = true;
 
             while (!indicesQueue.isEmpty()) {
-                Integer nodeIndex = indicesQueue.remove();
+                int nodeIndex = indicesQueue.remove();
 
                 // Handle a node from a queue
                 handler.accept(nodes[nodeIndex]);
@@ -77,7 +77,7 @@ public class Graph<T> {
             indicesStack.addFirst(i);
 
             while (!indicesStack.isEmpty()) {
-                Integer nodeIndex = indicesStack.removeFirst();
+                int nodeIndex = indicesStack.removeFirst();
 
                 // Handle a node from the stack
                 if (!isVisited[nodeIndex]) {
