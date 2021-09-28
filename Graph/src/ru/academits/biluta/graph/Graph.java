@@ -75,26 +75,20 @@ public class Graph<T> {
             }
 
             indicesStack.addFirst(i);
-            isVisited[i] = true;
 
             while (!indicesStack.isEmpty()) {
                 Integer nodeIndex = indicesStack.removeFirst();
 
                 // Handle a node from the stack
-                handler.accept(nodes[nodeIndex]);
+                if (!isVisited[nodeIndex]) {
+                    handler.accept(nodes[nodeIndex]);
+                    isVisited[nodeIndex] = true;
+                }
 
                 for (int j = isVisited.length - 1; j >= 0; --j) {
                     if (connectivityMatrix[j][nodeIndex] != 0) {
-                        // Check if the node index is already in the stack and put it on the top
-                        if (indicesStack.remove(j)) {
-                            indicesStack.addFirst(j);
-                            continue;
-                        }
-
-                        // Add node index if not visited
                         if (!isVisited[j]) {
                             indicesStack.addFirst(j);
-                            isVisited[j] = true;
                         }
                     }
                 }
