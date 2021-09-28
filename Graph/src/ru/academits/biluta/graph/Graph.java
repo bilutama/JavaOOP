@@ -86,10 +86,8 @@ public class Graph<T> {
                 }
 
                 for (int j = isVisited.length - 1; j >= 0; --j) {
-                    if (connectivityMatrix[j][nodeIndex] != 0) {
-                        if (!isVisited[j]) {
-                            indicesStack.addFirst(j);
-                        }
+                    if (connectivityMatrix[j][nodeIndex] != 0 && !isVisited[j]) {
+                        indicesStack.addFirst(j);
                     }
                 }
             }
