@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 public interface ConverterView {
     double getTemperature();
 
-    void setConvertedTemperature(double convertedValue);
+    void setConvertedTemperature(double convertedTemperature);
 
     Scale getScaleFrom();
 
