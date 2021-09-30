@@ -16,8 +16,8 @@ public class SwingConverterView implements ConverterView {
     private JFrame frame;
     private final DefaultListModel<Scale> unitsListModel = new DefaultListModel<>();
 
-    private final JList<Scale> unitsFrom = new JList<>();
-    private final JList<Scale> unitsTo = new JList<>();
+    private final JList<Scale> scaleFrom = new JList<>();
+    private final JList<Scale> scaleTo = new JList<>();
 
     private final JTextField inputTextField = new JTextField();
     private final JTextField resultTextField = new JTextField();
@@ -57,15 +57,15 @@ public class SwingConverterView implements ConverterView {
 
         JLabel label = new JLabel("Check scales and enter temperature:");
 
-        unitsFrom.setModel(unitsListModel);
-        unitsFrom.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "input"));
-        unitsFrom.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
-        unitsFrom.setSelectedIndex(0);
+        scaleFrom.setModel(unitsListModel);
+        scaleFrom.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "input"));
+        scaleFrom.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+        scaleFrom.setSelectedIndex(0);
 
-        unitsTo.setModel(unitsListModel);
-        unitsTo.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "output"));
-        unitsTo.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
-        unitsTo.setSelectedIndex(0);
+        scaleTo.setModel(unitsListModel);
+        scaleTo.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "output"));
+        scaleTo.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+        scaleTo.setSelectedIndex(0);
 
         inputTextField.setText("0.0");
 
@@ -84,13 +84,13 @@ public class SwingConverterView implements ConverterView {
                 .addComponent(label)
                 .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(CENTER)
-                                .addComponent(unitsFrom)
+                                .addComponent(scaleFrom)
                                 .addComponent(inputTextField))
                         .addGroup(layout.createParallelGroup(CENTER)
                                 .addComponent(swapUnitsButton)
                                 .addComponent(convertButton))
                         .addGroup(layout.createParallelGroup(CENTER)
-                                .addComponent(unitsTo)
+                                .addComponent(scaleTo)
                                 .addComponent(resultTextField)))
         );
 
@@ -99,9 +99,9 @@ public class SwingConverterView implements ConverterView {
                 .addGroup(layout.createParallelGroup(CENTER)
                         .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(CENTER)
-                                        .addComponent(unitsFrom)
+                                        .addComponent(scaleFrom)
                                         .addComponent(swapUnitsButton)
-                                        .addComponent(unitsTo))
+                                        .addComponent(scaleTo))
                                 .addGroup(layout.createParallelGroup(CENTER)
                                         .addComponent(inputTextField)
                                         .addComponent(convertButton)
@@ -154,23 +154,23 @@ public class SwingConverterView implements ConverterView {
     }
 
     @Override
-    public Scale getUnitsFrom() {
-        return unitsFrom.getSelectedValue();
+    public Scale getScaleFrom() {
+        return scaleFrom.getSelectedValue();
     }
 
     @Override
-    public Scale getUnitsTo() {
-        return unitsTo.getSelectedValue();
+    public Scale getScaleTo() {
+        return scaleTo.getSelectedValue();
     }
 
     private void swapUnits() {
-        if (getUnitsFrom() == getUnitsTo()) {
+        if (getScaleFrom() == getScaleTo()) {
             return;
         }
 
-        int unitsFromIndex = unitsFrom.getSelectedIndex();
-        unitsFrom.setSelectedIndex(unitsTo.getSelectedIndex());
-        unitsTo.setSelectedIndex(unitsFromIndex);
+        int scaleFromIndex = scaleFrom.getSelectedIndex();
+        scaleFrom.setSelectedIndex(scaleTo.getSelectedIndex());
+        scaleTo.setSelectedIndex(scaleFromIndex);
     }
 
     private void showErrorMessage() {

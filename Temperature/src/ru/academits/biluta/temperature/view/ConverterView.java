@@ -9,9 +9,9 @@ public interface ConverterView {
 
     void setConvertedTemperature(double convertedValue);
 
-    Scale getUnitsFrom();
+    Scale getScaleFrom();
 
-    Scale getUnitsTo();
+    Scale getScaleTo();
 
     void addConvertButtonListener(ActionListener actionListener);
 }
