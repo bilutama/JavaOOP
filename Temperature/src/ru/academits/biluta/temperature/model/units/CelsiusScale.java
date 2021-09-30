@@ -4,12 +4,12 @@ public class CelsiusScale implements Scale {
     private final static double ABSOLUTE_ZERO_CELSIUS = -273.15;
 
     @Override
-    public double convertToKelvins(double temperature) {
+    public double convertToKelvin(double temperature) {
         return temperature - ABSOLUTE_ZERO_CELSIUS;
     }
 
     @Override
-    public double convertFromKelvins(double temperature) {
+    public double convertFromKelvin(double temperature) {
         return temperature + ABSOLUTE_ZERO_CELSIUS;
     }
 
