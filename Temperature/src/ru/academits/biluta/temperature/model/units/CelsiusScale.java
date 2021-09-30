@@ -1,8 +1,7 @@
 package ru.academits.biluta.temperature.model.units;
 
-public class Celsius implements Units {
+public class CelsiusScale implements Scale {
     private final static double ABSOLUTE_ZERO_CELSIUS = -273.15;
-    private final static String unitsName = "Celsius";
 
     @Override
     public double convertToKelvins(double temperature) {
@@ -14,7 +13,8 @@ public class Celsius implements Units {
         return temperature + ABSOLUTE_ZERO_CELSIUS;
     }
 
-    public String toString (){
-        return unitsName;
+    @Override
+    public String toString() {
+        return "Celsius";
     }
 }

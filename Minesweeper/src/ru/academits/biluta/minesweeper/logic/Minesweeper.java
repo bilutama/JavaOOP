@@ -1,5 +1,7 @@
 package ru.academits.biluta.minesweeper.logic;
 
+import ru.academits.biluta.minesweeper.controller.GameState;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -13,8 +15,9 @@ public class Minesweeper {
     private int[][] neighbouringMinesCount;
     private int[][] openedCells;
 
-    // Game level
+    // Game level and state
     private Level level;
+    private GameState gameState;
 
     public Minesweeper(Level level, Cell firstOpenedCell) {
         this.level = level;

@@ -1,8 +1,6 @@
 package ru.academits.biluta.temperature.model.units;
 
-public class Rankine implements Units {
-    private final static String unitsName = "Rankine";
-
+public class RankineScale implements Scale {
     @Override
     public double convertToKelvins(double temperature) {
         return temperature / 1.8;
@@ -15,6 +13,6 @@ public class Rankine implements Units {
 
     @Override
     public String toString() {
-        return unitsName;
+        return "Rankine";
     }
 }

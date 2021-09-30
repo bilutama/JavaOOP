@@ -1,8 +1,6 @@
 package ru.academits.biluta.temperature.model.units;
 
-public class Kelvin implements Units {
-    private final static String unitsName = "Kelvin";
-
+public class KelvinScale implements Scale {
     @Override
     public double convertToKelvins(double temperature) {
         return temperature;
@@ -13,7 +11,8 @@ public class Kelvin implements Units {
         return temperature;
     }
 
-    public String toString (){
-        return unitsName;
+    @Override
+    public String toString() {
+        return "Kelvin";
     }
 }

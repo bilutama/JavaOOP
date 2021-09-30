@@ -1,8 +1,7 @@
 package ru.academits.biluta.temperature.model.units;
 
-public class Fahrenheit implements Units {
+public class FahrenheitScale implements Scale {
     private final static double ABSOLUTE_ZERO_CELSIUS = -273.15;
-    private final static String unitsName = "Fahrenheit";
 
     @Override
     public double convertToKelvins(double temperature) {
@@ -14,7 +13,8 @@ public class Fahrenheit implements Units {
         return 1.8 * (temperature + ABSOLUTE_ZERO_CELSIUS) + 32;
     }
 
-    public String toString (){
-        return unitsName;
+    @Override
+    public String toString() {
+        return "Fahrenheit";
     }
 }
