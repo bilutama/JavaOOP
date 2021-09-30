@@ -14,7 +14,7 @@ import static javax.swing.GroupLayout.Alignment.CENTER;
 
 public class SwingConverterView implements ConverterView {
     private JFrame frame;
-    private final DefaultListModel<Scale> scalesListModel = new DefaultListModel<>();
+    private final DefaultListModel<Scale> scaleListModel = new DefaultListModel<>();
 
     private final JList<Scale> scaleFrom = new JList<>();
     private final JList<Scale> scaleTo = new JList<>();
@@ -48,7 +48,7 @@ public class SwingConverterView implements ConverterView {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Initialize SCALE LIST MODEL
-        scalesListModel.addAll(scales);
+        scaleListModel.addAll(scales);
 
         // set PANEL
         JPanel panel = new JPanel();
@@ -57,12 +57,12 @@ public class SwingConverterView implements ConverterView {
 
         JLabel label = new JLabel("Check scales and enter temperature:");
 
-        scaleFrom.setModel(scalesListModel);
+        scaleFrom.setModel(scaleListModel);
         scaleFrom.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "input"));
         scaleFrom.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         scaleFrom.setSelectedIndex(0);
 
-        scaleTo.setModel(scalesListModel);
+        scaleTo.setModel(scaleListModel);
         scaleTo.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "output"));
         scaleTo.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         scaleTo.setSelectedIndex(0);
