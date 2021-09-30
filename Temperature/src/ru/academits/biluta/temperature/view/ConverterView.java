@@ -1,6 +1,6 @@
 package ru.academits.biluta.temperature.view;
 
-import ru.academits.biluta.temperature.model.units.Scale;
+import ru.academits.biluta.temperature.model.scales.Scale;
 
 import java.awt.event.ActionListener;
 

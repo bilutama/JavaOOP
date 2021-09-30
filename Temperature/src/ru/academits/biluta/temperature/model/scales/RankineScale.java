@@ -1,18 +1,18 @@
-package ru.academits.biluta.temperature.model.units;
+package ru.academits.biluta.temperature.model.scales;
 
-public class KelvinScale implements Scale {
+public class RankineScale implements Scale {
     @Override
     public double convertToKelvin(double temperature) {
-        return temperature;
+        return temperature / 1.8;
     }
 
     @Override
     public double convertFromKelvin(double temperature) {
-        return temperature;
+        return temperature * 1.8;
     }
 
     @Override
     public String toString() {
-        return "Kelvin";
+        return "Rankine";
     }
 }

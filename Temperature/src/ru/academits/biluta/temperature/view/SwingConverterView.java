@@ -1,7 +1,7 @@
 
 package ru.academits.biluta.temperature.view;
 
-import ru.academits.biluta.temperature.model.units.Scale;
+import ru.academits.biluta.temperature.model.scales.Scale;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -14,7 +14,7 @@ import static javax.swing.GroupLayout.Alignment.CENTER;
 
 public class SwingConverterView implements ConverterView {
     private JFrame frame;
-    private final DefaultListModel<Scale> unitsListModel = new DefaultListModel<>();
+    private final DefaultListModel<Scale> scalesListModel = new DefaultListModel<>();
 
     private final JList<Scale> scaleFrom = new JList<>();
     private final JList<Scale> scaleTo = new JList<>();
@@ -25,11 +25,11 @@ public class SwingConverterView implements ConverterView {
     private final JButton swapUnitsButton = new JButton("<-swap->");
     private final JButton convertButton = new JButton("convert->");
 
-    public SwingConverterView(ArrayList<Scale> units) {
-        SwingUtilities.invokeLater(() -> initializeMainFrame(units));
+    public SwingConverterView(ArrayList<Scale> scales) {
+        SwingUtilities.invokeLater(() -> initializeMainFrame(scales));
     }
 
-    private void initializeMainFrame(ArrayList<Scale> units) {
+    private void initializeMainFrame(ArrayList<Scale> scales) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {
@@ -47,8 +47,8 @@ public class SwingConverterView implements ConverterView {
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Initialize UNITS LIST MODEL
-        unitsListModel.addAll(units);
+        // Initialize SCALE LIST MODEL
+        scalesListModel.addAll(scales);
 
         // set PANEL
         JPanel panel = new JPanel();
@@ -57,12 +57,12 @@ public class SwingConverterView implements ConverterView {
 
         JLabel label = new JLabel("Check scales and enter temperature:");
 
-        scaleFrom.setModel(unitsListModel);
+        scaleFrom.setModel(scalesListModel);
         scaleFrom.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "input"));
         scaleFrom.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         scaleFrom.setSelectedIndex(0);
 
-        scaleTo.setModel(unitsListModel);
+        scaleTo.setModel(scalesListModel);
         scaleTo.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "output"));
         scaleTo.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         scaleTo.setSelectedIndex(0);

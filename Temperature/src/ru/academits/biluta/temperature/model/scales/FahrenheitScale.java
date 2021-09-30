@@ -1,4 +1,4 @@
-package ru.academits.biluta.temperature.model.units;
+package ru.academits.biluta.temperature.model.scales;
 
 public class FahrenheitScale implements Scale {
     private final static double ABSOLUTE_ZERO_CELSIUS = -273.15;

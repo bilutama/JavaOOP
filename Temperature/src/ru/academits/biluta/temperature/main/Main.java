@@ -2,7 +2,7 @@ package ru.academits.biluta.temperature.main;
 
 import ru.academits.biluta.temperature.controller.Controller;
 import ru.academits.biluta.temperature.model.TemperatureConverter;
-import ru.academits.biluta.temperature.model.units.*;
+import ru.academits.biluta.temperature.model.scales.*;
 import ru.academits.biluta.temperature.view.ConverterView;
 import ru.academits.biluta.temperature.view.SwingConverterView;
 
@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<Scale> units = new ArrayList<>(Arrays.asList(
+        ArrayList<Scale> scales = new ArrayList<>(Arrays.asList(
                 new KelvinScale(),
                 new CelsiusScale(),
                 new FahrenheitScale(),
@@ -19,7 +19,7 @@ public class Main {
         ));
 
         TemperatureConverter converter = new TemperatureConverter();
-        ConverterView view = new SwingConverterView(units);
+        ConverterView view = new SwingConverterView(scales);
         Controller controller = new Controller(converter, view);
     }
 }

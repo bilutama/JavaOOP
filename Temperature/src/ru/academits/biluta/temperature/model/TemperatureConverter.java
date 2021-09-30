@@ -1,6 +1,6 @@
 package ru.academits.biluta.temperature.model;
 
-import ru.academits.biluta.temperature.model.units.Scale;
+import ru.academits.biluta.temperature.model.scales.Scale;
 
 public class TemperatureConverter implements ScaleConverter {
     @Override

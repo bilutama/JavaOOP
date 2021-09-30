@@ -21,7 +21,7 @@ public class Controller implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         view.setConvertedTemperature(Math.round(
-                converter.convert(view.getTemperature(), view.getUnitsFrom(), view.getUnitsTo()) * Math.pow(10, DEFAULT_ACCURACY)) / Math.pow(10, DEFAULT_ACCURACY)
+                converter.convert(view.getTemperature(), view.getScaleFrom(), view.getScaleTo()) * Math.pow(10, DEFAULT_ACCURACY)) / Math.pow(10, DEFAULT_ACCURACY)
         );
     }
 }
