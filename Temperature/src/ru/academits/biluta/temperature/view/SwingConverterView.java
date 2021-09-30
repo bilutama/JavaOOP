@@ -22,7 +22,7 @@ public class SwingConverterView implements ConverterView {
     private final JTextField inputTextField = new JTextField();
     private final JTextField resultTextField = new JTextField();
 
-    private final JButton swapUnitsButton = new JButton("<-swap->");
+    private final JButton swapScalesButton = new JButton("<-swap->");
     private final JButton convertButton = new JButton("convert->");
 
     public SwingConverterView(ArrayList<Scale> scales) {
@@ -72,7 +72,7 @@ public class SwingConverterView implements ConverterView {
         resultTextField.setEditable(false);
         resultTextField.setText("0.0");
 
-        swapUnitsButton.addActionListener(e -> swapUnits());
+        swapScalesButton.addActionListener(e -> swapScales());
 
         // Set the LAYOUT
         GroupLayout layout = new GroupLayout(panel);
@@ -87,7 +87,7 @@ public class SwingConverterView implements ConverterView {
                                 .addComponent(scaleFrom)
                                 .addComponent(inputTextField))
                         .addGroup(layout.createParallelGroup(CENTER)
-                                .addComponent(swapUnitsButton)
+                                .addComponent(swapScalesButton)
                                 .addComponent(convertButton))
                         .addGroup(layout.createParallelGroup(CENTER)
                                 .addComponent(scaleTo)
@@ -100,7 +100,7 @@ public class SwingConverterView implements ConverterView {
                         .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(CENTER)
                                         .addComponent(scaleFrom)
-                                        .addComponent(swapUnitsButton)
+                                        .addComponent(swapScalesButton)
                                         .addComponent(scaleTo))
                                 .addGroup(layout.createParallelGroup(CENTER)
                                         .addComponent(inputTextField)
@@ -163,7 +163,7 @@ public class SwingConverterView implements ConverterView {
         return scaleTo.getSelectedValue();
     }
 
-    private void swapUnits() {
+    private void swapScales() {
         if (getScaleFrom() == getScaleTo()) {
             return;
         }
