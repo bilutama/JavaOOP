@@ -14,23 +14,68 @@ public class Minesweeper {
     private int[][] mines;
     private int[][] neighbouringMinesCount;
     private int[][] openedCells;
+    private int closedCellsCount;
 
     // Game level and state
     private Level level;
     private GameState gameState;
 
-    public Minesweeper(Level level, Cell firstOpenedCell) {
+    public Minesweeper(Level level) {
         this.level = level;
 
         height = level.getHeight();
         width = level.getWidth();
 
-        int firstOpenedCellX = firstOpenedCell.getX();
-        int firstOpenedCellY = firstOpenedCell.getY();
+        closedCellsCount = height * width;
 
+        gameState = GameState.NEW_GAME;
+    }
+
+    private void resumeGame(Cell nextCell) {
+        --closedCellsCount;
+
+        if (gameState == GameState.NEW_GAME) {
+            // TODO: start the game
+            // place mines
+            // start timer
+            startGame(nextCell);
+            gameState = GameState.NEXT_TURN;
+        }
+
+        // NEXT TURN
+        if (closedCellsCount == level.getMinesCount()) {
+            gameState = GameState.WIN;
+            endGame();
+        }
+
+        if (hasMine(nextCell)) {
+            gameState = GameState.LOSE;
+            endGame();
+        }
+    }
+
+    private void endGame(){
+        // TODO: stop timer
+        // deactivate the field
+
+        if (gameState == GameState.WIN) {
+            // check records table
+        }
+
+        // code for lost game
+    }
+
+    private boolean hasMine(Cell cell) {
+        return mines[cell.getX()][cell.getY()] == 1;
+    }
+
+    private void startGame(Cell firstOpenedCell) {
         mines = new int[height][width];
         neighbouringMinesCount = new int[height][width];
         openedCells = new int[height][width];
+
+        int firstOpenedCellX = firstOpenedCell.getX();
+        int firstOpenedCellY = firstOpenedCell.getY();
 
         placeMines(mines, level.getMinesCount(), firstOpenedCellY / width + firstOpenedCellX);
         countNeighbouringMines();
@@ -38,11 +83,11 @@ public class Minesweeper {
 
     private void placeMines(int[][] mines, int minesCount, int excludedIndex) {
         // Get cells indices to place mines except first opened cell
-        Integer[] minedCellsIndices = getRandomCellsIndices(minesCount, excludedIndex);
+        Integer[] randomCellIndices = getRandomCellsIndices(minesCount, excludedIndex);
 
         // Place mines among closed cells
         for (int i = 0; i < minesCount; ++i) {
-            mines[minedCellsIndices[i] / width][minedCellsIndices[i] % width] = 1;
+            mines[randomCellIndices[i] / width][randomCellIndices[i] % width] = 1;
         }
 
         //TODO: remove
@@ -79,10 +124,10 @@ public class Minesweeper {
         List<Integer> cellsIndices = IntStream.range(0, height * width - 1).filter(x -> x != excludedValue).boxed().collect(Collectors.toList());
         Collections.shuffle(cellsIndices);
 
-        Integer[] minedCellsIndices = new Integer[minesCount];
-        new ArrayList<>(cellsIndices.subList(0, minesCount)).toArray(minedCellsIndices);
+        Integer[] randomCellIndices = new Integer[minesCount];
+        new ArrayList<>(cellsIndices.subList(0, minesCount)).toArray(randomCellIndices);
 
-        return minedCellsIndices;
+        return randomCellIndices;
     }
 
     private void openCells(Cell cell) {

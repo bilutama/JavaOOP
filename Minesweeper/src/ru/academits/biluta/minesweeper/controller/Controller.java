@@ -16,7 +16,7 @@ public class Controller {
 
     private void initialize(Level level, Cell firstCell) {
         view = new View(level);
-        minesweeper = new Minesweeper(level, firstCell);
+        minesweeper = new Minesweeper(level);
     }
 
     private void resumeOnClick() {
