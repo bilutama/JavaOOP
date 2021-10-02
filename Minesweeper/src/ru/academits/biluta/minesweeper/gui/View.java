@@ -3,6 +3,8 @@ package ru.academits.biluta.minesweeper.gui;
 import ru.academits.biluta.minesweeper.logic.Level;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,15 +17,12 @@ public class View extends JFrame {
 
     final static String FRAME_HEADER = "Minesweeper";
 
-    final static String resources = "Minesweeper/src/ru/academits/biluta/minesweeper/resources/";
-    final static String bombImageFilePath = resources + "bomb.png";
-    final static String explosionImageFilePath = resources + "explosion.png";
-    final static String flagImageFilePath = resources + "flag.png";
-    final static String smileImageFilePath = resources + "smile.png";
-    final static String skullImageFilePath = resources + "skull.png";
-
-    private final JButton[][] fieldButton;
-    private final JButton startNewGameButton;
+    final static String RESOURCES_PATH = "Minesweeper/src/ru/academits/biluta/minesweeper/resources/";
+    final static String BOMB_IMAGE_FILE_PATH = RESOURCES_PATH + "bomb.png";
+    final static String EXPLOSION_IMAGE_FILE_PATH = RESOURCES_PATH + "explosion.png";
+    final static String FLAG_IMAGE_FILE_PATH = RESOURCES_PATH + "flag.png";
+    final static String SMILE_IMAGE_FILE_PATH = RESOURCES_PATH + "smile.png";
+    final static String SKULL_IMAGE_FILE_PATH = RESOURCES_PATH + "skull.png";
 
     public View(Level level) {
         try {
@@ -33,9 +32,9 @@ public class View extends JFrame {
 
         // set the main FRAME
         JFrame frame = new JFrame(FRAME_HEADER + " - " + level.toString().toUpperCase());
-        frame.setIconImage(new ImageIcon(bombImageFilePath).getImage());
+        frame.setIconImage(new ImageIcon(BOMB_IMAGE_FILE_PATH).getImage());
 
-        frame.setResizable(false);
+        //frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -51,11 +50,11 @@ public class View extends JFrame {
         topPanel.add(toolBar);
 
         // Add start_new_game button to the panel
-        startNewGameButton = new JButton();
+        JButton startNewGameButton = new JButton();
         startNewGameButton.setFocusable(false);
 
         ImageIcon smileImage = new ImageIcon(
-                new ImageIcon(smileImageFilePath)
+                new ImageIcon(SMILE_IMAGE_FILE_PATH)
                         .getImage()
                         .getScaledInstance(MAIN_ICON_SIZE, MAIN_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
         );
@@ -69,50 +68,54 @@ public class View extends JFrame {
         JPanel mineField = new JPanel();
         frame.add(mineField, BorderLayout.CENTER);
 
-        mineField.setLayout(new GridLayout(width, height));
+        mineField.setLayout(new GridLayout(width, height ,0, 0));
 
         // Set frame size depending on field dimensions
-        mineField.getTopLevelAncestor().setSize(width * CELL_SIZE, height * CELL_SIZE + TOP_PANEL_HEIGHT);
+        mineField.getTopLevelAncestor().setSize(width * (CELL_SIZE+5), height * (CELL_SIZE+5) + TOP_PANEL_HEIGHT);
 
         JPanel[][]panelHolder = new JPanel[width][height];
-        fieldButton = new JButton[width][height];
+        JButton[][] fieldButton = new JButton[width][height];
 
         for (int m = 0; m < width; m++) {
             for (int n = 0; n < height; n++) {
                 panelHolder[m][n] = new JPanel();
+                panelHolder[m][n].setBorder(new LineBorder(Color.BLACK,1));
                 mineField.add(panelHolder[m][n]);
 
-                panelHolder[m][n].setLayout(new GridLayout());
+                panelHolder[m][n].setLayout(new GridLayout(1, 1, 0, 0));
 
-                fieldButton[m][n] = new JButton();
+                //fieldButton[m][n] = new JButton();
+                fieldButton[m][n] = new MatrixButton(n, m);
+                fieldButton[m][n].setHorizontalAlignment(SwingConstants.CENTER);
+                fieldButton[m][n].setVerticalAlignment(SwingConstants.CENTER);
                 fieldButton[m][n].setFocusable(false);
-                panelHolder[m][n].add(fieldButton[m][n], BorderLayout.WEST);
+                panelHolder[m][n].add(fieldButton[m][n]);
 
                 JPanel panel = panelHolder[m][n];
-                JButton fb = fieldButton[m][n];
+                JButton cellButton = fieldButton[m][n];
 
-
-                Image explosionImage = new ImageIcon(explosionImageFilePath)
+                Image explosionImage = new ImageIcon(EXPLOSION_IMAGE_FILE_PATH)
                         .getImage()
                         .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING);
                 JLabel labelExplosion = new JLabel(new ImageIcon(explosionImage));
 
                 ImageIcon flagImage = new ImageIcon(
-                        new ImageIcon(flagImageFilePath)
+                        new ImageIcon(FLAG_IMAGE_FILE_PATH)
                                 .getImage()
                                 .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
                 );
 
-                fb.addMouseListener(new MouseAdapter() {
+                cellButton.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
-                            panel.remove(fb);
+                            panel.remove(cellButton);
                             panel.add(labelExplosion);
                             panel.updateUI();
+                            //System.out.printf("Button %d, %d%n", cellButton.getX(), cellButton.getY());
                         }
 
                         if (e.getButton() == MouseEvent.BUTTON3) {
-                            fb.setIcon(flagImage);
+                            cellButton.setIcon(flagImage);
                         }
                     }
                 });
@@ -122,11 +125,5 @@ public class View extends JFrame {
         }
     }
 
-    public JButton[][] getFieldButton() {
-        return fieldButton;
-    }
 
-    public JButton getStartNewGameButton() {
-        return startNewGameButton;
-    }
 }

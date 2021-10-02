@@ -5,7 +5,10 @@ import ru.academits.biluta.minesweeper.logic.Level;
 import ru.academits.biluta.minesweeper.logic.Minesweeper;
 import ru.academits.biluta.minesweeper.gui.View;
 
-public class Controller {
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
+
+public class Controller extends MouseAdapter {
     private Minesweeper minesweeper;
     private View view;
 
@@ -22,4 +25,6 @@ public class Controller {
     private void resumeOnClick() {
 
     }
+
+
 }
