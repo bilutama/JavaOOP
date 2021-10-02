@@ -3,7 +3,6 @@ package ru.academits.biluta.minesweeper.gui;
 import ru.academits.biluta.minesweeper.logic.Level;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -68,31 +67,27 @@ public class View extends JFrame {
         JPanel mineField = new JPanel();
         frame.add(mineField, BorderLayout.CENTER);
 
-        mineField.setLayout(new GridLayout(width, height ,0, 0));
+        mineField.setLayout(new GridLayout(width, height));
 
         // Set frame size depending on field dimensions
-        mineField.getTopLevelAncestor().setSize(width * (CELL_SIZE+5), height * (CELL_SIZE+5) + TOP_PANEL_HEIGHT);
+        mineField.getTopLevelAncestor().setSize(width * (CELL_SIZE), height * (CELL_SIZE) + TOP_PANEL_HEIGHT);
 
-        JPanel[][]panelHolder = new JPanel[width][height];
-        JButton[][] fieldButton = new JButton[width][height];
+        JPanel[][] panelHolder = new JPanel[width][height];
+        MatrixButton[][] fieldButton = new MatrixButton[width][height];
 
         for (int m = 0; m < width; m++) {
             for (int n = 0; n < height; n++) {
                 panelHolder[m][n] = new JPanel();
-                panelHolder[m][n].setBorder(new LineBorder(Color.BLACK,1));
                 mineField.add(panelHolder[m][n]);
 
-                panelHolder[m][n].setLayout(new GridLayout(1, 1, 0, 0));
+                panelHolder[m][n].setLayout(new BorderLayout());
 
-                //fieldButton[m][n] = new JButton();
                 fieldButton[m][n] = new MatrixButton(n, m);
-                fieldButton[m][n].setHorizontalAlignment(SwingConstants.CENTER);
-                fieldButton[m][n].setVerticalAlignment(SwingConstants.CENTER);
                 fieldButton[m][n].setFocusable(false);
                 panelHolder[m][n].add(fieldButton[m][n]);
 
                 JPanel panel = panelHolder[m][n];
-                JButton cellButton = fieldButton[m][n];
+                MatrixButton cellButton = fieldButton[m][n];
 
                 Image explosionImage = new ImageIcon(EXPLOSION_IMAGE_FILE_PATH)
                         .getImage()
@@ -111,7 +106,6 @@ public class View extends JFrame {
                             panel.remove(cellButton);
                             panel.add(labelExplosion);
                             panel.updateUI();
-                            //System.out.printf("Button %d, %d%n", cellButton.getX(), cellButton.getY());
                         }
 
                         if (e.getButton() == MouseEvent.BUTTON3) {

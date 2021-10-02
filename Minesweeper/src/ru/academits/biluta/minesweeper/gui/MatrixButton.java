@@ -3,25 +3,26 @@ package ru.academits.biluta.minesweeper.gui;
 import javax.swing.*;
 
 public class MatrixButton extends JButton {
-    private final int x;
-    private final int y;
+    private final int row;
+    private final int column;
 
-    public MatrixButton(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public MatrixButton(int row, int column) {
+        super();
+        this.row = row;
+        this.column = column;
     }
 
-    public MatrixButton(String t, int x, int y) {
-        super(t);
-        this.x = x;
-        this.y = y;
+    public MatrixButton(String buttonLabel, int row, int column) {
+        super(buttonLabel);
+        this.row = row;
+        this.column = column;
     }
 
-    public int getX() {
-        return x;
+    public int getRow() {
+        return row;
     }
 
-    public int getY() {
-        return y;
+    public int getColumn() {
+        return column;
     }
 }
