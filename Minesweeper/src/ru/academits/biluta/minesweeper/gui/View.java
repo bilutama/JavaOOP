@@ -109,7 +109,12 @@ public class View extends JFrame {
                         }
 
                         if (e.getButton() == MouseEvent.BUTTON3) {
-                            cellButton.setIcon(flagImage);
+                            if (null == cellButton.getIcon()) {
+                                cellButton.setIcon(flagImage);
+                                return;
+                            }
+
+                            cellButton.setIcon(null);
                         }
                     }
                 });
