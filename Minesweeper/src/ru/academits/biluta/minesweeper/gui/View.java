@@ -118,6 +118,4 @@ public class View extends JFrame {
             frame.setVisible(true);
         }
     }
-
-
 }
