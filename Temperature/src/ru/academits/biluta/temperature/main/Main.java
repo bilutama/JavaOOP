@@ -19,10 +19,14 @@ public class Main {
                 new RankineScale()
         ));
 
-        SwingUtilities.invokeLater(() -> {
-            TemperatureConverter converter = new TemperatureConverter();
-            ConverterView view = new SwingConverterView(scales);
-            Controller controller = new Controller(converter, view);
-        });
+        try {
+            SwingUtilities.invokeLater(() -> {
+                TemperatureConverter converter = new TemperatureConverter();
+                ConverterView view = new SwingConverterView(scales);
+                Controller controller = new Controller(converter, view);
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

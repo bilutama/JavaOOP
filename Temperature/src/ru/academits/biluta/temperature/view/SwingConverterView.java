@@ -1,4 +1,3 @@
-
 package ru.academits.biluta.temperature.view;
 
 import ru.academits.biluta.temperature.model.scales.Scale;
