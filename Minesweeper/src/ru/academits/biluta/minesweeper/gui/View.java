@@ -1,14 +1,16 @@
 package ru.academits.biluta.minesweeper.gui;
 
+import ru.academits.biluta.minesweeper.logic.Cell;
 import ru.academits.biluta.minesweeper.logic.Level;
+import ru.academits.biluta.minesweeper.logic.Minesweeper;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Deque;
 
-public class View extends JFrame {
+public class View {
     final static int CELL_SIZE = 40;
     final static int CELL_ICON_SIZE = 35;
     final static int MAIN_ICON_SIZE = 50;
@@ -23,11 +25,18 @@ public class View extends JFrame {
     final static String SMILE_IMAGE_FILE_PATH = RESOURCES_PATH + "smile.png";
     final static String SKULL_IMAGE_FILE_PATH = RESOURCES_PATH + "skull.png";
 
-    public View(Level level) {
+    JPanel[][] buttonPanel;
+    MatrixButton[][] fieldButton;
+
+    Minesweeper minesweeper;
+
+    public View(Level level, Minesweeper minesweeper) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {
         }
+
+        this.minesweeper = minesweeper;
 
         // set the main FRAME
         JFrame frame = new JFrame(FRAME_HEADER + " - " + level.toString().toUpperCase());
@@ -72,22 +81,22 @@ public class View extends JFrame {
         // Set frame size depending on field dimensions
         mineField.getTopLevelAncestor().setSize(width * (CELL_SIZE), height * (CELL_SIZE) + TOP_PANEL_HEIGHT);
 
-        JPanel[][] panelHolder = new JPanel[width][height];
-        MatrixButton[][] fieldButton = new MatrixButton[width][height];
+        buttonPanel = new JPanel[width][height];
+        fieldButton = new MatrixButton[width][height];
 
         for (int m = 0; m < width; m++) {
             for (int n = 0; n < height; n++) {
-                panelHolder[m][n] = new JPanel();
-                mineField.add(panelHolder[m][n]);
+                buttonPanel[m][n] = new JPanel();
+                mineField.add(buttonPanel[m][n]);
 
-                panelHolder[m][n].setLayout(new BorderLayout());
+                buttonPanel[m][n].setLayout(new BorderLayout());
 
                 fieldButton[m][n] = new MatrixButton(n, m);
                 fieldButton[m][n].setFocusable(false);
-                panelHolder[m][n].add(fieldButton[m][n]);
+                buttonPanel[m][n].add(fieldButton[m][n]);
 
-                JPanel panel = panelHolder[m][n];
-                MatrixButton cellButton = fieldButton[m][n];
+                JPanel panel = buttonPanel[m][n];
+                MatrixButton matrixButton = fieldButton[m][n];
 
                 Image explosionImage = new ImageIcon(EXPLOSION_IMAGE_FILE_PATH)
                         .getImage()
@@ -100,27 +109,43 @@ public class View extends JFrame {
                                 .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
                 );
 
-                cellButton.addMouseListener(new MouseAdapter() {
+                matrixButton.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
-                            panel.remove(cellButton);
-                            panel.add(labelExplosion);
-                            panel.updateUI();
+                            openRange(new Cell(matrixButton.getColumn(), matrixButton.getRow()));
+
+                            //panel.remove(matrixButton);
+
+                            //panel.add(labelExplosion);
+                            mineField.updateUI();
                         }
 
                         if (e.getButton() == MouseEvent.BUTTON3) {
-                            if (null == cellButton.getIcon()) {
-                                cellButton.setIcon(flagImage);
+                            if (null == matrixButton.getIcon()) {
+                                matrixButton.setIcon(flagImage);
                                 return;
                             }
 
-                            cellButton.setIcon(null);
+                            matrixButton.setIcon(null);
                         }
                     }
                 });
             }
 
             frame.setVisible(true);
+        }
+    }
+
+    private void openRange(Cell nextCell) {
+        // TODO: resumeGame
+        Deque<Cell> cells = minesweeper.resumeGame(nextCell);
+
+        while (!cells.isEmpty()) {
+            Cell cell = cells.removeFirst();
+            int x = cell.getX();
+            int y = cell.getY();
+
+            buttonPanel[x][y].remove(fieldButton[x][y]);
         }
     }
 }

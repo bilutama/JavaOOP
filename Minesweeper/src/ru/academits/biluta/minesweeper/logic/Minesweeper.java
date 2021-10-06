@@ -6,9 +6,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Minesweeper {
-    private int width;
-    private int height;
+public class Minesweeper implements Game {
+    private final int width;
+    private final int height;
 
     // Game state
     private int[][] mines;
@@ -17,7 +17,7 @@ public class Minesweeper {
     private int closedCellsCount;
 
     // Game level and state
-    private Level level;
+    private final Level level;
     private GameState gameState;
 
     public Minesweeper(Level level) {
@@ -31,15 +31,26 @@ public class Minesweeper {
         gameState = GameState.NEW_GAME;
     }
 
-    private void resumeGame(Cell nextCell) {
+    @Override
+    public Deque<Cell> resumeGame(Cell nextCell) {
+        Deque<Cell> openedCells = new LinkedList<>();
+
+        if (closedCellsCount == height * width) {
+        //if (gameState == GameState.NEW_GAME) {
+            startGame(nextCell);
+            // TODO: start timer
+            openedCells.addLast(nextCell);
+            gameState = GameState.NEXT_TURN;
+            --closedCellsCount;
+
+            return openedCells;
+        }
+
         --closedCellsCount;
 
-        if (gameState == GameState.NEW_GAME) {
-            // TODO: start the game
-            // place mines
-            // start timer
-            startGame(nextCell);
-            gameState = GameState.NEXT_TURN;
+        if (hasMine(nextCell)) {
+            gameState = GameState.LOSE;
+            endGame();
         }
 
         // NEXT TURN
@@ -48,16 +59,11 @@ public class Minesweeper {
             endGame();
         }
 
-        if (hasMine(nextCell)) {
-            gameState = GameState.LOSE;
-            endGame();
-        }
+        return openCells(nextCell);
     }
 
-    private void endGame(){
+    private void endGame() {
         // TODO: stop timer
-        // deactivate the field
-
         if (gameState == GameState.WIN) {
             // check records table
         }
@@ -72,13 +78,12 @@ public class Minesweeper {
     private void startGame(Cell firstOpenedCell) {
         mines = new int[height][width];
         neighbouringMinesCount = new int[height][width];
-        openedCells = new int[height][width];
 
         int firstOpenedCellX = firstOpenedCell.getX();
         int firstOpenedCellY = firstOpenedCell.getY();
 
-        placeMines(mines, level.getMinesCount(), firstOpenedCellY / width + firstOpenedCellX);
-        countNeighbouringMines();
+        placeMines(mines, level.getMinesCount(), firstOpenedCellX + firstOpenedCellY / width);
+        initializeAdjacentMinesCountMatrix();
     }
 
     private void placeMines(int[][] mines, int minesCount, int excludedIndex) {
@@ -94,7 +99,7 @@ public class Minesweeper {
         //printArray(mines);
     }
 
-    private void countNeighbouringMines() {
+    private void initializeAdjacentMinesCountMatrix() {
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
                 if (mines[i][j] != 1) {
@@ -130,27 +135,40 @@ public class Minesweeper {
         return randomCellIndices;
     }
 
-    private void openCells(Cell cell) {
-        Queue<Cell> cellsToOpen = new LinkedList<>();
-        cellsToOpen.add(cell);
+    private Deque<Cell> openCells(Cell cell) {
+        Deque<Cell> neighbouringCells = new LinkedList<>();
+        Deque<Cell> cellsToOpen = new LinkedList<>();
 
-        while (!cellsToOpen.isEmpty()) {
-            Cell current = cellsToOpen.poll();
+        neighbouringCells.addLast(cell);
+        cellsToOpen.addLast(cell);
+
+        // TODO: check if cell is already opened
+        while (!neighbouringCells.isEmpty()) {
+            Cell current = neighbouringCells.removeFirst();
             int currentX = current.getX();
             int currentY = current.getY();
 
-            if ((neighbouringMinesCount[currentX][currentY] = getAdjacentMinesCount(currentX, currentY)) > 0) {
+            if (neighbouringMinesCount[currentX][currentY] == 0) {
                 for (int j = currentY - 1; j < currentY + 2; ++j) {
                     if (j >= 0 && j < height) {
                         for (int i = currentX - 1; i < currentX + 2; ++i) {
                             if (i >= 0 && i < width) {
-                                cellsToOpen.add(new Cell(j, i));
+                                if (openedCells[j][i] == 0) {
+                                    Cell neighbouringCell = new Cell(j, i);
+
+                                    neighbouringCells.addLast(neighbouringCell);
+                                    cellsToOpen.addLast(neighbouringCell);
+
+                                    openedCells[j][i] = 1;
+                                }
                             }
                         }
                     }
                 }
             }
         }
+
+        return cellsToOpen;
     }
 
     // TODO: remove debugging code

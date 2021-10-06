@@ -6,6 +6,7 @@ import ru.academits.biluta.minesweeper.logic.Minesweeper;
 import ru.academits.biluta.minesweeper.gui.View;
 
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Controller extends MouseAdapter {
@@ -18,13 +19,7 @@ public class Controller extends MouseAdapter {
     }
 
     private void initialize(Level level, Cell firstCell) {
-        view = new View(level);
         minesweeper = new Minesweeper(level);
+        view = new View(level, minesweeper);
     }
-
-    private void resumeOnClick() {
-
-    }
-
-
 }
