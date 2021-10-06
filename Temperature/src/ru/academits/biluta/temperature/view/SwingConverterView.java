@@ -26,14 +26,6 @@ public class SwingConverterView implements ConverterView {
         } catch (Exception ignored) {
         }
 
-        DefaultListModel<Scale> scaleListModel = new DefaultListModel<>();
-        scaleFrom = new JList<>();
-        scaleTo = new JList<>();
-
-        inputTextField = new JTextField();
-        resultTextField = new JTextField();
-        convertButton = new JButton("convert->");
-
         String appIconFilePath = "Temperature/src/ru/academits/biluta/temperature/resources/thermometer.png";
 
         // Uncomment to set icon when run as a mac app
@@ -47,6 +39,7 @@ public class SwingConverterView implements ConverterView {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Initialize SCALE LIST MODEL
+        DefaultListModel<Scale> scaleListModel = new DefaultListModel<>();
         scaleListModel.addAll(scales);
 
         // set PANEL
@@ -56,23 +49,29 @@ public class SwingConverterView implements ConverterView {
 
         JLabel label = new JLabel("Check scales and enter temperature:");
 
+        scaleFrom = new JList<>();
         scaleFrom.setModel(scaleListModel);
         scaleFrom.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "input"));
         scaleFrom.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         scaleFrom.setSelectedIndex(0);
 
+        scaleTo = new JList<>();
         scaleTo.setModel(scaleListModel);
         scaleTo.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "output"));
         scaleTo.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         scaleTo.setSelectedIndex(0);
 
+        inputTextField = new JTextField();
         inputTextField.setText("0.0");
 
+        resultTextField = new JTextField();
         resultTextField.setEditable(false);
         resultTextField.setText("0.0");
 
         JButton swapScalesButton = new JButton("<-swap->");
         swapScalesButton.addActionListener(e -> swapScales());
+
+        convertButton = new JButton("convert->");
 
         // Set the LAYOUT
         GroupLayout layout = new GroupLayout(panel);
