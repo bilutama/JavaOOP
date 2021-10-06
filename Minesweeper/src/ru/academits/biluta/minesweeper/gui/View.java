@@ -112,7 +112,7 @@ public class View {
                     public void mouseClicked(MouseEvent e) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
                             // TODO: fix mines count
-                            openRange(new Cell(matrixButton.getColumn(), matrixButton.getRow(), 0));
+                            openRange(matrixButton.getColumn(), matrixButton.getRow());
                             mineField.updateUI();
                         }
 
@@ -132,16 +132,18 @@ public class View {
         }
     }
 
-    private void openRange(Cell nextCell) {
+    private void openRange(int cellX, int cellY) {
         // TODO: resumeGame
-        Deque<Cell> cells = minesweeper.resumeGame(nextCell);
+        Deque<Cell> cells = minesweeper.resumeGame(cellX, cellY);
 
         while (!cells.isEmpty()) {
             Cell cell = cells.removeFirst();
             int x = cell.getX();
             int y = cell.getY();
 
-            fieldButton[x][y].setVisible(false);
+            buttonPanel[x][y].remove(fieldButton[x][y]);
+            buttonPanel[x][y].updateUI();
+            //fieldButton[x][y].setVisible(false);
 
             Image explosionImage = new ImageIcon(EXPLOSION_IMAGE_FILE_PATH)
                     .getImage()
@@ -161,7 +163,7 @@ public class View {
                 label.setText(Integer.toString(minesCount));
                 label.setHorizontalTextPosition(JLabel.CENTER);
                 label.setVerticalTextPosition(JLabel.CENTER);
-                buttonPanel[x][y].add(label);
+                buttonPanel[x][y].add(label, BorderLayout.CENTER);
             }
         }
     }

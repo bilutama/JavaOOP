@@ -32,13 +32,13 @@ public class Minesweeper implements Game {
     }
 
     @Override
-    public Deque<Cell> resumeGame(Cell nextCell) {
+    public Deque<Cell> resumeGame(int cellX, int cellY) {
         Deque<Cell> openedCells = new LinkedList<>();
 
         if (closedCellsCount == height * width) {
-            startGame(nextCell);
+            startGame(cellX, cellY);
             // TODO: start timer
-            openedCells.addLast(nextCell);
+            openedCells.addLast(new Cell(cellX, cellY, neighbouringMinesCount[cellX][cellY]));
             gameState = GameState.NEXT_TURN;
             --closedCellsCount;
 
@@ -47,7 +47,7 @@ public class Minesweeper implements Game {
 
         --closedCellsCount;
 
-        if (hasMine(nextCell)) {
+        if (hasMine(cellX, cellY)) {
             gameState = GameState.LOSE;
             endGame();
         }
@@ -58,7 +58,7 @@ public class Minesweeper implements Game {
             endGame();
         }
 
-        return openCells(nextCell);
+        return openCells(cellX, cellY);
     }
 
     private void endGame() {
@@ -70,19 +70,16 @@ public class Minesweeper implements Game {
         // code for lost game
     }
 
-    private boolean hasMine(Cell cell) {
-        return mines[cell.getX()][cell.getY()] == 1;
+    private boolean hasMine(int cellX, int cellY) {
+        return mines[cellX][cellY] == 1;
     }
 
-    private void startGame(Cell firstOpenedCell) {
+    private void startGame(int cellX, int cellY) {
         mines = new int[height][width];
         neighbouringMinesCount = new int[height][width];
         openedCells = new int[height][width];
 
-        int firstOpenedCellX = firstOpenedCell.getX();
-        int firstOpenedCellY = firstOpenedCell.getY();
-
-        placeMines(mines, level.getMinesCount(), firstOpenedCellX + firstOpenedCellY / width);
+        placeMines(mines, level.getMinesCount(), cellX + cellY / width);
         initializeAdjacentMinesCountMatrix();
 
         System.out.println("MINE FIELD");
@@ -144,14 +141,16 @@ public class Minesweeper implements Game {
         return randomCellIndices;
     }
 
-    private Deque<Cell> openCells(Cell cell) {
+    private Deque<Cell> openCells(int cellX, int cellY) {
         Deque<Cell> cellsQueue = new LinkedList<>();
         Deque<Cell> cellsToOpen = new LinkedList<>();
+
+        Cell cell = new Cell(cellX, cellY, neighbouringMinesCount[cellX][cellY]);
 
         cellsQueue.addLast(cell);
         cellsToOpen.addLast(cell);
 
-        openedCells[cell.getY()][cell.getY()] = 1;
+        openedCells[cellY][cellY] = 1;
 
         while (!cellsQueue.isEmpty()) {
             Cell current = cellsQueue.removeFirst();
