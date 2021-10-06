@@ -36,7 +36,6 @@ public class Minesweeper implements Game {
         Deque<Cell> openedCells = new LinkedList<>();
 
         if (closedCellsCount == height * width) {
-        //if (gameState == GameState.NEW_GAME) {
             startGame(nextCell);
             // TODO: start timer
             openedCells.addLast(nextCell);
@@ -78,12 +77,19 @@ public class Minesweeper implements Game {
     private void startGame(Cell firstOpenedCell) {
         mines = new int[height][width];
         neighbouringMinesCount = new int[height][width];
+        openedCells = new int[height][width];
 
         int firstOpenedCellX = firstOpenedCell.getX();
         int firstOpenedCellY = firstOpenedCell.getY();
 
         placeMines(mines, level.getMinesCount(), firstOpenedCellX + firstOpenedCellY / width);
         initializeAdjacentMinesCountMatrix();
+
+        System.out.println("MINE FIELD");
+        printArray(mines);
+
+        System.out.println("NEIGHBOURING MINES COUNT");
+        printArray(neighbouringMinesCount);
     }
 
     private void placeMines(int[][] mines, int minesCount, int excludedIndex) {
@@ -102,9 +108,12 @@ public class Minesweeper implements Game {
     private void initializeAdjacentMinesCountMatrix() {
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
-                if (mines[i][j] != 1) {
-                    neighbouringMinesCount[i][j] = getAdjacentMinesCount(i, j);
+                if (mines[i][j] == 1) {
+                    neighbouringMinesCount[i][j] = -1;
+                    continue;
                 }
+
+                neighbouringMinesCount[i][j] = getAdjacentMinesCount(i, j);
             }
         }
     }
@@ -116,7 +125,7 @@ public class Minesweeper implements Game {
             if (j >= 0 && j < height) {
                 for (int i = x - 1; i < x + 2; ++i) {
                     if (i >= 0 && i < width) {
-                        adjacentMinesCount += mines[j][i];
+                        adjacentMinesCount += mines[i][j];
                     }
                 }
             }
@@ -136,32 +145,29 @@ public class Minesweeper implements Game {
     }
 
     private Deque<Cell> openCells(Cell cell) {
-        Deque<Cell> neighbouringCells = new LinkedList<>();
+        Deque<Cell> cellsQueue = new LinkedList<>();
         Deque<Cell> cellsToOpen = new LinkedList<>();
 
-        neighbouringCells.addLast(cell);
+        cellsQueue.addLast(cell);
         cellsToOpen.addLast(cell);
 
-        // TODO: check if cell is already opened
-        while (!neighbouringCells.isEmpty()) {
-            Cell current = neighbouringCells.removeFirst();
+        openedCells[cell.getY()][cell.getY()] = 1;
+
+        while (!cellsQueue.isEmpty()) {
+            Cell current = cellsQueue.removeFirst();
+
             int currentX = current.getX();
             int currentY = current.getY();
 
             if (neighbouringMinesCount[currentX][currentY] == 0) {
                 for (int j = currentY - 1; j < currentY + 2; ++j) {
-                    if (j >= 0 && j < height) {
-                        for (int i = currentX - 1; i < currentX + 2; ++i) {
-                            if (i >= 0 && i < width) {
-                                if (openedCells[j][i] == 0) {
-                                    Cell neighbouringCell = new Cell(j, i);
+                    for (int i = currentX - 1; i < currentX + 2; ++i) {
+                        if (isInRange(i, j) && openedCells[i][j] == 0) {
+                            openedCells[i][j] = 1;
+                            Cell nextCell = new Cell(i, j, neighbouringMinesCount[i][j]);
 
-                                    neighbouringCells.addLast(neighbouringCell);
-                                    cellsToOpen.addLast(neighbouringCell);
-
-                                    openedCells[j][i] = 1;
-                                }
-                            }
+                            cellsQueue.addLast(nextCell);
+                            cellsToOpen.addLast(nextCell);
                         }
                     }
                 }
@@ -171,11 +177,15 @@ public class Minesweeper implements Game {
         return cellsToOpen;
     }
 
+    private boolean isInRange(int x, int y) {
+        return x >= 0 && y >= 0 && x < width && y < height;
+    }
+
     // TODO: remove debugging code
     private static void printArray(int[][] array) {
         for (int[] row : array) {
             for (int number : row) {
-                System.out.printf("%d ", number);
+                System.out.printf("%3d ", number);
             }
 
             System.out.println();

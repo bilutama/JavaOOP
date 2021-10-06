@@ -95,7 +95,6 @@ public class View {
                 fieldButton[m][n].setFocusable(false);
                 buttonPanel[m][n].add(fieldButton[m][n]);
 
-                JPanel panel = buttonPanel[m][n];
                 MatrixButton matrixButton = fieldButton[m][n];
 
                 Image explosionImage = new ImageIcon(EXPLOSION_IMAGE_FILE_PATH)
@@ -112,11 +111,8 @@ public class View {
                 matrixButton.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
-                            openRange(new Cell(matrixButton.getColumn(), matrixButton.getRow()));
-
-                            //panel.remove(matrixButton);
-
-                            //panel.add(labelExplosion);
+                            // TODO: fix mines count
+                            openRange(new Cell(matrixButton.getColumn(), matrixButton.getRow(), 0));
                             mineField.updateUI();
                         }
 
@@ -145,7 +141,28 @@ public class View {
             int x = cell.getX();
             int y = cell.getY();
 
-            buttonPanel[x][y].remove(fieldButton[x][y]);
+            fieldButton[x][y].setVisible(false);
+
+            Image explosionImage = new ImageIcon(EXPLOSION_IMAGE_FILE_PATH)
+                    .getImage()
+                    .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING);
+            JLabel labelExplosion = new JLabel(new ImageIcon(explosionImage));
+
+            int minesCount = cell.getNeighbouringMinesCount();
+
+            if (minesCount == -1) {
+                buttonPanel[x][y].add(labelExplosion);
+                buttonPanel[x][y].updateUI();
+                continue;
+            }
+
+            if (minesCount > 0) {
+                JLabel label = new JLabel();
+                label.setText(Integer.toString(minesCount));
+                label.setHorizontalTextPosition(JLabel.CENTER);
+                label.setVerticalTextPosition(JLabel.CENTER);
+                buttonPanel[x][y].add(label);
+            }
         }
     }
 }

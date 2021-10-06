@@ -5,5 +5,4 @@ import java.util.Deque;
 public interface Game {
     Deque<Cell> resumeGame(Cell nextCell);
 
-
 }

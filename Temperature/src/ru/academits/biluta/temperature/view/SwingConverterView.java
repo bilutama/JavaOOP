@@ -28,7 +28,7 @@ public class SwingConverterView implements ConverterView {
 
         String appIconFilePath = "Temperature/src/ru/academits/biluta/temperature/resources/thermometer.png";
 
-        // Uncomment to set icon when run as a mac app
+        // Uncomment to set icon when run as a Mac app
         // Application.getApplication().setDockIconImage(new ImageIcon(appIconFilePath).getImage());
 
         // set the main FRAME
