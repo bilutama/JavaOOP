@@ -6,6 +6,7 @@ import ru.academits.biluta.temperature.model.scales.*;
 import ru.academits.biluta.temperature.view.ConverterView;
 import ru.academits.biluta.temperature.view.SwingConverterView;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -18,8 +19,10 @@ public class Main {
                 new RankineScale()
         ));
 
-        TemperatureConverter converter = new TemperatureConverter();
-        ConverterView view = new SwingConverterView(scales);
-        Controller controller = new Controller(converter, view);
+        SwingUtilities.invokeLater(() -> {
+            TemperatureConverter converter = new TemperatureConverter();
+            ConverterView view = new SwingConverterView(scales);
+            Controller controller = new Controller(converter, view);
+        });
     }
 }

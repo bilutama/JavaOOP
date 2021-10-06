@@ -13,27 +13,27 @@ import java.util.Locale;
 import static javax.swing.GroupLayout.Alignment.CENTER;
 
 public class SwingConverterView implements ConverterView {
-    private JFrame frame;
-    private final DefaultListModel<Scale> scaleListModel = new DefaultListModel<>();
+    private final JFrame frame;
 
-    private final JList<Scale> scaleFrom = new JList<>();
-    private final JList<Scale> scaleTo = new JList<>();
-
-    private final JTextField inputTextField = new JTextField();
-    private final JTextField resultTextField = new JTextField();
-
-    private final JButton swapScalesButton = new JButton("<-swap->");
-    private final JButton convertButton = new JButton("convert->");
+    private final JList<Scale> scaleFrom;
+    private final JList<Scale> scaleTo;
+    private final JTextField inputTextField;
+    private final JTextField resultTextField;
+    private final JButton convertButton;
 
     public SwingConverterView(ArrayList<Scale> scales) {
-        SwingUtilities.invokeLater(() -> initializeMainFrame(scales));
-    }
-
-    private void initializeMainFrame(ArrayList<Scale> scales) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {
         }
+
+        DefaultListModel<Scale> scaleListModel = new DefaultListModel<>();
+        scaleFrom = new JList<>();
+        scaleTo = new JList<>();
+
+        inputTextField = new JTextField();
+        resultTextField = new JTextField();
+        convertButton = new JButton("convert->");
 
         String appIconFilePath = "Temperature/src/ru/academits/biluta/temperature/resources/thermometer.png";
 
@@ -72,6 +72,7 @@ public class SwingConverterView implements ConverterView {
         resultTextField.setEditable(false);
         resultTextField.setText("0.0");
 
+        JButton swapScalesButton = new JButton("<-swap->");
         swapScalesButton.addActionListener(e -> swapScales());
 
         // Set the LAYOUT
