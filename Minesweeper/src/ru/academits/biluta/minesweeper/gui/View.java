@@ -35,10 +35,10 @@ public class View {
     private static ImageIcon skullIcon;
     private static ImageIcon winnerIcon;
 
-    JPanel[][] buttonPanel;
-    MatrixButton[][] fieldButton;
+    private final JPanel[][] buttonPanel;
+    private final MatrixButton[][] fieldButton;
 
-    Minesweeper minesweeper;
+    private final Minesweeper minesweeper;
 
     public View(Level level, Minesweeper minesweeper) {
         try {
