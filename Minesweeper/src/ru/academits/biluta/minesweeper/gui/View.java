@@ -19,13 +19,13 @@ public class View {
 
     private final static String RESOURCES_PATH = "Minesweeper/src/ru/academits/biluta/minesweeper/resources/";
 
-    private final static String BOMB_IMAGE_FILE_PATH = RESOURCES_PATH + "bomb.png";
-    private final static String EXPLOSION_IMAGE_FILE_PATH = RESOURCES_PATH + "explosion.png";
-    private final static String FLAG_IMAGE_FILE_PATH = RESOURCES_PATH + "flag.png";
+    private final static String BOMB_IMAGE_PATH = RESOURCES_PATH + "bomb.png";
+    private final static String EXPLOSION_IMAGE_PATH = RESOURCES_PATH + "explosion.png";
+    private final static String FLAG_IMAGE_PATH = RESOURCES_PATH + "flag.png";
 
-    private final static String SMILE_IMAGE_FILE_PATH = RESOURCES_PATH + "smile.png";
-    private final static String SKULL_IMAGE_FILE_PATH = RESOURCES_PATH + "skull.png";
-    private final static String WINNER_IMAGE_FILE_PATH = RESOURCES_PATH + "winner.png";
+    private final static String SMILE_IMAGE_PATH = RESOURCES_PATH + "smile.png";
+    private final static String SKULL_IMAGE_PATH = RESOURCES_PATH + "skull.png";
+    private final static String WINNER_IMAGE_PATH = RESOURCES_PATH + "winner.png";
 
     private static ImageIcon explosionIcon;
     private static ImageIcon bombIcon;
@@ -52,7 +52,7 @@ public class View {
 
         // set the main FRAME
         JFrame frame = new JFrame("Minesweeper - " + level.toString().toUpperCase());
-        frame.setIconImage(new ImageIcon(BOMB_IMAGE_FILE_PATH).getImage());
+        frame.setIconImage(new ImageIcon(BOMB_IMAGE_PATH).getImage());
 
         //frame.setResizable(false);
         frame.setLocationRelativeTo(null);
@@ -130,37 +130,37 @@ public class View {
 
     private void initializeIcons(){
         smileIcon = new ImageIcon(
-                new ImageIcon(SMILE_IMAGE_FILE_PATH)
+                new ImageIcon(SMILE_IMAGE_PATH)
                         .getImage()
                         .getScaledInstance(MAIN_ICON_SIZE, MAIN_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
         );
 
         skullIcon = new ImageIcon(
-                new ImageIcon(SKULL_IMAGE_FILE_PATH)
+                new ImageIcon(SKULL_IMAGE_PATH)
                         .getImage()
                         .getScaledInstance(MAIN_ICON_SIZE, MAIN_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
         );
 
         explosionIcon = new ImageIcon(
-                new ImageIcon(EXPLOSION_IMAGE_FILE_PATH)
+                new ImageIcon(EXPLOSION_IMAGE_PATH)
                         .getImage()
                         .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
         );
 
         winnerIcon = new ImageIcon(
-                new ImageIcon(SKULL_IMAGE_FILE_PATH)
+                new ImageIcon(SKULL_IMAGE_PATH)
                         .getImage()
                         .getScaledInstance(MAIN_ICON_SIZE, MAIN_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
         );
 
         flagIcon = new ImageIcon(
-                new ImageIcon(FLAG_IMAGE_FILE_PATH)
+                new ImageIcon(FLAG_IMAGE_PATH)
                         .getImage()
                         .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
         );
 
         bombIcon = new ImageIcon(
-                new ImageIcon(BOMB_IMAGE_FILE_PATH)
+                new ImageIcon(BOMB_IMAGE_PATH)
                         .getImage()
                         .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
         );
