@@ -25,7 +25,7 @@ public class View {
 
     private final static String SMILE_IMAGE_FILE_PATH = RESOURCES_PATH + "smile.png";
     private final static String SKULL_IMAGE_FILE_PATH = RESOURCES_PATH + "skull.png";
-    private final static String WINNER_IMAGE_FILE_PATH = RESOURCES_PATH + "skull.png";
+    private final static String WINNER_IMAGE_FILE_PATH = RESOURCES_PATH + "winner.png";
 
     private static ImageIcon explosionIcon;
     private static ImageIcon bombIcon;
