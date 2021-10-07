@@ -17,8 +17,6 @@ public class View {
     private final static int MAIN_ICON_SIZE = 50;
     private final static int TOP_PANEL_HEIGHT = 95;
 
-    private final static String FRAME_HEADER = "Minesweeper";
-
     private final static String RESOURCES_PATH = "Minesweeper/src/ru/academits/biluta/minesweeper/resources/";
 
     private final static String BOMB_IMAGE_FILE_PATH = RESOURCES_PATH + "bomb.png";
@@ -53,7 +51,7 @@ public class View {
         this.minesweeper = minesweeper;
 
         // set the main FRAME
-        JFrame frame = new JFrame(FRAME_HEADER + " - " + level.toString().toUpperCase());
+        JFrame frame = new JFrame("Minesweeper - " + level.toString().toUpperCase());
         frame.setIconImage(new ImageIcon(BOMB_IMAGE_FILE_PATH).getImage());
 
         //frame.setResizable(false);
@@ -110,7 +108,6 @@ public class View {
                 matrixButton.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
-                            // TODO: fix mines count
                             openCellsRange(matrixButton.getColumn(), matrixButton.getRow());
                             mineField.updateUI();
                         }
