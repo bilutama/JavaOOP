@@ -5,25 +5,37 @@ import ru.academits.biluta.minesweeper.logic.Level;
 import ru.academits.biluta.minesweeper.logic.Minesweeper;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Deque;
 
 public class View {
-    final static int CELL_SIZE = 40;
-    final static int CELL_ICON_SIZE = 35;
-    final static int MAIN_ICON_SIZE = 50;
-    final static int TOP_PANEL_HEIGHT = 95;
+    private final static int CELL_SIZE = 40;
+    private final static int CELL_ICON_SIZE = 35;
+    private final static int MAIN_ICON_SIZE = 50;
+    private final static int TOP_PANEL_HEIGHT = 95;
 
-    final static String FRAME_HEADER = "Minesweeper";
+    private final static String FRAME_HEADER = "Minesweeper";
 
-    final static String RESOURCES_PATH = "Minesweeper/src/ru/academits/biluta/minesweeper/resources/";
-    final static String BOMB_IMAGE_FILE_PATH = RESOURCES_PATH + "bomb.png";
-    final static String EXPLOSION_IMAGE_FILE_PATH = RESOURCES_PATH + "explosion.png";
-    final static String FLAG_IMAGE_FILE_PATH = RESOURCES_PATH + "flag.png";
-    final static String SMILE_IMAGE_FILE_PATH = RESOURCES_PATH + "smile.png";
-    final static String SKULL_IMAGE_FILE_PATH = RESOURCES_PATH + "skull.png";
+    private final static String RESOURCES_PATH = "Minesweeper/src/ru/academits/biluta/minesweeper/resources/";
+
+    private final static String BOMB_IMAGE_FILE_PATH = RESOURCES_PATH + "bomb.png";
+    private final static String EXPLOSION_IMAGE_FILE_PATH = RESOURCES_PATH + "explosion.png";
+    private final static String FLAG_IMAGE_FILE_PATH = RESOURCES_PATH + "flag.png";
+
+    private final static String SMILE_IMAGE_FILE_PATH = RESOURCES_PATH + "smile.png";
+    private final static String SKULL_IMAGE_FILE_PATH = RESOURCES_PATH + "skull.png";
+    private final static String WINNER_IMAGE_FILE_PATH = RESOURCES_PATH + "skull.png";
+
+    private static ImageIcon explosionIcon;
+    private static ImageIcon bombIcon;
+    private static ImageIcon flagIcon;
+
+    private static ImageIcon smileIcon;
+    private static ImageIcon skullIcon;
+    private static ImageIcon winnerIcon;
 
     JPanel[][] buttonPanel;
     MatrixButton[][] fieldButton;
@@ -35,6 +47,8 @@ public class View {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {
         }
+
+        initializeIcons();
 
         this.minesweeper = minesweeper;
 
@@ -49,6 +63,7 @@ public class View {
         // Set top panel for the Toolbar
         JPanel topPanel = new JPanel();
         topPanel.setSize(100, 20);
+        topPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         frame.add(topPanel, BorderLayout.PAGE_START);
 
         // Add toolbar to the panel
@@ -61,19 +76,14 @@ public class View {
         JButton startNewGameButton = new JButton();
         startNewGameButton.setFocusable(false);
 
-        ImageIcon smileImage = new ImageIcon(
-                new ImageIcon(SMILE_IMAGE_FILE_PATH)
-                        .getImage()
-                        .getScaledInstance(MAIN_ICON_SIZE, MAIN_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
-        );
-
-        startNewGameButton.setIcon(smileImage);
+        startNewGameButton.setIcon(smileIcon);
         toolBar.add(startNewGameButton, BorderLayout.CENTER);
 
         int width = level.getWidth();
         int height = level.getHeight();
 
         JPanel mineField = new JPanel();
+        mineField.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         frame.add(mineField, BorderLayout.CENTER);
 
         mineField.setLayout(new GridLayout(width, height));
@@ -97,28 +107,17 @@ public class View {
 
                 MatrixButton matrixButton = fieldButton[m][n];
 
-                Image explosionImage = new ImageIcon(EXPLOSION_IMAGE_FILE_PATH)
-                        .getImage()
-                        .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING);
-                JLabel labelExplosion = new JLabel(new ImageIcon(explosionImage));
-
-                ImageIcon flagImage = new ImageIcon(
-                        new ImageIcon(FLAG_IMAGE_FILE_PATH)
-                                .getImage()
-                                .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
-                );
-
                 matrixButton.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
                             // TODO: fix mines count
-                            openRange(matrixButton.getColumn(), matrixButton.getRow());
+                            openCellsRange(matrixButton.getColumn(), matrixButton.getRow());
                             mineField.updateUI();
                         }
 
                         if (e.getButton() == MouseEvent.BUTTON3) {
                             if (null == matrixButton.getIcon()) {
-                                matrixButton.setIcon(flagImage);
+                                matrixButton.setIcon(flagIcon);
                                 return;
                             }
 
@@ -132,9 +131,46 @@ public class View {
         }
     }
 
-    private void openRange(int cellX, int cellY) {
-        // TODO: resumeGame
-        Deque<Cell> cells = minesweeper.resumeGame(cellX, cellY);
+    private void initializeIcons(){
+        smileIcon = new ImageIcon(
+                new ImageIcon(SMILE_IMAGE_FILE_PATH)
+                        .getImage()
+                        .getScaledInstance(MAIN_ICON_SIZE, MAIN_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
+        );
+
+        skullIcon = new ImageIcon(
+                new ImageIcon(SKULL_IMAGE_FILE_PATH)
+                        .getImage()
+                        .getScaledInstance(MAIN_ICON_SIZE, MAIN_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
+        );
+
+        explosionIcon = new ImageIcon(
+                new ImageIcon(EXPLOSION_IMAGE_FILE_PATH)
+                        .getImage()
+                        .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
+        );
+
+        winnerIcon = new ImageIcon(
+                new ImageIcon(SKULL_IMAGE_FILE_PATH)
+                        .getImage()
+                        .getScaledInstance(MAIN_ICON_SIZE, MAIN_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
+        );
+
+        flagIcon = new ImageIcon(
+                new ImageIcon(FLAG_IMAGE_FILE_PATH)
+                        .getImage()
+                        .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
+        );
+
+        bombIcon = new ImageIcon(
+                new ImageIcon(BOMB_IMAGE_FILE_PATH)
+                        .getImage()
+                        .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
+        );
+    }
+
+    private void openCellsRange(int cellX, int cellY) {
+        Deque<Cell> cells = minesweeper.nextTurn(cellX, cellY);
 
         while (!cells.isEmpty()) {
             Cell cell = cells.removeFirst();
@@ -142,27 +178,20 @@ public class View {
             int y = cell.getY();
 
             buttonPanel[x][y].remove(fieldButton[x][y]);
-            buttonPanel[x][y].updateUI();
-            //fieldButton[x][y].setVisible(false);
-
-            Image explosionImage = new ImageIcon(EXPLOSION_IMAGE_FILE_PATH)
-                    .getImage()
-                    .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING);
-            JLabel labelExplosion = new JLabel(new ImageIcon(explosionImage));
+            JLabel labelExplosion = new JLabel(explosionIcon);
 
             int minesCount = cell.getNeighbouringMinesCount();
 
+            // Mine explosion - game over. Reveal all the mines.
             if (minesCount == -1) {
                 buttonPanel[x][y].add(labelExplosion);
-                buttonPanel[x][y].updateUI();
-                continue;
+                // TODO: revealing all the mines
+                return;
             }
 
             if (minesCount > 0) {
-                JLabel label = new JLabel();
-                label.setText(Integer.toString(minesCount));
-                label.setHorizontalTextPosition(JLabel.CENTER);
-                label.setVerticalTextPosition(JLabel.CENTER);
+                JLabel label = new JLabel(Integer.toString(minesCount), JLabel.CENTER);
+
                 buttonPanel[x][y].add(label, BorderLayout.CENTER);
             }
         }

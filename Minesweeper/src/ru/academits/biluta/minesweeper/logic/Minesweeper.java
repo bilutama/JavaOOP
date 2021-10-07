@@ -32,31 +32,24 @@ public class Minesweeper implements Game {
     }
 
     @Override
-    public Deque<Cell> resumeGame(int cellX, int cellY) {
-        Deque<Cell> openedCells = new LinkedList<>();
-
+    public Deque<Cell> nextTurn(int cellX, int cellY) {
         if (closedCellsCount == height * width) {
-            startGame(cellX, cellY);
             // TODO: start timer
-            openedCells.addLast(new Cell(cellX, cellY, neighbouringMinesCount[cellX][cellY]));
-            gameState = GameState.NEXT_TURN;
-            --closedCellsCount;
-
-            return openedCells;
+            startGame(cellX, cellY);
         }
 
         --closedCellsCount;
 
-        if (hasMine(cellX, cellY)) {
-            gameState = GameState.LOSE;
-            endGame();
-        }
+//        if (hasMine(cellX, cellY)) {
+//            gameState = GameState.LOSE;
+//            endGame();
+//        }
 
         // NEXT TURN
-        if (closedCellsCount == level.getMinesCount()) {
-            gameState = GameState.WIN;
-            endGame();
-        }
+//        if (closedCellsCount == level.getMinesCount()) {
+//            gameState = GameState.WIN;
+//            endGame();
+//        }
 
         return openCells(cellX, cellY);
     }
@@ -79,7 +72,7 @@ public class Minesweeper implements Game {
         neighbouringMinesCount = new int[height][width];
         openedCells = new int[height][width];
 
-        placeMines(mines, level.getMinesCount(), cellX + cellY / width);
+        placeMines(mines, level.getMinesCount(), cellX + cellY * width);
         initializeAdjacentMinesCountMatrix();
 
         System.out.println("MINE FIELD");
@@ -90,6 +83,8 @@ public class Minesweeper implements Game {
     }
 
     private void placeMines(int[][] mines, int minesCount, int excludedIndex) {
+        // TODO: remove
+        //System.out.println("X: " + excludedIndex/width + "; Y: " + excludedIndex % width);
         // Get cells indices to place mines except first opened cell
         Integer[] randomCellIndices = getRandomCellsIndices(minesCount, excludedIndex);
 
@@ -150,7 +145,7 @@ public class Minesweeper implements Game {
         cellsQueue.addLast(cell);
         cellsToOpen.addLast(cell);
 
-        openedCells[cellY][cellY] = 1;
+        openedCells[cellX][cellY] = 1;
 
         while (!cellsQueue.isEmpty()) {
             Cell current = cellsQueue.removeFirst();
