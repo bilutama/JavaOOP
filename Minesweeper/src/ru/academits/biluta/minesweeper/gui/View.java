@@ -7,6 +7,7 @@ import ru.academits.biluta.minesweeper.logic.Minesweeper;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Deque;
@@ -35,26 +36,29 @@ public class View {
     private static ImageIcon skullIcon;
     private static ImageIcon winnerIcon;
 
-    private final JPanel[][] buttonPanel;
-    private final MatrixButton[][] fieldButton;
+    private JPanel[][] buttonPanel;
+    private MatrixButton[][] fieldButton;
+    private final JButton resetGameButton;
 
-    private final Minesweeper minesweeper;
+    private JFrame frame;
+    private JPanel mineField;
 
-    public View(Level level, Minesweeper minesweeper) {
+    private Minesweeper minesweeper;
+
+    public View(Minesweeper minesweeper) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {
         }
 
         initializeIcons();
-
-        this.minesweeper = minesweeper;
+        Level level = minesweeper.getLevel();
 
         // set the main FRAME
-        JFrame frame = new JFrame("Minesweeper - " + level.toString().toUpperCase());
+        frame = new JFrame("Minesweeper - " + level.toString().toUpperCase());
         frame.setIconImage(new ImageIcon(BOMB_IMAGE_PATH).getImage());
 
-        //frame.setResizable(false);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -71,18 +75,30 @@ public class View {
         topPanel.add(toolBar);
 
         // Add start_new_game button to the panel
-        JButton startNewGameButton = new JButton();
-        startNewGameButton.setFocusable(false);
+        resetGameButton = new JButton();
+        resetGameButton.setFocusable(false);
+        resetGameButton.setIcon(smileIcon);
+        toolBar.add(resetGameButton, BorderLayout.CENTER);
 
-        startNewGameButton.setIcon(smileIcon);
-        toolBar.add(startNewGameButton, BorderLayout.CENTER);
+        mineField = new JPanel();
+        mineField.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+        frame.add(mineField, BorderLayout.CENTER);
+
+        initializeGame(minesweeper);
+    }
+
+    public void addResetGameButtonListener(ActionListener actionListener) {
+        resetGameButton.addActionListener(actionListener);
+    }
+
+    public void initializeGame(Minesweeper minesweeper) {
+        this.minesweeper = minesweeper;
+        Level level = minesweeper.getLevel();
+
+        mineField.removeAll();
 
         int width = level.getWidth();
         int height = level.getHeight();
-
-        JPanel mineField = new JPanel();
-        mineField.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-        frame.add(mineField, BorderLayout.CENTER);
 
         mineField.setLayout(new GridLayout(width, height));
 
@@ -123,12 +139,13 @@ public class View {
                     }
                 });
             }
-
-            frame.setVisible(true);
         }
+
+        mineField.updateUI();
+        frame.setVisible(true);
     }
 
-    private void initializeIcons(){
+    private void initializeIcons() {
         smileIcon = new ImageIcon(
                 new ImageIcon(SMILE_IMAGE_PATH)
                         .getImage()

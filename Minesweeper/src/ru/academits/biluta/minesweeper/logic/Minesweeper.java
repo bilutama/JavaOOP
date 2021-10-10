@@ -110,6 +110,10 @@ public class Minesweeper implements Game {
         }
     }
 
+    public Level getLevel(){
+        return level;
+    }
+
     public int getAdjacentMinesCount(int x, int y) {
         int adjacentMinesCount = 0;
 
