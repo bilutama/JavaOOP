@@ -31,6 +31,10 @@ public class Minesweeper implements Game {
         gameState = GameState.NEW_GAME;
     }
 
+    public int[][] getMines() {
+        return mines;
+    }
+
     @Override
     public Deque<Cell> nextTurn(int cellX, int cellY) {
         if (closedCellsCount == height * width) {
@@ -63,16 +67,11 @@ public class Minesweeper implements Game {
         // code for lost game
     }
 
-    private boolean hasMine(int cellX, int cellY) {
-        return mines[cellY][cellX] == 1;
-    }
-
     private void startGame(int cellX, int cellY) {
         mines = new int[height][width];
         neighbouringMinesCount = new int[height][width];
         openedCells = new int[height][width];
 
-        System.out.println("Start game X: " + cellX + "; Y: " + cellY);
         placeMines(mines, level.getMinesCount(), cellX + cellY * width);
         initializeAdjacentMinesCountMatrix();
 
@@ -85,12 +84,22 @@ public class Minesweeper implements Game {
 
     private void placeMines(int[][] mines, int minesCount, int excludedIndex) {
         // Get cells indices to place mines except first opened cell
-        int[] randomIndices = new Random().ints(minesCount, 0, height * width - 1).filter(x -> x != excludedIndex).toArray();
+        Integer[] randomIndices = getRandomCellsIndices(minesCount, excludedIndex);
 
         // Place mines among closed cells
         for (int i = 0; i < minesCount; ++i) {
             mines[randomIndices[i] / width][randomIndices[i] % width] = 1;
         }
+    }
+
+    private Integer[] getRandomCellsIndices(int numbersCount, int excludedValue) {
+        List<Integer> cellsIndices = IntStream.range(0, height * width - 1).filter(x -> x != excludedValue).boxed().collect(Collectors.toList());
+        Collections.shuffle(cellsIndices);
+
+        Integer[] randomCellIndices = new Integer[numbersCount];
+        new ArrayList<>(cellsIndices.subList(0, numbersCount)).toArray(randomCellIndices);
+
+        return randomCellIndices;
     }
 
     private void initializeAdjacentMinesCountMatrix() {
@@ -101,7 +110,7 @@ public class Minesweeper implements Game {
                     continue;
                 }
 
-                neighbouringMinesCount[i][j] = getAdjacentMinesCount(i, j);
+                neighbouringMinesCount[i][j] = getAdjacentMinesCount(j, i);
             }
         }
     }
@@ -110,7 +119,7 @@ public class Minesweeper implements Game {
         return level;
     }
 
-    public int getAdjacentMinesCount(int y, int x) {
+    public int getAdjacentMinesCount(int x, int y) {
         int adjacentMinesCount = 0;
 
         for (int j = x - 1; j < x + 2; ++j) {

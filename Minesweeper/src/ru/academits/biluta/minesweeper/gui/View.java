@@ -44,6 +44,7 @@ public class View {
     private JPanel mineField;
 
     private Minesweeper minesweeper;
+    private Level level;
 
     public View(Minesweeper minesweeper) {
         try {
@@ -52,12 +53,10 @@ public class View {
         }
 
         initializeIcons();
-        Level level = minesweeper.getLevel();
 
         // set the main FRAME
-        frame = new JFrame("Minesweeper - " + level.toString().toUpperCase());
+        frame = new JFrame();
         frame.setIconImage(new ImageIcon(BOMB_IMAGE_PATH).getImage());
-
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,7 +73,7 @@ public class View {
         toolBar.setOrientation(SwingConstants.HORIZONTAL);
         topPanel.add(toolBar);
 
-        // Add start_new_game button to the panel
+        // Add Start_new_game button to the panel
         resetGameButton = new JButton();
         resetGameButton.setFocusable(false);
         resetGameButton.setIcon(smileIcon);
@@ -93,9 +92,10 @@ public class View {
 
     public void initializeGame(Minesweeper minesweeper) {
         this.minesweeper = minesweeper;
-        Level level = minesweeper.getLevel();
-
         mineField.removeAll();
+
+        level = minesweeper.getLevel();
+        frame.setTitle("Minesweeper - " + level.toString().toUpperCase());
 
         int width = level.getWidth();
         int height = level.getHeight();
@@ -103,7 +103,7 @@ public class View {
         mineField.setLayout(new GridLayout(height, width));
 
         // Set frame size depending on field dimensions
-        mineField.getTopLevelAncestor().setSize(width * (CELL_SIZE), height * (CELL_SIZE) + TOP_PANEL_HEIGHT);
+        mineField.getTopLevelAncestor().setSize(width * CELL_SIZE, height * CELL_SIZE + TOP_PANEL_HEIGHT);
 
         buttonPanel = new JPanel[height][width];
         fieldButton = new MatrixButton[height][width];
@@ -199,6 +199,9 @@ public class View {
             // Mine explosion - game over. Reveal all the mines.
             if (minesCount == -1) {
                 buttonPanel[y][x].add(labelExplosion);
+
+                int[][] mines = minesweeper.getMines();
+
                 // TODO: revealing all the mines
                 return;
             }
