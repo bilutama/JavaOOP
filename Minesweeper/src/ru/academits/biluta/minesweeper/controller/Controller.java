@@ -9,7 +9,7 @@ import java.awt.event.*;
 
 public class Controller implements ActionListener {
     private Minesweeper minesweeper;
-    private View view;
+    private final View view;
 
     public Controller(Minesweeper minesweeper, View view, Level level) {
         this.minesweeper = minesweeper;
@@ -17,15 +17,9 @@ public class Controller implements ActionListener {
         view.addResetGameButtonListener(this);
     }
 
-    private void initialize(Level level) {
-        minesweeper = new Minesweeper(level);
-        view = new View(minesweeper);
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
-        Level level = minesweeper.getLevel();
-        minesweeper = new Minesweeper(level);
+        minesweeper = new Minesweeper(minesweeper.getLevel());
         view.initializeGame(minesweeper);
     }
 }
