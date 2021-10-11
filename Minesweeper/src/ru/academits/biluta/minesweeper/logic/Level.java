@@ -13,7 +13,7 @@ public enum Level {
         this.height = height;
         this.width = width;
 
-        double MAXIMUM_MINES_COUNT_TO_CAPACITY_RATIO = 0.5;
+        double MAXIMUM_MINES_COUNT_TO_CAPACITY_RATIO = 0.8;
 
         // Assure that mines count is not exceeding field capacity * ratio
         int maximumMinesCount = (int) (height * width * MAXIMUM_MINES_COUNT_TO_CAPACITY_RATIO);

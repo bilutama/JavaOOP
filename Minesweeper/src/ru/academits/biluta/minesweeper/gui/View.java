@@ -100,22 +100,22 @@ public class View {
         int width = level.getWidth();
         int height = level.getHeight();
 
-        mineField.setLayout(new GridLayout(width, height));
+        mineField.setLayout(new GridLayout(height, width));
 
         // Set frame size depending on field dimensions
         mineField.getTopLevelAncestor().setSize(width * (CELL_SIZE), height * (CELL_SIZE) + TOP_PANEL_HEIGHT);
 
-        buttonPanel = new JPanel[width][height];
-        fieldButton = new MatrixButton[width][height];
+        buttonPanel = new JPanel[height][width];
+        fieldButton = new MatrixButton[height][width];
 
-        for (int m = 0; m < width; m++) {
-            for (int n = 0; n < height; n++) {
+        for (int m = 0; m < height; m++) {
+            for (int n = 0; n < width; n++) {
                 buttonPanel[m][n] = new JPanel();
                 mineField.add(buttonPanel[m][n]);
 
                 buttonPanel[m][n].setLayout(new BorderLayout());
 
-                fieldButton[m][n] = new MatrixButton(n, m);
+                fieldButton[m][n] = new MatrixButton(m, n);
                 fieldButton[m][n].setFocusable(false);
                 buttonPanel[m][n].add(fieldButton[m][n]);
 
@@ -191,14 +191,14 @@ public class View {
             int x = cell.getX();
             int y = cell.getY();
 
-            buttonPanel[x][y].remove(fieldButton[x][y]);
+            buttonPanel[y][x].remove(fieldButton[y][x]);
             JLabel labelExplosion = new JLabel(explosionIcon);
 
             int minesCount = cell.getNeighbouringMinesCount();
 
             // Mine explosion - game over. Reveal all the mines.
             if (minesCount == -1) {
-                buttonPanel[x][y].add(labelExplosion);
+                buttonPanel[y][x].add(labelExplosion);
                 // TODO: revealing all the mines
                 return;
             }
@@ -206,7 +206,7 @@ public class View {
             if (minesCount > 0) {
                 JLabel label = new JLabel(Integer.toString(minesCount), JLabel.CENTER);
 
-                buttonPanel[x][y].add(label, BorderLayout.CENTER);
+                buttonPanel[y][x].add(label, BorderLayout.CENTER);
             }
         }
     }
