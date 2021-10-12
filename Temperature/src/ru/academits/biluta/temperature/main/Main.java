@@ -6,7 +6,6 @@ import ru.academits.biluta.temperature.model.scales.*;
 import ru.academits.biluta.temperature.view.ConverterView;
 import ru.academits.biluta.temperature.view.SwingConverterView;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -19,14 +18,9 @@ public class Main {
                 new RankineScale()
         ));
 
-        try {
-            SwingUtilities.invokeLater(() -> {
-                TemperatureConverter converter = new TemperatureConverter();
-                ConverterView view = new SwingConverterView(scales);
-                Controller controller = new Controller(converter, view);
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        TemperatureConverter converter = new TemperatureConverter();
+        ConverterView view = new SwingConverterView(scales);
+        view.setVisible();
+        new Controller(converter, view);
     }
 }

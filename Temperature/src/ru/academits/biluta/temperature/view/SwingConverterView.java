@@ -12,15 +12,21 @@ import java.util.Locale;
 import static javax.swing.GroupLayout.Alignment.CENTER;
 
 public class SwingConverterView implements ConverterView {
-    private final JFrame frame;
+    private JFrame frame;
 
-    private final JList<Scale> scaleFrom;
-    private final JList<Scale> scaleTo;
-    private final JTextField inputTextField;
-    private final JTextField resultTextField;
-    private final JButton convertButton;
+    private JList<Scale> scaleFrom;
+    private JList<Scale> scaleTo;
+    private JTextField inputTextField;
+    private JTextField resultTextField;
+    private JButton convertButton;
+
+    private final ArrayList<Scale> scales;
 
     public SwingConverterView(ArrayList<Scale> scales) {
+        this.scales = scales;
+    }
+
+    public void setVisible() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {

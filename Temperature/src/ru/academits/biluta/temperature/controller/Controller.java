@@ -15,10 +15,9 @@ public class Controller implements ActionListener {
     public Controller(ScaleConverter converter, ConverterView view) {
         this.converter = converter;
         this.view = view;
-        view.addConvertButtonListener(this);
+        this.view.addConvertButtonListener(this);
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
         view.setConvertedTemperature(Math.round(
                 converter.convert(view.getTemperature(), view.getScaleFrom(), view.getScaleTo()) * Math.pow(10, DEFAULT_ACCURACY)) / Math.pow(10, DEFAULT_ACCURACY)
