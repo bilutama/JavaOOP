@@ -15,6 +15,7 @@ public class Minesweeper implements Game {
     private int[][] nearbyMinesCountMatrix;
     private int[][] openedCells;
     private int closedCellsCount;
+    private ArrayList<Cell> minedCells;
 
     // Game level and state
     private final Level level;
@@ -27,12 +28,13 @@ public class Minesweeper implements Game {
         width = level.getWidth();
 
         closedCellsCount = height * width;
+        minedCells = new ArrayList<>(level.getMinesCount());
 
         gameState = GameState.NEW_GAME;
     }
 
-    public int[][] getMines() {
-        return mines;
+    public ArrayList<Cell> getMines() {
+        return minedCells;
     }
 
     @Override
@@ -42,7 +44,7 @@ public class Minesweeper implements Game {
             initializeGame(column, row);
         }
 
-        Deque<Cell> cellsToOpen = new LinkedList<>();
+        Deque<Cell> cellsToOpen;
 
 //        if (hasMine(column, row)) {
 //            gameState = GameState.LOSE;
@@ -96,8 +98,12 @@ public class Minesweeper implements Game {
         }
     }
 
-    private Integer[] getRandomCellsIndices(int numbersCount, int excludedValue) {
-        List<Integer> cellsIndices = IntStream.range(0, height * width - 2).filter(x -> x != excludedValue).boxed().collect(Collectors.toList());
+    private Integer[] getRandomCellsIndices(int numbersCount, int excludedNumber) {
+        List<Integer> cellsIndices = IntStream.range(0, height * width - 2)
+                .filter(x -> x != excludedNumber)
+                .boxed()
+                .collect(Collectors.toList());
+
         Collections.shuffle(cellsIndices);
 
         Integer[] randomCellIndices = new Integer[numbersCount];

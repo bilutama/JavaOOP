@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Deque;
 
 public class View {
@@ -200,7 +201,7 @@ public class View {
             if (minesCount == -1) {
                 buttonPanel[y][x].add(labelExplosion);
 
-                int[][] mines = minesweeper.getMines();
+                ArrayList<Cell> mines = minesweeper.getMines();
 
                 // TODO: revealing all the mines
                 return;
