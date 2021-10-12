@@ -2,7 +2,7 @@ package ru.academits.biluta.minesweeper.logic;
 
 public enum Level {
     EASY(9, 9, 10),
-    NORMAL(15, 15, 20),
+    NORMAL(16, 16, 40),
     HARD(35, 25, 100);
 
     private final int width;
@@ -16,8 +16,7 @@ public enum Level {
         double MAXIMUM_MINES_COUNT_TO_CAPACITY_RATIO = 0.8;
 
         // Assure that mines count is not exceeding field capacity * ratio
-        int maximumMinesCount = (int) (height * width * MAXIMUM_MINES_COUNT_TO_CAPACITY_RATIO);
-        this.minesCount = Math.min(minesCount, maximumMinesCount);
+        this.minesCount = Math.min(minesCount, (int) (height * width * MAXIMUM_MINES_COUNT_TO_CAPACITY_RATIO));
     }
 
     public int getWidth() {

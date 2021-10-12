@@ -12,7 +12,7 @@ public class Minesweeper implements Game {
 
     // Game state
     private int[][] mines;
-    private int[][] neighbouringMinesCount;
+    private int[][] nearbyMinesCountMatrix;
     private int[][] openedCells;
     private int closedCellsCount;
 
@@ -36,15 +36,15 @@ public class Minesweeper implements Game {
     }
 
     @Override
-    public Deque<Cell> nextTurn(int cellX, int cellY) {
+    public Deque<Cell> nextTurn(int column, int row) {
         if (closedCellsCount == height * width) {
             // TODO: start timer
-            startGame(cellX, cellY);
+            initializeGame(column, row);
         }
 
-        --closedCellsCount;
+        Deque<Cell> cellsToOpen = new LinkedList<>();
 
-//        if (hasMine(cellX, cellY)) {
+//        if (hasMine(column, row)) {
 //            gameState = GameState.LOSE;
 //            endGame();
 //        }
@@ -55,7 +55,11 @@ public class Minesweeper implements Game {
 //            endGame();
 //        }
 
-        return openCells(cellX, cellY);
+        cellsToOpen = openCells(column, row);
+        closedCellsCount -= cellsToOpen.size();
+        System.out.println("Closed cells:" + closedCellsCount);
+
+        return cellsToOpen;
     }
 
     private void endGame() {
@@ -67,19 +71,19 @@ public class Minesweeper implements Game {
         // code for lost game
     }
 
-    private void startGame(int cellX, int cellY) {
+    private void initializeGame(int column, int row) {
         mines = new int[height][width];
-        neighbouringMinesCount = new int[height][width];
+        nearbyMinesCountMatrix = new int[height][width];
         openedCells = new int[height][width];
 
-        placeMines(mines, level.getMinesCount(), cellX + cellY * width);
-        initializeAdjacentMinesCountMatrix();
+        placeMines(mines, level.getMinesCount(), column + row * width);
+        initializeNearbyMinesCountMatrix();
 
-        System.out.println("MINE FIELD");
-        printArray(mines);
-
-        System.out.println("NEIGHBOURING MINES COUNT");
-        printArray(neighbouringMinesCount);
+//        System.out.println("MINE FIELD");
+//        printArray(mines);
+//
+//        System.out.println("NEIGHBOURING MINES COUNT");
+//        printArray(nearbyMinesCount);
     }
 
     private void placeMines(int[][] mines, int minesCount, int excludedIndex) {
@@ -93,7 +97,7 @@ public class Minesweeper implements Game {
     }
 
     private Integer[] getRandomCellsIndices(int numbersCount, int excludedValue) {
-        List<Integer> cellsIndices = IntStream.range(0, height * width - 1).filter(x -> x != excludedValue).boxed().collect(Collectors.toList());
+        List<Integer> cellsIndices = IntStream.range(0, height * width - 2).filter(x -> x != excludedValue).boxed().collect(Collectors.toList());
         Collections.shuffle(cellsIndices);
 
         Integer[] randomCellIndices = new Integer[numbersCount];
@@ -102,15 +106,15 @@ public class Minesweeper implements Game {
         return randomCellIndices;
     }
 
-    private void initializeAdjacentMinesCountMatrix() {
+    private void initializeNearbyMinesCountMatrix() {
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
                 if (mines[i][j] == 1) {
-                    neighbouringMinesCount[i][j] = -1;
+                    nearbyMinesCountMatrix[i][j] = -1;
                     continue;
                 }
 
-                neighbouringMinesCount[i][j] = getAdjacentMinesCount(j, i);
+                nearbyMinesCountMatrix[i][j] = getNearbyMinesCount(j, i);
             }
         }
     }
@@ -119,32 +123,32 @@ public class Minesweeper implements Game {
         return level;
     }
 
-    public int getAdjacentMinesCount(int x, int y) {
-        int adjacentMinesCount = 0;
+    public int getNearbyMinesCount(int column, int row) {
+        int nearbyMinesCount = 0;
 
-        for (int j = x - 1; j < x + 2; ++j) {
+        for (int j = column - 1; j < column + 2; ++j) {
             if (j >= 0 && j < width) {
-                for (int i = y - 1; i < y + 2; ++i) {
+                for (int i = row - 1; i < row + 2; ++i) {
                     if (i >= 0 && i < height) {
-                        adjacentMinesCount += mines[i][j];
+                        nearbyMinesCount += mines[i][j];
                     }
                 }
             }
         }
 
-        return adjacentMinesCount;
+        return nearbyMinesCount;
     }
 
-    private Deque<Cell> openCells(int cellX, int cellY) {
+    private Deque<Cell> openCells(int column, int row) {
         Deque<Cell> cellsQueue = new LinkedList<>();
         Deque<Cell> cellsToOpen = new LinkedList<>();
 
-        Cell cell = new Cell(cellX, cellY, neighbouringMinesCount[cellY][cellX]);
+        Cell cell = new Cell(column, row, nearbyMinesCountMatrix[row][column]);
 
         cellsQueue.addLast(cell);
         cellsToOpen.addLast(cell);
 
-        openedCells[cellY][cellX] = 1;
+        openedCells[row][column] = 1;
 
         while (!cellsQueue.isEmpty()) {
             Cell current = cellsQueue.removeFirst();
@@ -152,12 +156,12 @@ public class Minesweeper implements Game {
             int currentX = current.getX();
             int currentY = current.getY();
 
-            if (neighbouringMinesCount[currentY][currentX] == 0) {
+            if (nearbyMinesCountMatrix[currentY][currentX] == 0) {
                 for (int j = currentY - 1; j < currentY + 2; ++j) {
                     for (int i = currentX - 1; i < currentX + 2; ++i) {
                         if (isInRange(i, j) && openedCells[j][i] == 0) {
                             openedCells[j][i] = 1;
-                            Cell nextCell = new Cell(i, j, neighbouringMinesCount[j][i]);
+                            Cell nextCell = new Cell(i, j, nearbyMinesCountMatrix[j][i]);
 
                             cellsQueue.addLast(nextCell);
                             cellsToOpen.addLast(nextCell);
