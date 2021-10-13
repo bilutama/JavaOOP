@@ -20,105 +20,103 @@ public class SwingConverterView implements ConverterView {
     private JTextField resultTextField;
     private JButton convertButton;
 
-    private final ArrayList<Scale> scales;
+    private ActionListener convertButtonListener;
 
     public SwingConverterView(ArrayList<Scale> scales) {
-        this.scales = scales;
-        setVisible();
-    }
+        SwingUtilities.invokeLater(()->{
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception ignored) {
+            }
 
-    public void setVisible() {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignored) {
-        }
+            // Uncomment to set icon when run as a Mac app
+            // Application.getApplication().setDockIconImage(new ImageIcon(appIconFilePath).getImage());
 
-        // Uncomment to set icon when run as a Mac app
-        // Application.getApplication().setDockIconImage(new ImageIcon(appIconFilePath).getImage());
+            // set the main FRAME
+            frame = new JFrame("Temperature converter");
+            frame.setIconImage(new ImageIcon("Temperature/src/ru/academits/biluta/temperature/resources/thermometer.png").getImage());
+            frame.setResizable(false);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // set the main FRAME
-        frame = new JFrame("Temperature converter");
-        frame.setIconImage(new ImageIcon("Temperature/src/ru/academits/biluta/temperature/resources/thermometer.png").getImage());
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // Initialize SCALE LIST MODEL
+            DefaultListModel<Scale> scaleListModel = new DefaultListModel<>();
+            scaleListModel.addAll(scales);
 
-        // Initialize SCALE LIST MODEL
-        DefaultListModel<Scale> scaleListModel = new DefaultListModel<>();
-        scaleListModel.addAll(scales);
+            // set PANEL
+            JPanel panel = new JPanel();
+            panel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+            frame.add(panel);
 
-        // set PANEL
-        JPanel panel = new JPanel();
-        panel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-        frame.add(panel);
+            JLabel label = new JLabel("Check scales and enter temperature:");
 
-        JLabel label = new JLabel("Check scales and enter temperature:");
+            scaleFrom = new JList<>();
+            scaleFrom.setModel(scaleListModel);
+            scaleFrom.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "input"));
+            scaleFrom.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+            scaleFrom.setSelectedIndex(0);
 
-        scaleFrom = new JList<>();
-        scaleFrom.setModel(scaleListModel);
-        scaleFrom.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "input"));
-        scaleFrom.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
-        scaleFrom.setSelectedIndex(0);
+            scaleTo = new JList<>();
+            scaleTo.setModel(scaleListModel);
+            scaleTo.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "output"));
+            scaleTo.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+            scaleTo.setSelectedIndex(0);
 
-        scaleTo = new JList<>();
-        scaleTo.setModel(scaleListModel);
-        scaleTo.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "output"));
-        scaleTo.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
-        scaleTo.setSelectedIndex(0);
+            inputTextField = new JTextField();
+            inputTextField.setText("0.0");
 
-        inputTextField = new JTextField();
-        inputTextField.setText("0.0");
+            resultTextField = new JTextField();
+            resultTextField.setEditable(false);
+            resultTextField.setText("0.0");
 
-        resultTextField = new JTextField();
-        resultTextField.setEditable(false);
-        resultTextField.setText("0.0");
+            JButton swapScalesButton = new JButton("<-swap->");
+            swapScalesButton.addActionListener(e -> swapScales());
 
-        JButton swapScalesButton = new JButton("<-swap->");
-        swapScalesButton.addActionListener(e -> swapScales());
+            convertButton = new JButton("convert->");
+            convertButton.addActionListener(convertButtonListener);
 
-        convertButton = new JButton("convert->");
+            // Set the LAYOUT
+            GroupLayout layout = new GroupLayout(panel);
+            panel.setLayout(layout);
+            layout.setAutoCreateGaps(true);
+            layout.setAutoCreateContainerGaps(true);
 
-        // Set the LAYOUT
-        GroupLayout layout = new GroupLayout(panel);
-        panel.setLayout(layout);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
+            layout.setHorizontalGroup(layout.createParallelGroup(CENTER)
+                    .addComponent(label)
+                    .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(CENTER)
+                                    .addComponent(scaleFrom)
+                                    .addComponent(inputTextField))
+                            .addGroup(layout.createParallelGroup(CENTER)
+                                    .addComponent(swapScalesButton)
+                                    .addComponent(convertButton))
+                            .addGroup(layout.createParallelGroup(CENTER)
+                                    .addComponent(scaleTo)
+                                    .addComponent(resultTextField)))
+            );
 
-        layout.setHorizontalGroup(layout.createParallelGroup(CENTER)
-                .addComponent(label)
-                .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(CENTER)
-                                .addComponent(scaleFrom)
-                                .addComponent(inputTextField))
-                        .addGroup(layout.createParallelGroup(CENTER)
-                                .addComponent(swapScalesButton)
-                                .addComponent(convertButton))
-                        .addGroup(layout.createParallelGroup(CENTER)
-                                .addComponent(scaleTo)
-                                .addComponent(resultTextField)))
-        );
+            layout.setVerticalGroup(layout.createSequentialGroup()
+                    .addComponent(label)
+                    .addGroup(layout.createParallelGroup(CENTER)
+                            .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(CENTER)
+                                            .addComponent(scaleFrom)
+                                            .addComponent(swapScalesButton)
+                                            .addComponent(scaleTo))
+                                    .addGroup(layout.createParallelGroup(CENTER)
+                                            .addComponent(inputTextField)
+                                            .addComponent(convertButton)
+                                            .addComponent(resultTextField))))
+            );
 
-        layout.setVerticalGroup(layout.createSequentialGroup()
-                .addComponent(label)
-                .addGroup(layout.createParallelGroup(CENTER)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(CENTER)
-                                        .addComponent(scaleFrom)
-                                        .addComponent(swapScalesButton)
-                                        .addComponent(scaleTo))
-                                .addGroup(layout.createParallelGroup(CENTER)
-                                        .addComponent(inputTextField)
-                                        .addComponent(convertButton)
-                                        .addComponent(resultTextField))))
-        );
-
-        frame.pack();
-        frame.setVisible(true);
+            frame.pack();
+            frame.setVisible(true);
+        });
     }
 
     @Override
-    public void addConvertButtonListener(ActionListener actionListener) {
-        convertButton.addActionListener(actionListener);
+    public void setConvertButtonListener(ActionListener convertButtonListener) {
+        this.convertButtonListener = convertButtonListener;
     }
 
     @Override

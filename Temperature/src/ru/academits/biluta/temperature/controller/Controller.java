@@ -15,7 +15,7 @@ public class Controller implements ActionListener {
     public Controller(ScaleConverter converter, ConverterView view) {
         this.converter = converter;
         this.view = view;
-        this.view.addConvertButtonListener(this);
+        this.view.setConvertButtonListener(this);
     }
 
     public void actionPerformed(ActionEvent e) {
