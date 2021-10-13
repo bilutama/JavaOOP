@@ -20,7 +20,6 @@ public class Main {
 
         TemperatureConverter converter = new TemperatureConverter();
         ConverterView view = new SwingConverterView(scales);
-        view.setVisible();
         new Controller(converter, view);
     }
 }

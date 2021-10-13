@@ -24,6 +24,7 @@ public class SwingConverterView implements ConverterView {
 
     public SwingConverterView(ArrayList<Scale> scales) {
         this.scales = scales;
+        setVisible();
     }
 
     public void setVisible() {
