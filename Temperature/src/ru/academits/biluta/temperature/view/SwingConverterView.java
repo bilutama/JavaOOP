@@ -18,7 +18,6 @@ public class SwingConverterView implements ConverterView {
     private JList<Scale> scaleTo;
     private JTextField inputTextField;
     private JTextField resultTextField;
-    private JButton convertButton;
 
     private ActionListener convertButtonListener;
 
@@ -72,7 +71,7 @@ public class SwingConverterView implements ConverterView {
             JButton swapScalesButton = new JButton("<-swap->");
             swapScalesButton.addActionListener(e -> swapScales());
 
-            convertButton = new JButton("convert->");
+            JButton convertButton = new JButton("convert->");
             convertButton.addActionListener(convertButtonListener);
 
             // Set the LAYOUT
