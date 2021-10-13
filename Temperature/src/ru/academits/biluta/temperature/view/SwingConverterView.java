@@ -33,14 +33,12 @@ public class SwingConverterView implements ConverterView {
         } catch (Exception ignored) {
         }
 
-        String appIconFilePath = "Temperature/src/ru/academits/biluta/temperature/resources/thermometer.png";
-
         // Uncomment to set icon when run as a Mac app
         // Application.getApplication().setDockIconImage(new ImageIcon(appIconFilePath).getImage());
 
         // set the main FRAME
         frame = new JFrame("Temperature converter");
-        frame.setIconImage(new ImageIcon(appIconFilePath).getImage());
+        frame.setIconImage(new ImageIcon("Temperature/src/ru/academits/biluta/temperature/resources/thermometer.png").getImage());
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
