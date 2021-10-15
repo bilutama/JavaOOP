@@ -37,65 +37,86 @@ public class View {
     private static ImageIcon skullIcon;
     private static ImageIcon winnerIcon;
 
-    private JPanel[][] buttonPanel;
+    private JPanel[][] buttonsPanel;
     private MatrixButton[][] fieldButton;
-    private final JButton resetGameButton;
+    private JButton resetGameButton;
+    private JPopupMenu gameLevelMenu;
 
     private JFrame frame;
     private JPanel mineField;
 
     private Minesweeper minesweeper;
-    private Level level;
+    private MouseAdapter resetGameMouseAdapter;
+    private ActionListener resetGameListener;
 
     public View(Minesweeper minesweeper) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignored) {
-        }
+        SwingUtilities.invokeLater(()->{
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception ignored) {
+            }
 
-        initializeIcons();
+            initializeIcons();
 
-        // set the main FRAME
-        frame = new JFrame();
-        frame.setIconImage(new ImageIcon(BOMB_IMAGE_PATH).getImage());
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // set the main FRAME
+            frame = new JFrame();
+            frame.setIconImage(new ImageIcon(BOMB_IMAGE_PATH).getImage());
+            frame.setResizable(false);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Set top panel for the Toolbar
-        JPanel topPanel = new JPanel();
-        topPanel.setSize(100, 20);
-        topPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-        frame.add(topPanel, BorderLayout.PAGE_START);
+            // Set top panel for the Toolbar
+            JPanel topPanel = new JPanel();
+            topPanel.setSize(100, 20);
+            topPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+            frame.add(topPanel, BorderLayout.PAGE_START);
 
-        // Add toolbar to the panel
-        JToolBar toolBar = new JToolBar();
-        toolBar.setFloatable(false);
-        toolBar.setOrientation(SwingConstants.HORIZONTAL);
-        topPanel.add(toolBar);
+            // Add toolbar to the panel
+            JToolBar toolBar = new JToolBar();
+            toolBar.setFloatable(false);
+            toolBar.setOrientation(SwingConstants.HORIZONTAL);
+            topPanel.add(toolBar);
 
-        // Add Start_new_game button to the panel
-        resetGameButton = new JButton();
-        resetGameButton.setFocusable(false);
-        resetGameButton.setIcon(smileIcon);
-        toolBar.add(resetGameButton, BorderLayout.CENTER);
+            // Add Start_new_game button to the panel
+            resetGameButton = new JButton();
+            resetGameButton.setFocusable(false);
+            resetGameButton.setIcon(smileIcon);
+            toolBar.add(resetGameButton, BorderLayout.CENTER);
 
-        mineField = new JPanel();
-        mineField.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-        frame.add(mineField, BorderLayout.CENTER);
+            resetGameButton.addMouseListener(resetGameMouseAdapter);
 
-        initializeGame(minesweeper);
+            // Add popup menu to the reset button
+            gameLevelMenu = new JPopupMenu();
+
+            for (Level levelEnumElement : Level.values()) {
+                JMenuItem menuItem = new JMenuItem(String.valueOf(levelEnumElement));
+                menuItem.addActionListener(resetGameListener);
+                gameLevelMenu.add(menuItem);
+            }
+
+            // Set a minefield
+            mineField = new JPanel();
+            mineField.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+            frame.add(mineField, BorderLayout.CENTER);
+
+            initializeGame(minesweeper);
+        });
     }
 
-    public void addResetGameButtonListener(ActionListener actionListener) {
-        resetGameButton.addActionListener(actionListener);
+    public void setResetGameButton(MouseAdapter resetGameMouseAdapter, ActionListener resetGameListener) {
+        this.resetGameMouseAdapter = resetGameMouseAdapter;
+        this.resetGameListener = resetGameListener;
+    }
+
+    public void showPopupMenu(MouseEvent e){
+        gameLevelMenu.show(resetGameButton, e.getX(), e.getY());
     }
 
     public void initializeGame(Minesweeper minesweeper) {
         this.minesweeper = minesweeper;
         mineField.removeAll();
 
-        level = minesweeper.getLevel();
+        Level level = minesweeper.getLevel();
         frame.setTitle("Minesweeper - " + level.toString().toUpperCase());
 
         int width = level.getWidth();
@@ -106,19 +127,19 @@ public class View {
         // Set frame size depending on field dimensions
         mineField.getTopLevelAncestor().setSize(width * CELL_SIZE, height * CELL_SIZE + TOP_PANEL_HEIGHT);
 
-        buttonPanel = new JPanel[height][width];
+        buttonsPanel = new JPanel[height][width];
         fieldButton = new MatrixButton[height][width];
 
         for (int m = 0; m < height; m++) {
             for (int n = 0; n < width; n++) {
-                buttonPanel[m][n] = new JPanel();
-                mineField.add(buttonPanel[m][n]);
+                buttonsPanel[m][n] = new JPanel();
+                mineField.add(buttonsPanel[m][n]);
 
-                buttonPanel[m][n].setLayout(new BorderLayout());
+                buttonsPanel[m][n].setLayout(new BorderLayout());
 
                 fieldButton[m][n] = new MatrixButton(m, n);
                 fieldButton[m][n].setFocusable(false);
-                buttonPanel[m][n].add(fieldButton[m][n]);
+                buttonsPanel[m][n].add(fieldButton[m][n]);
 
                 MatrixButton matrixButton = fieldButton[m][n];
 
@@ -189,17 +210,17 @@ public class View {
 
         while (!cells.isEmpty()) {
             Cell cell = cells.removeFirst();
-            int x = cell.getX();
-            int y = cell.getY();
+            int currentCellX = cell.getX();
+            int currentCellY = cell.getY();
 
-            buttonPanel[y][x].remove(fieldButton[y][x]);
+            buttonsPanel[currentCellY][currentCellX].remove(fieldButton[currentCellY][currentCellX]);
             JLabel labelExplosion = new JLabel(explosionIcon);
 
             int minesCount = cell.getNeighbouringMinesCount();
 
             // Mine explosion - game over. Reveal all the mines.
             if (minesCount == -1) {
-                buttonPanel[y][x].add(labelExplosion);
+                buttonsPanel[currentCellY][currentCellX].add(labelExplosion);
 
                 ArrayList<Cell> mines = minesweeper.getMines();
 
@@ -210,7 +231,7 @@ public class View {
             if (minesCount > 0) {
                 JLabel label = new JLabel(Integer.toString(minesCount), JLabel.CENTER);
 
-                buttonPanel[y][x].add(label, BorderLayout.CENTER);
+                buttonsPanel[currentCellY][currentCellX].add(label, BorderLayout.CENTER);
             }
         }
     }

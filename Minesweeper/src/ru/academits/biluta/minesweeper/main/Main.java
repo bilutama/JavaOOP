@@ -9,11 +9,9 @@ import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            Level level = Level.EASY;
-            Minesweeper minesweeper = new Minesweeper(level);
-            View view = new View(minesweeper);
-            Controller controller = new Controller(minesweeper, view, level);
-        });
+        Level level = Level.EASY;
+        Minesweeper minesweeper = new Minesweeper(level);
+        View view = new View(minesweeper);
+        new Controller(minesweeper, view);
     }
 }
