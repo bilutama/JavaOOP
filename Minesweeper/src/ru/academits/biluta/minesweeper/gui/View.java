@@ -38,7 +38,7 @@ public class View {
     private static ImageIcon winnerIcon;
 
     private JPanel[][] buttonsPanel;
-    private MatrixButton[][] fieldButton;
+    private MatrixButton[][] fieldButtons;
     private JButton resetGameButton;
     private JPopupMenu gameLevelMenu;
 
@@ -46,11 +46,12 @@ public class View {
     private JPanel mineField;
 
     private Minesweeper minesweeper;
+    private boolean isGameEnded;
     private MouseAdapter resetGameMouseAdapter;
     private ActionListener resetGameListener;
 
     public View(Minesweeper minesweeper) {
-        SwingUtilities.invokeLater(()->{
+        SwingUtilities.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception ignored) {
@@ -108,11 +109,13 @@ public class View {
         this.resetGameListener = resetGameListener;
     }
 
-    public void showPopupMenu(MouseEvent e){
+    public void showPopupMenu(MouseEvent e) {
         gameLevelMenu.show(resetGameButton, e.getX(), e.getY());
     }
 
     public void initializeGame(Minesweeper minesweeper) {
+        isGameEnded = false;
+
         this.minesweeper = minesweeper;
         mineField.removeAll();
 
@@ -128,23 +131,27 @@ public class View {
         mineField.getTopLevelAncestor().setSize(width * CELL_SIZE, height * CELL_SIZE + TOP_PANEL_HEIGHT);
 
         buttonsPanel = new JPanel[height][width];
-        fieldButton = new MatrixButton[height][width];
+        fieldButtons = new MatrixButton[height][width];
 
-        for (int m = 0; m < height; m++) {
-            for (int n = 0; n < width; n++) {
-                buttonsPanel[m][n] = new JPanel();
-                mineField.add(buttonsPanel[m][n]);
+        for (int j = 0; j < height; j++) {
+            for (int i = 0; i < width; i++) {
+                buttonsPanel[j][i] = new JPanel();
+                mineField.add(buttonsPanel[j][i]);
 
-                buttonsPanel[m][n].setLayout(new BorderLayout());
+                buttonsPanel[j][i].setLayout(new BorderLayout());
 
-                fieldButton[m][n] = new MatrixButton(m, n);
-                fieldButton[m][n].setFocusable(false);
-                buttonsPanel[m][n].add(fieldButton[m][n]);
+                fieldButtons[j][i] = new MatrixButton(j, i);
+                fieldButtons[j][i].setFocusable(false);
+                buttonsPanel[j][i].add(fieldButtons[j][i]);
 
-                MatrixButton matrixButton = fieldButton[m][n];
+                MatrixButton matrixButton = fieldButtons[j][i];
 
                 matrixButton.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
+                        if (isGameEnded) {
+                            return;
+                        }
+
                         if (e.getButton() == MouseEvent.BUTTON1) {
                             openCellsRange(matrixButton.getColumn(), matrixButton.getRow());
                             mineField.updateUI();
@@ -152,10 +159,12 @@ public class View {
 
                         if (e.getButton() == MouseEvent.BUTTON3) {
                             if (null == matrixButton.getIcon()) {
+                                matrixButton.setFlagged();
                                 matrixButton.setIcon(flagIcon);
                                 return;
                             }
 
+                            matrixButton.setUnflagged();
                             matrixButton.setIcon(null);
                         }
                     }
@@ -213,25 +222,23 @@ public class View {
             int currentCellX = cell.getX();
             int currentCellY = cell.getY();
 
-            buttonsPanel[currentCellY][currentCellX].remove(fieldButton[currentCellY][currentCellX]);
+            buttonsPanel[currentCellY][currentCellX].remove(fieldButtons[currentCellY][currentCellX]);
             JLabel labelExplosion = new JLabel(explosionIcon);
 
             int minesCount = cell.getNeighbouringMinesCount();
 
-            // Mine explosion - game over. Reveal all the mines.
-            if (minesCount == -1) {
-                buttonsPanel[currentCellY][currentCellX].add(labelExplosion);
-
-                ArrayList<Cell> mines = minesweeper.getMines();
-
-                // TODO: revealing all the mines
-                return;
-            }
-
             if (minesCount > 0) {
                 JLabel label = new JLabel(Integer.toString(minesCount), JLabel.CENTER);
-
                 buttonsPanel[currentCellY][currentCellX].add(label, BorderLayout.CENTER);
+                continue;
+            }
+
+            // TODO: revealing all the mines
+            // Mine explosion - game over. Reveal all the mines.
+            if (minesCount == -1) {
+                isGameEnded = true;
+                buttonsPanel[currentCellY][currentCellX].add(labelExplosion);
+                ArrayList<Cell> mines = minesweeper.getMines();
             }
         }
     }

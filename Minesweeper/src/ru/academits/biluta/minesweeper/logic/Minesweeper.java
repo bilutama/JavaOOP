@@ -1,7 +1,5 @@
 package ru.academits.biluta.minesweeper.logic;
 
-import ru.academits.biluta.minesweeper.controller.GameState;
-
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -19,7 +17,6 @@ public class Minesweeper implements Game {
 
     // Game level and state
     private final Level level;
-    private GameState gameState;
 
     public Minesweeper(Level level) {
         this.level = level;
@@ -29,8 +26,6 @@ public class Minesweeper implements Game {
 
         closedCellsCount = height * width;
         minedCells = new ArrayList<>(level.getMinesCount());
-
-        gameState = GameState.NEW_GAME;
     }
 
     public ArrayList<Cell> getMines() {
@@ -66,9 +61,7 @@ public class Minesweeper implements Game {
 
     private void endGame() {
         // TODO: stop timer
-        if (gameState == GameState.WIN) {
-            // check records table
-        }
+
 
         // code for lost game
     }
