@@ -1,7 +1,6 @@
 package ru.academits.biluta.minesweeper.view;
 
 import ru.academits.biluta.minesweeper.logic.Game;
-import ru.academits.biluta.minesweeper.logic.Minesweeper;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
