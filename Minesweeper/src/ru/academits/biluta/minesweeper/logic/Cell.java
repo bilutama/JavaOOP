@@ -22,4 +22,8 @@ public class Cell {
     public int getNeighbouringMinesCount() {
         return neighbouringMinesCount;
     }
+
+    public boolean isEqual(Cell cell) {
+        return (x == cell.getX() && y == cell.getY());
+    }
 }

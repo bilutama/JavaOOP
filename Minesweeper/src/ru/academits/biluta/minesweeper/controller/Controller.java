@@ -1,17 +1,18 @@
 package ru.academits.biluta.minesweeper.controller;
 
+import ru.academits.biluta.minesweeper.logic.Game;
 import ru.academits.biluta.minesweeper.logic.Level;
-import ru.academits.biluta.minesweeper.logic.Minesweeper;
-import ru.academits.biluta.minesweeper.gui.View;
+import ru.academits.biluta.minesweeper.logic.MinesweeperGame;
+import ru.academits.biluta.minesweeper.view.View;
 
 import java.awt.event.*;
 
 public class Controller extends MouseAdapter {
-    private Minesweeper minesweeper;
+    private Game minesweeper;
     private final View view;
     private Level newGameLevel;
 
-    public Controller(Minesweeper minesweeper, View view) {
+    public Controller(Game minesweeper, View view) {
         this.minesweeper = minesweeper;
         this.view = view;
         view.setResetGameButton(this, new PopupMenuHandler());
@@ -21,7 +22,7 @@ public class Controller extends MouseAdapter {
     public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             newGameLevel = minesweeper.getLevel();
-            minesweeper = new Minesweeper(newGameLevel);
+            minesweeper = new MinesweeperGame(newGameLevel);
             view.initializeGame(minesweeper);
         }
 
@@ -34,7 +35,7 @@ public class Controller extends MouseAdapter {
         @Override
         public void actionPerformed(ActionEvent e) {
             newGameLevel = Level.valueOf(e.getActionCommand());
-            minesweeper = new Minesweeper(newGameLevel);
+            minesweeper = new MinesweeperGame(newGameLevel);
             view.initializeGame(minesweeper);
         }
     }

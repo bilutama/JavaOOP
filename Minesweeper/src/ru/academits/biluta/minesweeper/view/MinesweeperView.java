@@ -1,11 +1,12 @@
-package ru.academits.biluta.minesweeper.gui;
+package ru.academits.biluta.minesweeper.view;
 
 import ru.academits.biluta.minesweeper.logic.Cell;
+import ru.academits.biluta.minesweeper.logic.Game;
 import ru.academits.biluta.minesweeper.logic.Level;
-import ru.academits.biluta.minesweeper.logic.Minesweeper;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -13,7 +14,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Deque;
 
-public class View {
+public class MinesweeperView implements View {
     private final static int CELL_SIZE = 40;
     private final static int CELL_ICON_SIZE = 35;
     private final static int MAIN_ICON_SIZE = 50;
@@ -45,12 +46,12 @@ public class View {
     private JFrame frame;
     private JPanel mineField;
 
-    private Minesweeper minesweeper;
+    private Game minesweeper;
     private boolean isGameEnded;
     private MouseAdapter resetGameMouseAdapter;
     private ActionListener resetGameListener;
 
-    public View(Minesweeper minesweeper) {
+    public MinesweeperView(Game minesweeper) {
         SwingUtilities.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -63,7 +64,6 @@ public class View {
             frame = new JFrame();
             frame.setIconImage(new ImageIcon(BOMB_IMAGE_PATH).getImage());
             frame.setResizable(false);
-            frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             // Set top panel for the Toolbar
@@ -101,6 +101,7 @@ public class View {
             frame.add(mineField, BorderLayout.CENTER);
 
             initializeGame(minesweeper);
+            frame.setLocationRelativeTo(null);
         });
     }
 
@@ -113,8 +114,9 @@ public class View {
         gameLevelMenu.show(resetGameButton, e.getX(), e.getY());
     }
 
-    public void initializeGame(Minesweeper minesweeper) {
+    public void initializeGame(Game minesweeper) {
         isGameEnded = false;
+        resetGameButton.setIcon(smileIcon);
 
         this.minesweeper = minesweeper;
         mineField.removeAll();
@@ -223,8 +225,6 @@ public class View {
             int currentCellY = cell.getY();
 
             buttonsPanel[currentCellY][currentCellX].remove(fieldButtons[currentCellY][currentCellX]);
-            JLabel labelExplosion = new JLabel(explosionIcon);
-
             int minesCount = cell.getNeighbouringMinesCount();
 
             if (minesCount > 0) {
@@ -237,8 +237,29 @@ public class View {
             // Mine explosion - game over. Reveal all the mines.
             if (minesCount == -1) {
                 isGameEnded = true;
+                resetGameButton.setIcon(skullIcon);
+
+                JLabel labelExplosion = new JLabel(explosionIcon);
                 buttonsPanel[currentCellY][currentCellX].add(labelExplosion);
+
                 ArrayList<Cell> mines = minesweeper.getMines();
+
+                for (Cell minedCell : mines) {
+                    if (minedCell.isEqual(cell)) {
+                        continue;
+                    }
+
+                    int minedCellX = minedCell.getX();
+                    int minedCellY = minedCell.getY();
+                    JLabel bombLabel = new JLabel(bombIcon);
+
+                    if (fieldButtons[minedCellY][minedCellX].isFlagged()) {
+                        fieldButtons[minedCellY][minedCellX].setBorder(new LineBorder(Color.GREEN, 2));
+                    } else {
+                        buttonsPanel[minedCellY][minedCellX].remove(fieldButtons[minedCellY][minedCellX]);
+                        buttonsPanel[minedCellY][minedCellX].add(bombLabel, BorderLayout.CENTER);
+                    }
+                }
             }
         }
     }

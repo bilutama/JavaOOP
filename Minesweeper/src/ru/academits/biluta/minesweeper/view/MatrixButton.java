@@ -1,4 +1,4 @@
-package ru.academits.biluta.minesweeper.gui;
+package ru.academits.biluta.minesweeper.view;
 
 import javax.swing.*;
 
@@ -9,12 +9,6 @@ public class MatrixButton extends JButton {
 
     public MatrixButton(int row, int column) {
         super();
-        this.row = row;
-        this.column = column;
-    }
-
-    public MatrixButton(String buttonLabel, int row, int column) {
-        super(buttonLabel);
         this.row = row;
         this.column = column;
     }
@@ -35,7 +29,7 @@ public class MatrixButton extends JButton {
         isFlagged = false;
     }
 
-    public boolean isFlagged(){
+    public boolean isFlagged() {
         return isFlagged;
     }
 }
