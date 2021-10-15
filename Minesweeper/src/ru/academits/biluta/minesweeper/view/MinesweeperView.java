@@ -233,8 +233,7 @@ public class MinesweeperView implements View {
                 continue;
             }
 
-            // TODO: revealing all the mines
-            // Mine explosion - game over. Reveal all the mines.
+            // Mine explosion -> game over, revealing all the mines
             if (minesCount == -1) {
                 isGameEnded = true;
                 resetGameButton.setIcon(skullIcon);
@@ -242,6 +241,7 @@ public class MinesweeperView implements View {
                 JLabel labelExplosion = new JLabel(explosionIcon);
                 buttonsPanel[currentCellY][currentCellX].add(labelExplosion);
 
+                // Receive and reveal mined cells
                 ArrayList<Cell> mines = minesweeper.getMines();
 
                 for (Cell minedCell : mines) {
@@ -255,10 +255,11 @@ public class MinesweeperView implements View {
 
                     if (fieldButtons[minedCellY][minedCellX].isFlagged()) {
                         fieldButtons[minedCellY][minedCellX].setBorder(new LineBorder(Color.GREEN, 2));
-                    } else {
-                        buttonsPanel[minedCellY][minedCellX].remove(fieldButtons[minedCellY][minedCellX]);
-                        buttonsPanel[minedCellY][minedCellX].add(bombLabel, BorderLayout.CENTER);
+                        continue;
                     }
+
+                    buttonsPanel[minedCellY][minedCellX].remove(fieldButtons[minedCellY][minedCellX]);
+                    buttonsPanel[minedCellY][minedCellX].add(bombLabel, BorderLayout.CENTER);
                 }
             }
         }
