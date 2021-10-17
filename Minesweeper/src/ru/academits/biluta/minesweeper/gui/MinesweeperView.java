@@ -78,7 +78,7 @@ public class MinesweeperView implements View {
             toolBar.setOrientation(SwingConstants.HORIZONTAL);
             topPanel.add(toolBar);
 
-            // Add Start_new_game button to the panel
+            // Add New_game_button to the panel
             resetGameButton = new JButton();
             resetGameButton.setFocusable(false);
             resetGameButton.setIcon(smileIcon);
@@ -129,7 +129,7 @@ public class MinesweeperView implements View {
 
         mineField.setLayout(new GridLayout(height, width));
 
-        // Set frame size depending on field dimensions
+        // Set frame size depending on minefield dimensions
         mineField.getTopLevelAncestor().setSize(width * CELL_SIZE, height * CELL_SIZE + TOP_PANEL_HEIGHT);
 
         buttonsPanel = new JPanel[height][width];
@@ -155,7 +155,7 @@ public class MinesweeperView implements View {
                         }
 
                         if (e.getButton() == MouseEvent.BUTTON1) {
-                            revealCellsRange(matrixButton.getColumn(), matrixButton.getRow());
+                            revealCellsRange(matrixButton.getButtonX(), matrixButton.getButtonY());
                             mineField.updateUI();
                         }
 
@@ -227,6 +227,7 @@ public class MinesweeperView implements View {
             buttonsPanel[currentCellY][currentCellX].remove(fieldButtons[currentCellY][currentCellX]);
             int minesCount = cell.getNeighbouringMinesCount();
 
+            // Show neighbouring mines count
             if (minesCount > 0) {
                 JLabel label = new JLabel(Integer.toString(minesCount), JLabel.CENTER);
                 buttonsPanel[currentCellY][currentCellX].add(label, BorderLayout.CENTER);
