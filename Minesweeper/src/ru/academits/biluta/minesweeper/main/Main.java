@@ -1,9 +1,9 @@
 package ru.academits.biluta.minesweeper.main;
 
 import ru.academits.biluta.minesweeper.controller.Controller;
-import ru.academits.biluta.minesweeper.logic.Game;
-import ru.academits.biluta.minesweeper.logic.Level;
-import ru.academits.biluta.minesweeper.logic.MinesweeperGame;
+import ru.academits.biluta.minesweeper.model.Game;
+import ru.academits.biluta.minesweeper.model.Level;
+import ru.academits.biluta.minesweeper.model.MinesweeperGame;
 import ru.academits.biluta.minesweeper.view.MinesweeperView;
 import ru.academits.biluta.minesweeper.view.View;
 

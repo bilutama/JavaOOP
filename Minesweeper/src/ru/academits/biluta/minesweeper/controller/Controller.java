@@ -1,8 +1,8 @@
 package ru.academits.biluta.minesweeper.controller;
 
-import ru.academits.biluta.minesweeper.logic.Game;
-import ru.academits.biluta.minesweeper.logic.Level;
-import ru.academits.biluta.minesweeper.logic.MinesweeperGame;
+import ru.academits.biluta.minesweeper.model.Game;
+import ru.academits.biluta.minesweeper.model.Level;
+import ru.academits.biluta.minesweeper.model.MinesweeperGame;
 import ru.academits.biluta.minesweeper.view.View;
 
 import java.awt.event.*;

@@ -1,4 +1,4 @@
-package ru.academits.biluta.minesweeper.logic;
+package ru.academits.biluta.minesweeper.model;
 
 public class Cell {
     private final int x;

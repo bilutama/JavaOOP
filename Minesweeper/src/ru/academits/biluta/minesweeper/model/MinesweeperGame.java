@@ -1,4 +1,4 @@
-package ru.academits.biluta.minesweeper.logic;
+package ru.academits.biluta.minesweeper.model;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -9,7 +9,6 @@ public class MinesweeperGame implements Game {
     private final int height;
 
     // Game state
-    private int[][] mines;
     private int[][] nearbyMinesCountMatrix;
     private int[][] revealedCells;
     private int closedCellsCount;
@@ -84,28 +83,35 @@ public class MinesweeperGame implements Game {
     }
 
     private void initializeGame(int column, int row) {
-        mines = new int[height][width];
         nearbyMinesCountMatrix = new int[height][width];
         revealedCells = new int[height][width];
 
-        placeMines(mines, level.getMinesCount(), column + row * width);
-        initializeNearbyMinesCountMatrix();
+        initializeMineField(level.getMinesCount(), column + row * width);
 
         // TODO: remove println-s
-        System.out.println("MINE FIELD");
-        printArray(mines);
-
         System.out.println("NEIGHBOURING MINES COUNT");
         printArray(nearbyMinesCountMatrix);
     }
 
-    private void placeMines(int[][] mines, int minesCount, int excludedIndex) {
+    private void initializeMineField(int minesCount, int excludedIndex) {
         // Get cells indices to place mines except first revealed cell
         Integer[] randomIndices = getRandomCellsIndices(minesCount, excludedIndex);
 
         // Place mines among closed cells
-        for (int i = 0; i < minesCount; ++i) {
-            mines[randomIndices[i] / width][randomIndices[i] % width] = 1;
+        for (int counter = 0; counter < minesCount; ++counter) {
+            int row = randomIndices[counter] / width;
+            int column = randomIndices[counter] % width;
+
+            nearbyMinesCountMatrix[row][column] = -1;
+            minedCells.add(new Cell(column, row, nearbyMinesCountMatrix[row][column]));
+
+            for (int j = column - 1; j < column + 2; ++j) {
+                for (int i = row - 1; i < row + 2; ++i) {
+                    if (isInRange(i, j) && nearbyMinesCountMatrix[i][j] != -1) {
+                        nearbyMinesCountMatrix[i][j] += 1;
+                    }
+                }
+            }
         }
     }
 
@@ -121,36 +127,6 @@ public class MinesweeperGame implements Game {
         new ArrayList<>(cellsIndices.subList(0, numbersCount)).toArray(randomCellIndices);
 
         return randomCellIndices;
-    }
-
-    private void initializeNearbyMinesCountMatrix() {
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                if (mines[i][j] == 1) {
-                    nearbyMinesCountMatrix[i][j] = -1;
-                    minedCells.add(new Cell(j, i, nearbyMinesCountMatrix[i][j]));
-                    continue;
-                }
-
-                nearbyMinesCountMatrix[i][j] = getNearbyMinesCount(j, i);
-            }
-        }
-    }
-
-    private int getNearbyMinesCount(int column, int row) {
-        int nearbyMinesCount = 0;
-
-        for (int j = column - 1; j < column + 2; ++j) {
-            if (j >= 0 && j < width) {
-                for (int i = row - 1; i < row + 2; ++i) {
-                    if (i >= 0 && i < height) {
-                        nearbyMinesCount += mines[i][j];
-                    }
-                }
-            }
-        }
-
-        return nearbyMinesCount;
     }
 
     private boolean isInRange(int x, int y) {

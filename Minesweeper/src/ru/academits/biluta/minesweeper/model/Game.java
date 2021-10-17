@@ -1,4 +1,4 @@
-package ru.academits.biluta.minesweeper.logic;
+package ru.academits.biluta.minesweeper.model;
 
 import java.util.ArrayList;
 import java.util.Deque;
