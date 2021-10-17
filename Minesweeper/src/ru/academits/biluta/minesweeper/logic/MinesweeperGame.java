@@ -1,4 +1,4 @@
-package ru.academits.biluta.minesweeper.model;
+package ru.academits.biluta.minesweeper.logic;
 
 import java.util.*;
 import java.util.stream.Collectors;

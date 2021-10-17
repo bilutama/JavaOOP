@@ -1,4 +1,4 @@
-package ru.academits.biluta.minesweeper.model;
+package ru.academits.biluta.minesweeper.logic;
 
 public enum Level {
     EASY(9, 9, 10),

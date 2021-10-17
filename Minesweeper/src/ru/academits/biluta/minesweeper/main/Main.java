@@ -1,11 +1,11 @@
 package ru.academits.biluta.minesweeper.main;
 
 import ru.academits.biluta.minesweeper.controller.Controller;
-import ru.academits.biluta.minesweeper.model.Game;
-import ru.academits.biluta.minesweeper.model.Level;
-import ru.academits.biluta.minesweeper.model.MinesweeperGame;
-import ru.academits.biluta.minesweeper.view.MinesweeperView;
-import ru.academits.biluta.minesweeper.view.View;
+import ru.academits.biluta.minesweeper.logic.Game;
+import ru.academits.biluta.minesweeper.logic.Level;
+import ru.academits.biluta.minesweeper.logic.MinesweeperGame;
+import ru.academits.biluta.minesweeper.gui.MinesweeperView;
+import ru.academits.biluta.minesweeper.gui.View;
 
 public class Main {
     public static void main(String[] args) {

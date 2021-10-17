@@ -1,4 +1,4 @@
-package ru.academits.biluta.minesweeper.view;
+package ru.academits.biluta.minesweeper.gui;
 
 import javax.swing.*;
 
