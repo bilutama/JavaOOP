@@ -155,7 +155,7 @@ public class MinesweeperView implements View {
                         }
 
                         if (e.getButton() == MouseEvent.BUTTON1) {
-                            revealCellsRange(matrixButton.getButtonX(), matrixButton.getButtonY());
+                            revealCellsRange(matrixButton.getButtonY(), matrixButton.getButtonX());
                             mineField.updateUI();
                         }
 
