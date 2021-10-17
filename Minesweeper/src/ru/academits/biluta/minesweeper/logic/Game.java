@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Deque;
 
 public interface Game {
-    Deque<Cell> nextTurn(int cellX, int cellY);
-
-    ArrayList<Cell> getMines();
+    Deque<Cell> getCellsRangeToReveal(int cellX, int cellY);
 
     Level getLevel();
+
+    int getClosedCellsCount();
+
+    ArrayList<Cell> getMines();
 }

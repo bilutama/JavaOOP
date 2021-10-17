@@ -47,7 +47,7 @@ public class MinesweeperView implements View {
     private JPanel mineField;
 
     private Game minesweeper;
-    private boolean isGameEnded;
+    private boolean isGameOver;
     private MouseAdapter resetGameMouseAdapter;
     private ActionListener resetGameListener;
 
@@ -115,7 +115,7 @@ public class MinesweeperView implements View {
     }
 
     public void initializeGame(Game minesweeper) {
-        isGameEnded = false;
+        isGameOver = false;
         resetGameButton.setIcon(smileIcon);
 
         this.minesweeper = minesweeper;
@@ -150,12 +150,12 @@ public class MinesweeperView implements View {
 
                 matrixButton.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
-                        if (isGameEnded) {
+                        if (isGameOver) {
                             return;
                         }
 
                         if (e.getButton() == MouseEvent.BUTTON1) {
-                            openCellsRange(matrixButton.getColumn(), matrixButton.getRow());
+                            revealCellsRange(matrixButton.getColumn(), matrixButton.getRow());
                             mineField.updateUI();
                         }
 
@@ -198,7 +198,7 @@ public class MinesweeperView implements View {
         );
 
         winnerIcon = new ImageIcon(
-                new ImageIcon(SKULL_IMAGE_PATH)
+                new ImageIcon(WINNER_IMAGE_PATH)
                         .getImage()
                         .getScaledInstance(MAIN_ICON_SIZE, MAIN_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
         );
@@ -216,8 +216,8 @@ public class MinesweeperView implements View {
         );
     }
 
-    private void openCellsRange(int cellX, int cellY) {
-        Deque<Cell> cells = minesweeper.nextTurn(cellX, cellY);
+    private void revealCellsRange(int cellX, int cellY) {
+        Deque<Cell> cells = minesweeper.getCellsRangeToReveal(cellX, cellY);
 
         while (!cells.isEmpty()) {
             Cell cell = cells.removeFirst();
@@ -235,33 +235,41 @@ public class MinesweeperView implements View {
 
             // Mine explosion -> game over, revealing all the mines
             if (minesCount == -1) {
-                isGameEnded = true;
+                isGameOver = true;
                 resetGameButton.setIcon(skullIcon);
 
                 JLabel labelExplosion = new JLabel(explosionIcon);
                 buttonsPanel[currentCellY][currentCellX].add(labelExplosion);
 
-                // Receive and reveal mined cells
-                ArrayList<Cell> mines = minesweeper.getMines();
-
-                for (Cell minedCell : mines) {
-                    if (minedCell.isEqual(cell)) {
-                        continue;
-                    }
-
-                    int minedCellX = minedCell.getX();
-                    int minedCellY = minedCell.getY();
-                    JLabel bombLabel = new JLabel(bombIcon);
-
-                    if (fieldButtons[minedCellY][minedCellX].isFlagged()) {
-                        fieldButtons[minedCellY][minedCellX].setBorder(new LineBorder(Color.GREEN, 2));
-                        continue;
-                    }
-
-                    buttonsPanel[minedCellY][minedCellX].remove(fieldButtons[minedCellY][minedCellX]);
-                    buttonsPanel[minedCellY][minedCellX].add(bombLabel, BorderLayout.CENTER);
-                }
+                revealAllMines(cell);
             }
+        }
+
+        if (minesweeper.getClosedCellsCount() == minesweeper.getLevel().getMinesCount()) {
+            isGameOver = true;
+            resetGameButton.setIcon(winnerIcon);
+        }
+    }
+
+    private void revealAllMines(Cell revealedCell) {
+        ArrayList<Cell> mines = minesweeper.getMines();
+
+        for (Cell minedCell : mines) {
+            if (minedCell.isEqual(revealedCell)) {
+                continue;
+            }
+
+            int minedCellX = minedCell.getX();
+            int minedCellY = minedCell.getY();
+            JLabel bombLabel = new JLabel(bombIcon);
+
+            if (fieldButtons[minedCellY][minedCellX].isFlagged()) {
+                fieldButtons[minedCellY][minedCellX].setBorder(new LineBorder(Color.GREEN, 2));
+                continue;
+            }
+
+            buttonsPanel[minedCellY][minedCellX].remove(fieldButtons[minedCellY][minedCellX]);
+            buttonsPanel[minedCellY][minedCellX].add(bombLabel, BorderLayout.CENTER);
         }
     }
 }

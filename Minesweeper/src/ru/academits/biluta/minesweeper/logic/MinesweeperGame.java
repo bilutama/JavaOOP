@@ -11,7 +11,7 @@ public class MinesweeperGame implements Game {
     // Game state
     private int[][] mines;
     private int[][] nearbyMinesCountMatrix;
-    private int[][] openedCells;
+    private int[][] revealedCells;
     private int closedCellsCount;
     private final ArrayList<Cell> minedCells;
 
@@ -28,32 +28,65 @@ public class MinesweeperGame implements Game {
         minedCells = new ArrayList<>(level.getMinesCount());
     }
 
+    public Level getLevel() {
+        return level;
+    }
+
+    public int getClosedCellsCount() {
+        return closedCellsCount;
+    }
+
     public ArrayList<Cell> getMines() {
         return minedCells;
     }
 
     @Override
-    public Deque<Cell> nextTurn(int column, int row) {
+    public Deque<Cell> getCellsRangeToReveal(int column, int row) {
         if (closedCellsCount == height * width) {
             // TODO: add timer, start counting
             initializeGame(column, row);
         }
 
-        Deque<Cell> cellsToOpen;
+        Deque<Cell> cellsQueue = new LinkedList<>();
+        Deque<Cell> cellsRangeToReveal = new LinkedList<>();
 
-        cellsToOpen = getCellsRange(column, row);
-        closedCellsCount -= cellsToOpen.size();
+        Cell cell = new Cell(column, row, nearbyMinesCountMatrix[row][column]);
 
-        // TODO: remove println
-        //System.out.println("Closed cells:" + closedCellsCount);
+        cellsQueue.addLast(cell);
+        cellsRangeToReveal.addLast(cell);
 
-        return cellsToOpen;
+        revealedCells[row][column] = 1;
+
+        while (!cellsQueue.isEmpty()) {
+            Cell currentCell = cellsQueue.removeFirst();
+
+            int currentCellX = currentCell.getX();
+            int currentCellY = currentCell.getY();
+
+            // Collecting neighbouring cells
+            if (nearbyMinesCountMatrix[currentCellY][currentCellX] == 0) {
+                for (int j = currentCellY - 1; j < currentCellY + 2; ++j) {
+                    for (int i = currentCellX - 1; i < currentCellX + 2; ++i) {
+                        if (isInRange(i, j) && revealedCells[j][i] == 0) {
+                            revealedCells[j][i] = 1;
+                            Cell nextCell = new Cell(i, j, nearbyMinesCountMatrix[j][i]);
+
+                            cellsQueue.addLast(nextCell);
+                            cellsRangeToReveal.addLast(nextCell);
+                        }
+                    }
+                }
+            }
+        }
+
+        closedCellsCount -= cellsRangeToReveal.size();
+        return cellsRangeToReveal;
     }
 
     private void initializeGame(int column, int row) {
         mines = new int[height][width];
         nearbyMinesCountMatrix = new int[height][width];
-        openedCells = new int[height][width];
+        revealedCells = new int[height][width];
 
         placeMines(mines, level.getMinesCount(), column + row * width);
         initializeNearbyMinesCountMatrix();
@@ -67,7 +100,7 @@ public class MinesweeperGame implements Game {
     }
 
     private void placeMines(int[][] mines, int minesCount, int excludedIndex) {
-        // Get cells indices to place mines except first opened cell
+        // Get cells indices to place mines except first revealed cell
         Integer[] randomIndices = getRandomCellsIndices(minesCount, excludedIndex);
 
         // Place mines among closed cells
@@ -104,10 +137,6 @@ public class MinesweeperGame implements Game {
         }
     }
 
-    public Level getLevel() {
-        return level;
-    }
-
     private int getNearbyMinesCount(int column, int row) {
         int nearbyMinesCount = 0;
 
@@ -122,42 +151,6 @@ public class MinesweeperGame implements Game {
         }
 
         return nearbyMinesCount;
-    }
-
-    private Deque<Cell> getCellsRange(int column, int row) {
-        Deque<Cell> cellsQueue = new LinkedList<>();
-        Deque<Cell> cellsToOpen = new LinkedList<>();
-
-        Cell cell = new Cell(column, row, nearbyMinesCountMatrix[row][column]);
-
-        cellsQueue.addLast(cell);
-        cellsToOpen.addLast(cell);
-
-        openedCells[row][column] = 1;
-
-        while (!cellsQueue.isEmpty()) {
-            Cell currentCell = cellsQueue.removeFirst();
-
-            int currentCellX = currentCell.getX();
-            int currentCellY = currentCell.getY();
-
-            // Collecting neighbouring cells
-            if (nearbyMinesCountMatrix[currentCellY][currentCellX] == 0) {
-                for (int j = currentCellY - 1; j < currentCellY + 2; ++j) {
-                    for (int i = currentCellX - 1; i < currentCellX + 2; ++i) {
-                        if (isInRange(i, j) && openedCells[j][i] == 0) {
-                            openedCells[j][i] = 1;
-                            Cell nextCell = new Cell(i, j, nearbyMinesCountMatrix[j][i]);
-
-                            cellsQueue.addLast(nextCell);
-                            cellsToOpen.addLast(nextCell);
-                        }
-                    }
-                }
-            }
-        }
-
-        return cellsToOpen;
     }
 
     private boolean isInRange(int x, int y) {
