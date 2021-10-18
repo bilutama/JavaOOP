@@ -1,8 +1,7 @@
 package ru.academits.biluta.minesweeper.logic;
 
 public enum Level {
-    //EASY(9, 9, 10),
-    EASY(15, 5, 10),
+    EASY(9, 9, 10),
     NORMAL(16, 16, 40),
     HARD(25, 20, 80);
 
