@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class MinesweeperGame implements Game {
-    private final int width;
-    private final int height;
+    private final int mineFieldWidth;
+    private final int mineFieldHeight;
 
     // Game state
     private final int[][] nearbyMinesCountMatrix; // -1 stands for mine
@@ -14,19 +14,18 @@ public class MinesweeperGame implements Game {
     private int closedCellsCount;
     private final ArrayList<Cell> minedCells;
 
-    // Game level and state
     private final Level level;
 
     public MinesweeperGame(Level level) {
         this.level = level;
 
-        height = level.getHeight();
-        width = level.getWidth();
+        mineFieldHeight = level.getMineFieldHeight();
+        mineFieldWidth = level.getMineFieldWidth();
 
-        nearbyMinesCountMatrix = new int[height][width];
-        revealedCells = new int[height][width];
+        nearbyMinesCountMatrix = new int[mineFieldHeight][mineFieldWidth];
+        revealedCells = new int[mineFieldHeight][mineFieldWidth];
 
-        closedCellsCount = height * width;
+        closedCellsCount = mineFieldHeight * mineFieldWidth;
         minedCells = new ArrayList<>(level.getMinesCount());
     }
 
@@ -44,7 +43,7 @@ public class MinesweeperGame implements Game {
 
     @Override
     public Deque<Cell> getCellsRangeToReveal(int revealedCellX, int revealedCellY) {
-        if (closedCellsCount == height * width) {
+        if (closedCellsCount == mineFieldHeight * mineFieldWidth) {
             // TODO: add timer, start counting
             initializeGame(revealedCellX, revealedCellY);
         }
@@ -87,15 +86,15 @@ public class MinesweeperGame implements Game {
 
     private void initializeGame(int firstOpenedCellX, int firstOpenedCellY) {
         int minesCount = level.getMinesCount();
-        int excludedIndex = firstOpenedCellX + firstOpenedCellY * width;
+        int excludedIndex = firstOpenedCellX + firstOpenedCellY * mineFieldWidth;
 
         // Get cells indices to place mines except first revealed cell
         Integer[] randomIndices = getRandomCellsIndices(minesCount, excludedIndex);
 
         // Place mines among closed cells
         for (int counter = 0; counter < minesCount; ++counter) {
-            int cellY = randomIndices[counter] / width;
-            int cellX = randomIndices[counter] % width;
+            int cellY = randomIndices[counter] / mineFieldWidth;
+            int cellX = randomIndices[counter] % mineFieldWidth;
 
             nearbyMinesCountMatrix[cellY][cellX] = -1;
             minedCells.add(new Cell(cellX, cellY, nearbyMinesCountMatrix[cellY][cellX]));
@@ -111,7 +110,7 @@ public class MinesweeperGame implements Game {
     }
 
     private Integer[] getRandomCellsIndices(int numbersCount, int excludedNumber) {
-        List<Integer> cellsIndices = IntStream.range(0, height * width - 2)
+        List<Integer> cellsIndices = IntStream.range(0, mineFieldHeight * mineFieldWidth - 2)
                 .filter(index -> index != excludedNumber)
                 .boxed()
                 .collect(Collectors.toList());
@@ -125,6 +124,6 @@ public class MinesweeperGame implements Game {
     }
 
     private boolean isInRange(int x, int y) {
-        return x >= 0 && y >= 0 && x < width && y < height;
+        return x >= 0 && y >= 0 && x < mineFieldWidth && y < mineFieldHeight;
     }
 }
