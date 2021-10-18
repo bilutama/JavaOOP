@@ -14,7 +14,7 @@ public class Controller extends MouseAdapter {
     public Controller(Game minesweeper, View view) {
         this.minesweeper = minesweeper;
         this.view = view;
-        view.setResetGameButton(this, new PopupMenuHandler());
+        this.view.setResetGameButton(this, new PopupMenuHandler());
     }
 
     @Override
