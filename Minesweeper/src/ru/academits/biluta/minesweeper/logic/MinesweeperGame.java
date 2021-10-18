@@ -101,7 +101,7 @@ public class MinesweeperGame implements Game {
 
             for (int j = cellX - 1; j < cellX + 2; ++j) {
                 for (int i = cellY - 1; i < cellY + 2; ++i) {
-                    if (isInRange(i, j) && nearbyMinesCountMatrix[i][j] != -1) {
+                    if (isInRange(j, i) && nearbyMinesCountMatrix[i][j] != -1) {
                         nearbyMinesCountMatrix[i][j] += 1;
                     }
                 }
