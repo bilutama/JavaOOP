@@ -9,8 +9,8 @@ public class MinesweeperGame implements Game {
     private final int height;
 
     // Game state
-    private int[][] nearbyMinesCountMatrix; // -1 stands for mine
-    private int[][] revealedCells;
+    private final int[][] nearbyMinesCountMatrix; // -1 stands for mine
+    private final int[][] revealedCells;
     private int closedCellsCount;
     private final ArrayList<Cell> minedCells;
 
@@ -22,6 +22,9 @@ public class MinesweeperGame implements Game {
 
         height = level.getHeight();
         width = level.getWidth();
+
+        nearbyMinesCountMatrix = new int[height][width];
+        revealedCells = new int[height][width];
 
         closedCellsCount = height * width;
         minedCells = new ArrayList<>(level.getMinesCount());
@@ -40,21 +43,21 @@ public class MinesweeperGame implements Game {
     }
 
     @Override
-    public Deque<Cell> getCellsRangeToReveal(int cellX, int cellY) {
+    public Deque<Cell> getCellsRangeToReveal(int revealedCellX, int revealedCellY) {
         if (closedCellsCount == height * width) {
             // TODO: add timer, start counting
-            initializeGame(cellX, cellY);
+            initializeGame(revealedCellX, revealedCellY);
         }
 
         Deque<Cell> cellsQueue = new LinkedList<>();
         Deque<Cell> cellsRangeToReveal = new LinkedList<>();
 
-        Cell cell = new Cell(cellX, cellY, nearbyMinesCountMatrix[cellY][cellX]);
+        Cell cell = new Cell(revealedCellX, revealedCellY, nearbyMinesCountMatrix[revealedCellY][revealedCellX]);
 
         cellsQueue.addLast(cell);
         cellsRangeToReveal.addLast(cell);
 
-        revealedCells[cellY][cellX] = 1;
+        revealedCells[revealedCellY][revealedCellX] = 1;
 
         while (!cellsQueue.isEmpty()) {
             Cell currentCell = cellsQueue.removeFirst();
@@ -82,14 +85,10 @@ public class MinesweeperGame implements Game {
         return cellsRangeToReveal;
     }
 
-    private void initializeGame(int cellX, int cellY) {
-        nearbyMinesCountMatrix = new int[height][width];
-        revealedCells = new int[height][width];
+    private void initializeGame(int firstOpenedCellX, int firstOpenedCellY) {
+        int minesCount = level.getMinesCount();
+        int excludedIndex = firstOpenedCellX + firstOpenedCellY * width;
 
-        initializeMineField(level.getMinesCount(), cellX + cellY * width);
-    }
-
-    private void initializeMineField(int minesCount, int excludedIndex) {
         // Get cells indices to place mines except first revealed cell
         Integer[] randomIndices = getRandomCellsIndices(minesCount, excludedIndex);
 
