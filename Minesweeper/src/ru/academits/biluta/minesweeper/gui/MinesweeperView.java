@@ -124,19 +124,19 @@ public class MinesweeperView implements View {
         Level level = minesweeper.getLevel();
         frame.setTitle("Minesweeper - " + level.toString().toUpperCase());
 
-        int width = level.getWidth();
-        int height = level.getHeight();
+        int mineFieldWidth = level.getMineFieldWidth();
+        int mineFieldHeight = level.getMineFieldHeight();
 
-        mineField.setLayout(new GridLayout(height, width));
+        mineField.setLayout(new GridLayout(mineFieldHeight, mineFieldWidth));
 
         // Set frame size depending on minefield dimensions
-        mineField.getTopLevelAncestor().setSize(width * CELL_SIZE, height * CELL_SIZE + TOP_PANEL_HEIGHT);
+        mineField.getTopLevelAncestor().setSize(mineFieldWidth * CELL_SIZE, mineFieldHeight * CELL_SIZE + TOP_PANEL_HEIGHT);
 
-        buttonsPanel = new JPanel[height][width];
-        fieldButtons = new MatrixButton[height][width];
+        buttonsPanel = new JPanel[mineFieldHeight][mineFieldWidth];
+        fieldButtons = new MatrixButton[mineFieldHeight][mineFieldWidth];
 
-        for (int j = 0; j < height; j++) {
-            for (int i = 0; i < width; i++) {
+        for (int j = 0; j < mineFieldHeight; j++) {
+            for (int i = 0; i < mineFieldWidth; i++) {
                 buttonsPanel[j][i] = new JPanel();
                 mineField.add(buttonsPanel[j][i]);
 
