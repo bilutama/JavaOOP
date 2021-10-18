@@ -100,7 +100,7 @@ public class MinesweeperView implements View {
             mineField.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
             frame.add(mineField, BorderLayout.CENTER);
 
-            initializeView(minesweeper);
+            initializeGui(minesweeper);
             frame.setLocationRelativeTo(null);
         });
     }
@@ -114,7 +114,7 @@ public class MinesweeperView implements View {
         gameLevelMenu.show(resetGameButton, e.getX(), e.getY());
     }
 
-    public void initializeView(Game minesweeper) {
+    public void initializeGui(Game minesweeper) {
         isGameOver = false;
         resetGameButton.setIcon(smileIcon);
 
