@@ -10,7 +10,6 @@ import java.awt.event.*;
 public class Controller extends MouseAdapter {
     private Game minesweeper;
     private final View view;
-    private Level newGameLevel;
 
     public Controller(Game minesweeper, View view) {
         this.minesweeper = minesweeper;
@@ -21,8 +20,7 @@ public class Controller extends MouseAdapter {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
-            newGameLevel = minesweeper.getLevel();
-            minesweeper = new MinesweeperGame(newGameLevel);
+            minesweeper = new MinesweeperGame(minesweeper.getLevel());
             view.initializeGui(minesweeper);
         }
 
@@ -34,8 +32,7 @@ public class Controller extends MouseAdapter {
     class PopupMenuHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            newGameLevel = Level.valueOf(e.getActionCommand());
-            minesweeper = new MinesweeperGame(newGameLevel);
+            minesweeper = new MinesweeperGame(Level.valueOf(e.getActionCommand()));
             view.initializeGui(minesweeper);
         }
     }
