@@ -23,7 +23,7 @@ public class Controller extends MouseAdapter {
         if (e.getButton() == MouseEvent.BUTTON1) {
             newGameLevel = minesweeper.getLevel();
             minesweeper = new MinesweeperGame(newGameLevel);
-            view.initializeGame(minesweeper);
+            view.initializeView(minesweeper);
         }
 
         if (e.getButton() == MouseEvent.BUTTON3) {
@@ -36,7 +36,7 @@ public class Controller extends MouseAdapter {
         public void actionPerformed(ActionEvent e) {
             newGameLevel = Level.valueOf(e.getActionCommand());
             minesweeper = new MinesweeperGame(newGameLevel);
-            view.initializeGame(minesweeper);
+            view.initializeView(minesweeper);
         }
     }
 }

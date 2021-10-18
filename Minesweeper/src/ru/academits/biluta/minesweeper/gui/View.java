@@ -11,5 +11,5 @@ public interface View {
 
     void showPopupMenu(MouseEvent e);
 
-    void initializeGame(Game minesweeper);
+    void initializeView(Game minesweeper);
 }

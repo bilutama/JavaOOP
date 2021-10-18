@@ -123,7 +123,7 @@ public class MinesweeperGame implements Game {
         return randomCellIndices;
     }
 
-    private boolean isInRange(int x, int y) {
-        return x >= 0 && y >= 0 && x < mineFieldWidth && y < mineFieldHeight;
+    private boolean isInRange(int column, int row) {
+        return column >= 0 && row >= 0 && column < mineFieldWidth && row < mineFieldHeight;
     }
 }
