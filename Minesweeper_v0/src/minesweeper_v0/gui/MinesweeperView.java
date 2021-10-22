@@ -1,8 +1,8 @@
-package ru.academits.biluta.minesweeper.gui;
+package minesweeper_v0.gui;
 
-import ru.academits.biluta.minesweeper.logic.Cell;
-import ru.academits.biluta.minesweeper.logic.Game;
-import ru.academits.biluta.minesweeper.logic.Level;
+import minesweeper_v0.logic.Cell;
+import minesweeper_v0.logic.Game;
+import minesweeper_v0.logic.Level;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;

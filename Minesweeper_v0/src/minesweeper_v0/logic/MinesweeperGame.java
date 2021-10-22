@@ -1,4 +1,4 @@
-package ru.academits.biluta.minesweeper.logic;
+package minesweeper_v0.logic;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,7 +14,6 @@ public class MinesweeperGame implements Game {
     private final int[][] flaggedCells;
     private int closedCellsCount;
     private final ArrayList<Cell> minedCells;
-    private MinesweeperTimer minesweeperTimer;
 
     private final Level level;
 
@@ -60,7 +59,6 @@ public class MinesweeperGame implements Game {
     public Deque<Cell> getCellsRangeToReveal(int revealedCellX, int revealedCellY) {
         if (closedCellsCount == mineFieldHeight * mineFieldWidth) {
             // TODO: add timer, start counting
-            minesweeperTimer = new MinesweeperTimer();
             initializeGame(revealedCellX, revealedCellY);
         }
 
@@ -74,11 +72,6 @@ public class MinesweeperGame implements Game {
         // Return deque with a single cell element
         if (nearbyMinesCountRevealed != 0) {
             // Mine is open
-            if (nearbyMinesCountRevealed == -1) {
-                // TODO: stop timer
-                minesweeperTimer.stopTimer();
-            }
-
             closedCellsCount -= 1;
             return cellsRangeToReveal;
         }

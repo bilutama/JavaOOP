@@ -1,7 +1,6 @@
-package ru.academits.biluta.minesweeper.logic;
+package minesweeper_v0.logic;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Deque;
 
 public interface Game {
