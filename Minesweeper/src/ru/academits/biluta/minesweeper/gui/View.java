@@ -12,4 +12,6 @@ public interface View {
     void showPopupMenu(MouseEvent e);
 
     void initializeGui(Game minesweeper);
+
+    void setGameTime(long gameTime);
 }

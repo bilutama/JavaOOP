@@ -1,15 +1,17 @@
 package ru.academits.biluta.minesweeper.logic;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Deque;
-
 public interface Game {
-    Deque<Cell> getCellsRangeToReveal(int cellX, int cellY);
+    void revealCellRange(int cellX, int cellY);
 
     Level getLevel();
 
-    int getClosedCellsCount();
+    boolean isGameOver();
 
-    ArrayList<Cell> getMinedCells();
+    boolean isWinner();
+
+    int[][] getRevealedCells();
+
+    int[][] getNearbyMinesCountMatrix();
+
+    long getGameTime();
 }

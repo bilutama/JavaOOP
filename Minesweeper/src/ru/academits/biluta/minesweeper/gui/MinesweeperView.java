@@ -1,6 +1,5 @@
 package ru.academits.biluta.minesweeper.gui;
 
-import ru.academits.biluta.minesweeper.logic.Cell;
 import ru.academits.biluta.minesweeper.logic.Game;
 import ru.academits.biluta.minesweeper.logic.Level;
 
@@ -11,8 +10,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Deque;
+import java.io.File;
+import java.io.IOException;
 
 public class MinesweeperView implements View {
     private final static int CELL_SIZE = 40;
@@ -21,18 +20,24 @@ public class MinesweeperView implements View {
     private final static int TOP_PANEL_HEIGHT = 95;
 
     private final static String RESOURCES_PATH = "Minesweeper/src/ru/academits/biluta/minesweeper/resources/";
+    private final static String IMAGES_FOLDER = "images/";
+    private final static String FONTS_FOLDER = "fonts/";
 
-    private final static String BOMB_IMAGE_PATH = RESOURCES_PATH + "bomb.png";
-    private final static String EXPLOSION_IMAGE_PATH = RESOURCES_PATH + "explosion.png";
-    private final static String FLAG_IMAGE_PATH = RESOURCES_PATH + "flag.png";
+    private final static String BOMB_IMAGE_PATH = RESOURCES_PATH + IMAGES_FOLDER + "bomb.png";
+    private final static String EXPLOSION_IMAGE_PATH = RESOURCES_PATH + IMAGES_FOLDER + "explosion.png";
+    private final static String FLAG_IMAGE_PATH = RESOURCES_PATH + IMAGES_FOLDER + "flag.png";
+    private final static String STOPWATCH_IMAGE_PATH = RESOURCES_PATH + IMAGES_FOLDER + "stopwatch.png";
 
-    private final static String SMILE_IMAGE_PATH = RESOURCES_PATH + "smile.png";
-    private final static String SKULL_IMAGE_PATH = RESOURCES_PATH + "skull.png";
-    private final static String WINNER_IMAGE_PATH = RESOURCES_PATH + "winner.png";
+    private final static String SMILE_IMAGE_PATH = RESOURCES_PATH + IMAGES_FOLDER + "smile.png";
+    private final static String SKULL_IMAGE_PATH = RESOURCES_PATH + IMAGES_FOLDER + "skull.png";
+    private final static String WINNER_IMAGE_PATH = RESOURCES_PATH + IMAGES_FOLDER + "winner.png";
+
+    private final static String FONT_DIGITAL_7_PATH = RESOURCES_PATH + FONTS_FOLDER + "digital-7/digital-7 (mono).ttf";
 
     private static ImageIcon explosionIcon;
     private static ImageIcon bombIcon;
     private static ImageIcon flagIcon;
+    private static ImageIcon stopwatchIcon;
 
     private static ImageIcon smileIcon;
     private static ImageIcon skullIcon;
@@ -45,11 +50,18 @@ public class MinesweeperView implements View {
 
     private JFrame frame;
     private JPanel mineField;
+    private JLabel timeCounterLabel;
+    private JLabel unflaggedMinesCounterLabel;
+    private int mineFieldWidth;
+    private int mineFieldHeight;
 
     private Game minesweeper;
-    private boolean isGameOver;
     private MouseAdapter resetGameMouseAdapter;
     private ActionListener resetGameListener;
+
+    private int[][] revealedCellsMatrix;
+    private int[][] visitedCellsMatrix;
+    private int[][] nearbyMinesCountMatrix; // -1 stands for mine
 
     public MinesweeperView(Game minesweeper) {
         SwingUtilities.invokeLater(() -> {
@@ -72,19 +84,41 @@ public class MinesweeperView implements View {
             topPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
             frame.add(topPanel, BorderLayout.PAGE_START);
 
+            unflaggedMinesCounterLabel = new JLabel(Integer.toString(minesweeper.getLevel().getMinesCount()), flagIcon, JLabel.CENTER);
+            unflaggedMinesCounterLabel.setVerticalTextPosition(JLabel.CENTER);
+            unflaggedMinesCounterLabel.setPreferredSize(new Dimension(120, 40));
+            //unflaggedMinesCounterLabel.setBorder(BorderFactory.createEtchedBorder(Color.LIGHT_GRAY, Color.GRAY));
+            topPanel.add(unflaggedMinesCounterLabel, BorderLayout.WEST);
+
             // Add toolbar to the panel
             JToolBar toolBar = new JToolBar();
             toolBar.setFloatable(false);
             toolBar.setOrientation(SwingConstants.HORIZONTAL);
-            topPanel.add(toolBar);
+            topPanel.add(toolBar, BorderLayout.CENTER);
 
-            // Add New_game_button to the panel
+            // Add New_game_button to the toolBar
             resetGameButton = new JButton();
             resetGameButton.setFocusable(false);
             resetGameButton.setIcon(smileIcon);
+            resetGameButton.addMouseListener(resetGameMouseAdapter);
             toolBar.add(resetGameButton, BorderLayout.CENTER);
 
-            resetGameButton.addMouseListener(resetGameMouseAdapter);
+            // Add Time Counter to the toolBar
+            timeCounterLabel = new JLabel("0", stopwatchIcon, JLabel.CENTER);
+            timeCounterLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            timeCounterLabel.setVerticalTextPosition(SwingConstants.CENTER);
+            timeCounterLabel.setHorizontalTextPosition(SwingConstants.RIGHT);
+
+            timeCounterLabel.setPreferredSize(new Dimension(120, 40));
+            //timeCounterLabel.setBorder(BorderFactory.createEtchedBorder(Color.LIGHT_GRAY, Color.GRAY));
+            topPanel.add(timeCounterLabel, BorderLayout.EAST);
+
+            try {
+                timeCounterLabel.setFont(Font.createFont(Font.PLAIN, new File(FONT_DIGITAL_7_PATH)).deriveFont(35f));
+                unflaggedMinesCounterLabel.setFont(Font.createFont(Font.PLAIN, new File(FONT_DIGITAL_7_PATH)).deriveFont(35f));
+            } catch (FontFormatException | IOException e) {
+                e.printStackTrace();
+            }
 
             // Add popup menu to the reset button
             gameLevelMenu = new JPopupMenu();
@@ -115,17 +149,21 @@ public class MinesweeperView implements View {
     }
 
     public void initializeGui(Game minesweeper) {
-        isGameOver = false;
+        mineField.removeAll();
         resetGameButton.setIcon(smileIcon);
 
         this.minesweeper = minesweeper;
-        mineField.removeAll();
-
         Level level = minesweeper.getLevel();
-        frame.setTitle("Minesweeper - " + level.toString().toUpperCase());
 
-        int mineFieldWidth = level.getMineFieldWidth();
-        int mineFieldHeight = level.getMineFieldHeight();
+        frame.setTitle("Minesweeper - " + level.toString().toUpperCase());
+        unflaggedMinesCounterLabel.setText(Integer.toString(level.getMinesCount()));
+
+        mineFieldWidth = level.getMineFieldWidth();
+        mineFieldHeight = level.getMineFieldHeight();
+
+        revealedCellsMatrix = minesweeper.getRevealedCells();
+        nearbyMinesCountMatrix = minesweeper.getNearbyMinesCountMatrix();
+        visitedCellsMatrix = new int[mineFieldHeight][mineFieldWidth];
 
         mineField.setLayout(new GridLayout(mineFieldHeight, mineFieldWidth));
 
@@ -150,24 +188,27 @@ public class MinesweeperView implements View {
 
                 matrixButton.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
-                        if (isGameOver) {
+                        if (minesweeper.isGameOver()) {
                             return;
                         }
 
-                        if (e.getButton() == MouseEvent.BUTTON1) {
-                            revealCellsRange(matrixButton.getButtonY(), matrixButton.getButtonX());
+                        if (e.getButton() == MouseEvent.BUTTON1 && !matrixButton.isFlagged()) {
+                            updateView(matrixButton.getButtonY(), matrixButton.getButtonX());
                             mineField.updateUI();
+                            return;
                         }
 
                         if (e.getButton() == MouseEvent.BUTTON3) {
                             if (null == matrixButton.getIcon()) {
                                 matrixButton.setFlagged();
                                 matrixButton.setIcon(flagIcon);
+                                unflaggedMinesCounterLabel.setText(Integer.toString(Integer.parseInt(unflaggedMinesCounterLabel.getText()) - 1));
                                 return;
                             }
 
                             matrixButton.setUnflagged();
                             matrixButton.setIcon(null);
+                            unflaggedMinesCounterLabel.setText(Integer.toString(Integer.parseInt(unflaggedMinesCounterLabel.getText()) + 1));
                         }
                     }
                 });
@@ -176,6 +217,12 @@ public class MinesweeperView implements View {
 
         mineField.updateUI();
         frame.setVisible(true);
+    }
+
+    public void setGameTime(long gameTime) {
+        //DateFormat timeFormat = new SimpleDateFormat("mm:ss");
+        //String timeFormatted = timeFormat.format(gameTime);
+        timeCounterLabel.setText(String.format("%03d", gameTime / 1000));
     }
 
     private void initializeIcons() {
@@ -214,67 +261,75 @@ public class MinesweeperView implements View {
                         .getImage()
                         .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
         );
+
+        stopwatchIcon = new ImageIcon(
+                new ImageIcon(STOPWATCH_IMAGE_PATH)
+                        .getImage()
+                        .getScaledInstance(CELL_ICON_SIZE, CELL_ICON_SIZE, Image.SCALE_AREA_AVERAGING)
+        );
     }
 
-    private void revealCellsRange(int cellX, int cellY) {
-        Deque<Cell> cells = minesweeper.getCellsRangeToReveal(cellX, cellY);
+    private void updateView(int revealedCellX, int revealedCellY) {
+        minesweeper.revealCellRange(revealedCellX, revealedCellY);
 
-        while (!cells.isEmpty()) {
-            Cell cell = cells.removeFirst();
-            int currentCellX = cell.getX();
-            int currentCellY = cell.getY();
+        // Update view
+        for (int j = 0; j < mineFieldHeight; ++j) {
+            for (int i = 0; i < mineFieldWidth; ++i) {
+                if (revealedCellsMatrix[j][i] == 1 && visitedCellsMatrix[j][i] == 0) {
+                    visitedCellsMatrix[j][i] = 1;
 
-            buttonPanels[currentCellY][currentCellX].remove(fieldButtons[currentCellY][currentCellX]);
-            int minesCount = cell.getNeighbouringMinesCount();
+                    // Open flagged cell -> update counter
+                    if (fieldButtons[j][i].isFlagged()) {
+                        unflaggedMinesCounterLabel.setText(Integer.toString(Integer.parseInt(unflaggedMinesCounterLabel.getText()) + 1));
+                    }
 
-            // Show neighbouring mines count
-            if (minesCount > 0) {
-                JLabel label = new JLabel(Integer.toString(minesCount), JLabel.CENTER);
-                buttonPanels[currentCellY][currentCellX].add(label, BorderLayout.CENTER);
-                continue;
-            }
+                    buttonPanels[j][i].remove(fieldButtons[j][i]);
+                    int minesCount = nearbyMinesCountMatrix[j][i];
 
-            // Mine explosion -> game over, revealing all the mines
-            if (minesCount == -1) {
-                isGameOver = true;
-                resetGameButton.setIcon(skullIcon);
+                    // Mine explosion -> game over, revealing all the mines
+                    if (minesCount == -1) {
+                        JLabel labelExplosion = new JLabel(explosionIcon);
+                        buttonPanels[j][i].add(labelExplosion);
+                    }
 
-                JLabel labelExplosion = new JLabel(explosionIcon);
-                buttonPanels[currentCellY][currentCellX].add(labelExplosion);
-
-                revealAllMines(cell);
+                    // Show neighbouring mines count
+                    if (minesCount > 0) {
+                        JLabel label = new JLabel(Integer.toString(minesCount), JLabel.CENTER);
+                        buttonPanels[j][i].add(label, BorderLayout.CENTER);
+                    }
+                }
             }
         }
 
-        if (minesweeper.getClosedCellsCount() == minesweeper.getLevel().getMinesCount()) {
-            isGameOver = true;
+        if (minesweeper.isWinner()) {
             resetGameButton.setIcon(winnerIcon);
         }
+
+        // Mine explosion -> game over, revealing all the mines
+        if (minesweeper.isGameOver()) {
+            resetGameButton.setIcon(skullIcon);
+            revealAllMines();
+        }
     }
 
-    private void revealAllMines(Cell revealedCell) {
-        ArrayList<Cell> mines = minesweeper.getMinedCells();
+    private void revealAllMines() {
+        for (int j = 0; j < mineFieldHeight; ++j) {  // Y
+            for (int i = 0; i < mineFieldWidth; ++i) { // X
+                if (revealedCellsMatrix[j][i] == 0 && nearbyMinesCountMatrix[j][i] == -1) {
+                    MatrixButton fieldButtonForMinedCell = fieldButtons[j][i];
+                    JPanel buttonPanelForMinedCell = buttonPanels[j][i];
 
-        for (Cell minedCell : mines) {
-            if (minedCell.isEqual(revealedCell)) {
-                continue;
+                    JLabel bombLabel = new JLabel(bombIcon);
+
+                    if (fieldButtonForMinedCell.isFlagged()) {
+                        fieldButtonForMinedCell.setBorder(new LineBorder(Color.GREEN, 2));
+                        continue;
+                    }
+
+                    buttonPanelForMinedCell.remove(fieldButtonForMinedCell);
+                    buttonPanelForMinedCell.add(bombLabel, BorderLayout.CENTER);
+                }
             }
-
-            int minedCellX = minedCell.getX();
-            int minedCellY = minedCell.getY();
-
-            MatrixButton fieldButtonForMinedCell = fieldButtons[minedCellY][minedCellX];
-            JPanel buttonPanelForMinedCell = buttonPanels[minedCellY][minedCellX];
-
-            JLabel bombLabel = new JLabel(bombIcon);
-
-            if (fieldButtonForMinedCell.isFlagged()) {
-                fieldButtonForMinedCell.setBorder(new LineBorder(Color.GREEN, 2));
-                continue;
-            }
-
-            buttonPanelForMinedCell.remove(fieldButtonForMinedCell);
-            buttonPanelForMinedCell.add(bombLabel, BorderLayout.CENTER);
         }
     }
 }

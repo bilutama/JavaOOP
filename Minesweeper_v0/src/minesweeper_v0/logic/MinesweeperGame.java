@@ -11,7 +11,6 @@ public class MinesweeperGame implements Game {
     // Game state
     private final int[][] nearbyMinesCountMatrix; // -1 stands for mine
     private final int[][] revealedCells;
-    private final int[][] flaggedCells;
     private int closedCellsCount;
     private final ArrayList<Cell> minedCells;
 
@@ -25,7 +24,6 @@ public class MinesweeperGame implements Game {
 
         nearbyMinesCountMatrix = new int[mineFieldHeight][mineFieldWidth];
         revealedCells = new int[mineFieldHeight][mineFieldWidth];
-        flaggedCells = new int[mineFieldHeight][mineFieldWidth];
 
         closedCellsCount = mineFieldHeight * mineFieldWidth;
         minedCells = new ArrayList<>(level.getMinesCount());
@@ -37,18 +35,6 @@ public class MinesweeperGame implements Game {
 
     public int getClosedCellsCount() {
         return closedCellsCount;
-    }
-
-    public int[][] getFlaggedCells() {
-        return flaggedCells;
-    }
-
-    public int[][] getNearbyMinesCountMatrix() {
-        return nearbyMinesCountMatrix;
-    }
-
-    public int[][] getRevealedCells() {
-        return revealedCells;
     }
 
     public ArrayList<Cell> getMinedCells() {
