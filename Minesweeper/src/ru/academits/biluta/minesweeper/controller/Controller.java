@@ -78,7 +78,7 @@ public class Controller extends MouseAdapter {
         Timer timer;
 
         public GameTimeListener() {
-            timer = new Timer(1000, this);
+            timer = new Timer(100, this);
             timer.setInitialDelay(0);
             timer.start();
         }

@@ -108,7 +108,6 @@ public class MinesweeperGame implements Game {
 
         // The first cell is revealed, game starts
         if (closedCellsCount == height * width) {
-            // Start timer
             timeCounter.start();
             initializeGame(revealedCellX, revealedCellY);
         }
@@ -127,7 +126,7 @@ public class MinesweeperGame implements Game {
             }
         }
 
-        // Revealed cell is empty, open adjacent empty cells range
+        // If revealed cell is empty, open adjacent empty cells range
         Deque<Integer> cellsIndicesQueue = new LinkedList<>();
         cellsIndicesQueue.addLast(revealedCellX + width * revealedCellY);
 
@@ -137,7 +136,7 @@ public class MinesweeperGame implements Game {
             int currentCellY = unifiedIndex / width;
             int currentCellX = unifiedIndex % width;
 
-            // Collecting neighbouring cells
+            // Revealing neighbouring cells
             if (nearbyMinesCountMatrix[currentCellY][currentCellX] == 0) {
                 for (int j = currentCellY - 1; j < currentCellY + 2; ++j) {
                     for (int i = currentCellX - 1; i < currentCellX + 2; ++i) {
