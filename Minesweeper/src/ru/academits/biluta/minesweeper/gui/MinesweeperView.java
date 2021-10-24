@@ -88,8 +88,7 @@ public class MinesweeperView implements View {
 
             unflaggedMinesCounterLabel = new JLabel(Integer.toString(minesweeper.getLevel().getMinesCount()), flagIcon, JLabel.CENTER);
             unflaggedMinesCounterLabel.setVerticalTextPosition(JLabel.CENTER);
-            unflaggedMinesCounterLabel.setPreferredSize(new Dimension(120, 40));
-            //unflaggedMinesCounterLabel.setBorder(BorderFactory.createEtchedBorder(Color.LIGHT_GRAY, Color.GRAY));
+            unflaggedMinesCounterLabel.setPreferredSize(new Dimension(100, 40));
             topPanel.add(unflaggedMinesCounterLabel, BorderLayout.WEST);
 
             // Add toolbar to the panel
@@ -111,8 +110,7 @@ public class MinesweeperView implements View {
             timeCounterLabel.setVerticalTextPosition(SwingConstants.CENTER);
             timeCounterLabel.setHorizontalTextPosition(SwingConstants.RIGHT);
 
-            timeCounterLabel.setPreferredSize(new Dimension(120, 40));
-            //timeCounterLabel.setBorder(BorderFactory.createEtchedBorder(Color.LIGHT_GRAY, Color.GRAY));
+            timeCounterLabel.setPreferredSize(new Dimension(100, 40));
             topPanel.add(timeCounterLabel, BorderLayout.EAST);
 
             // Set custom font
@@ -139,7 +137,7 @@ public class MinesweeperView implements View {
             highScoresItem.addActionListener(highScoresListener);
             gameLevelMenu.add(highScoresItem);
 
-            // Add RecordTable item
+            // Add About This Game item
             JMenuItem aboutThisGameItem = new JMenuItem("ABOUT");
             aboutThisGameItem.addActionListener(aboutThisGameListener);
             gameLevelMenu.add(aboutThisGameItem);
