@@ -41,66 +41,6 @@ public class MinesweeperGame implements Game {
         loadHighScoreTable();
     }
 
-    private void loadHighScoreTable() {
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(HIGH_SCORES_DATA_PATH))) {
-            highScoreTable = (HighScoreTable) inputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            highScoreTable = new HighScoreTable();
-        }
-    }
-
-    private void saveHighScoreTable() {
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(HIGH_SCORES_DATA_PATH))) {
-            outputStream.writeObject(highScoreTable);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addNewHighScore(Level level, String nickname, long gameTime) {
-        highScoreTable.addHighScoreRecord(level, nickname, gameTime);
-        saveHighScoreTable();
-    }
-
-    private void initializeGame(int firstRevealedCellX, int firstRevealedCellY) {
-        int minesCount = level.getMinesCount();
-        int excludedIndex = firstRevealedCellX + firstRevealedCellY * width;
-
-        // Get cells indices to place mines except first revealed cell
-        Integer[] randomIndices = getRandomCellsIndices(minesCount, excludedIndex);
-
-        // Place mines
-        for (int k = 0; k < minesCount; ++k) {
-            int cellY = randomIndices[k] / width;
-            int cellX = randomIndices[k] % width;
-
-            nearbyMinesCountMatrix[cellY][cellX] = -1;
-
-            for (int j = cellX - 1; j < cellX + 2; ++j) {
-                for (int i = cellY - 1; i < cellY + 2; ++i) {
-                    if (isInRange(j, i) && nearbyMinesCountMatrix[i][j] != -1) {
-                        nearbyMinesCountMatrix[i][j] += 1;
-                    }
-                }
-            }
-        }
-    }
-
-    private Integer[] getRandomCellsIndices(int numbersCount, int excludedNumber) {
-        List<Integer> cellsIndices = IntStream.range(0, height * width - 2)
-                .filter(index -> index != excludedNumber)
-                .boxed()
-                .collect(Collectors.toList());
-
-        Collections.shuffle(cellsIndices);
-
-        Integer[] randomCellIndices = new Integer[numbersCount];
-        new ArrayList<>(cellsIndices.subList(0, numbersCount)).toArray(randomCellIndices);
-
-        return randomCellIndices;
-    }
-
-    @Override
     public void revealCellRange(int revealedCellX, int revealedCellY) {
         if (isGameOver || isWinner) {
             return;
@@ -160,12 +100,17 @@ public class MinesweeperGame implements Game {
         return level;
     }
 
+    public HighScoreTable getHighScoresTable() {
+        return highScoreTable;
+    }
+
     public int getClosedCellsCount() {
         return closedCellsCount;
     }
 
-    public HighScoreTable getHighScoresTable() {
-        return highScoreTable;
+    public void addNewHighScore(Level level, String nickname, long gameTime) {
+        highScoreTable.addHighScoreRecord(level, nickname, gameTime);
+        saveHighScoreTable();
     }
 
     public long getGameTime() {
@@ -190,6 +135,60 @@ public class MinesweeperGame implements Game {
 
     public boolean isNewHighScore() {
         return highScoreTable.isValidToAdd(getGameTime());
+    }
+
+    private void initializeGame(int firstRevealedCellX, int firstRevealedCellY) {
+        int minesCount = level.getMinesCount();
+        int excludedIndex = firstRevealedCellX + firstRevealedCellY * width;
+
+        // Get cells indices to place mines except first revealed cell
+        Integer[] randomIndices = getRandomCellsIndices(minesCount, excludedIndex);
+
+        // Place mines
+        for (int k = 0; k < minesCount; ++k) {
+            int cellY = randomIndices[k] / width;
+            int cellX = randomIndices[k] % width;
+
+            nearbyMinesCountMatrix[cellY][cellX] = -1;
+
+            for (int j = cellX - 1; j < cellX + 2; ++j) {
+                for (int i = cellY - 1; i < cellY + 2; ++i) {
+                    if (isInRange(j, i) && nearbyMinesCountMatrix[i][j] != -1) {
+                        nearbyMinesCountMatrix[i][j] += 1;
+                    }
+                }
+            }
+        }
+    }
+
+    private Integer[] getRandomCellsIndices(int numbersCount, int excludedNumber) {
+        List<Integer> cellsIndices = IntStream.range(0, height * width - 2)
+                .filter(index -> index != excludedNumber)
+                .boxed()
+                .collect(Collectors.toList());
+
+        Collections.shuffle(cellsIndices);
+
+        Integer[] randomCellIndices = new Integer[numbersCount];
+        new ArrayList<>(cellsIndices.subList(0, numbersCount)).toArray(randomCellIndices);
+
+        return randomCellIndices;
+    }
+
+    private void loadHighScoreTable() {
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(HIGH_SCORES_DATA_PATH))) {
+            highScoreTable = (HighScoreTable) inputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            highScoreTable = new HighScoreTable();
+        }
+    }
+
+    private void saveHighScoreTable() {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(HIGH_SCORES_DATA_PATH))) {
+            outputStream.writeObject(highScoreTable);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean isInRange(int column, int row) {
