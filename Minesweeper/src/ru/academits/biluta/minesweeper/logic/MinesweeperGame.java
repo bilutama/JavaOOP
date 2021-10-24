@@ -1,6 +1,5 @@
 package ru.academits.biluta.minesweeper.logic;
 
-import ru.academits.biluta.minesweeper.logic.record_table.HighScoreRecord;
 import ru.academits.biluta.minesweeper.logic.record_table.HighScoreTable;
 
 import java.io.*;
@@ -156,7 +155,7 @@ public class MinesweeperGame implements Game {
             timeCounter.stop();
             isWinner = true;
 
-            highScoreTable.addHighScoreRecord(new HighScoreRecord("Vasya", timeCounter.getGameTime()));
+            //highScoreTable.addHighScoreRecord(new HighScoreRecord("Vasya", timeCounter.getGameTime()));
             saveHighScoreTable();
         }
     }
