@@ -1,6 +1,8 @@
 package ru.academits.biluta.minesweeper.logic;
 
-public enum Level {
+import java.io.Serializable;
+
+public enum Level implements Serializable {
     EASY(9, 9, 10),
     NORMAL(16, 16, 40),
     HARD(25, 20, 80);

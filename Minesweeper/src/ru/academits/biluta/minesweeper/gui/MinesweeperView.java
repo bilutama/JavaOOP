@@ -335,7 +335,7 @@ public class MinesweeperView implements View {
 
     private void offerToSaveNewHighScore() {
         try {
-            String winnerName = JOptionPane.showInputDialog(null, "Enter your nickname:", "It seems that we have a new high score!", JOptionPane.PLAIN_MESSAGE);
+            String winnerName = JOptionPane.showInputDialog(null, "Enter your nickname:", "New high score!", JOptionPane.PLAIN_MESSAGE);
 
             if (winnerName != null) {
                 winnerName = winnerName.trim();

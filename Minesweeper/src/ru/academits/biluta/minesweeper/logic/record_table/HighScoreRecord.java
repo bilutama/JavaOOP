@@ -9,18 +9,18 @@ public class HighScoreRecord implements Serializable {
     @Serial
     private final static long serialVersionUID = 1L;
 
-    private final Level level;
+    private final String level;
     private final String nickName;
     private final long gameTime;
 
     public HighScoreRecord(Level level, String nickName, long gameTime) {
-        this.level = level;
+        this.level = level.toString();
         this.nickName = nickName;
         this.gameTime = gameTime;
     }
 
     public String getLevel() {
-        return level.toString();
+        return level;
     }
 
     public long getGameTime() {
