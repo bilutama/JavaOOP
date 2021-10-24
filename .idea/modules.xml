@@ -10,7 +10,6 @@
       <module fileurl="file://$PROJECT_DIR$/Lambdas/Lambdas.iml" filepath="$PROJECT_DIR$/Lambdas/Lambdas.iml" />
       <module fileurl="file://$PROJECT_DIR$/Matrix/Matrix.iml" filepath="$PROJECT_DIR$/Matrix/Matrix.iml" />
       <module fileurl="file://$PROJECT_DIR$/Minesweeper/Minesweeper.iml" filepath="$PROJECT_DIR$/Minesweeper/Minesweeper.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Minesweeper_v0/Minesweeper_v0.iml" filepath="$PROJECT_DIR$/Minesweeper_v0/Minesweeper_v0.iml" />
       <module fileurl="file://$PROJECT_DIR$/Range/Range.iml" filepath="$PROJECT_DIR$/Range/Range.iml" />
       <module fileurl="file://$PROJECT_DIR$/ReadAndWrite/ReadAndWrite.iml" filepath="$PROJECT_DIR$/ReadAndWrite/ReadAndWrite.iml" />
       <module fileurl="file://$PROJECT_DIR$/Reflection/Reflection.iml" filepath="$PROJECT_DIR$/Reflection/Reflection.iml" />
