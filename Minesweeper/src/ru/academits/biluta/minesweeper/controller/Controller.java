@@ -4,9 +4,11 @@ import ru.academits.biluta.minesweeper.logic.Game;
 import ru.academits.biluta.minesweeper.logic.Level;
 import ru.academits.biluta.minesweeper.logic.MinesweeperGame;
 import ru.academits.biluta.minesweeper.gui.View;
+import ru.academits.biluta.minesweeper.logic.record_table.HighScoreRecord;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.LinkedList;
 
 public class Controller extends MouseAdapter {
     private Game minesweeper;
@@ -15,7 +17,7 @@ public class Controller extends MouseAdapter {
     public Controller(Game minesweeper, View view) {
         this.minesweeper = minesweeper;
         this.view = view;
-        this.view.setResetGameButton(this, new PopupMenuHandler());
+        this.view.setHomeButton(this, new PopupMenuHandler(), new HighScoresTableHandler());
         new GameTimeListener();
     }
 
@@ -38,6 +40,30 @@ public class Controller extends MouseAdapter {
             minesweeper = new MinesweeperGame(Level.valueOf(e.getActionCommand()));
             view.initializeGui(minesweeper);
             view.setGameTime(0L);
+        }
+    }
+
+    class HighScoresTableHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String[] headers = {"#", "NAME", "BEST TIME"};
+
+            LinkedList<HighScoreRecord> records = minesweeper.getHighScoresTable().getHighScoreRecords();
+            int recordsCount = records.size();
+            String[][] rows = new String[recordsCount][3];
+
+            int i = 0;
+
+            for (HighScoreRecord record : records) {
+                rows[i][0] = Integer.toString(i + 1);
+                rows[i][1] = record.getNickName();
+                rows[i][2] = String.format("%.1f", (double) record.getGameTime() / 1000);
+                ++i;
+            }
+
+            JTable highScoreTable = new JTable(rows, headers);
+            highScoreTable.setEnabled(false);
+            JOptionPane.showMessageDialog(null, new JScrollPane(highScoreTable), "HIGH SCORES", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 

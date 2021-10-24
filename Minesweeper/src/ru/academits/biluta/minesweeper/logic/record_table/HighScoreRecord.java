@@ -23,7 +23,7 @@ public class HighScoreRecord implements Serializable {
         return nickName;
     }
 
-    public String toString(){
-        return String.format("%s - %d", nickName, gameTime);
+    public String toString() {
+        return String.format("%s - %.1f sec", nickName, (double) gameTime / 1000);
     }
 }

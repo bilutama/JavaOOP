@@ -28,6 +28,7 @@ public class HighScoreTable extends LinkedList<HighScoreRecord> implements Seria
         return highScoreRecords;
     }
 
+    // TODO: delete
     @Override
     public String toString(){
         for (HighScoreRecord record: highScoreRecords) {

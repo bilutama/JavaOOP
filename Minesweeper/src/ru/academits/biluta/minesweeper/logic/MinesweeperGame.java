@@ -165,6 +165,10 @@ public class MinesweeperGame implements Game {
         return level;
     }
 
+    public HighScoreTable getHighScoresTable(){
+        return highScoreTable;
+    }
+
     public long getGameTime() {
         return timeCounter.getGameTime();
     }

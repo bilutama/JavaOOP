@@ -32,7 +32,7 @@ public class MinesweeperView implements View {
     private final static String SKULL_IMAGE_PATH = RESOURCES_PATH + IMAGES_FOLDER + "skull.png";
     private final static String WINNER_IMAGE_PATH = RESOURCES_PATH + IMAGES_FOLDER + "winner.png";
 
-    private final static String FONT_DIGITAL_7_PATH = RESOURCES_PATH + FONTS_FOLDER + "digital-7/digital-7 (mono).ttf";
+    private final static String CUSTOM_FONT_PATH = RESOURCES_PATH + FONTS_FOLDER + "digital-7/digital-7 (mono).ttf";
 
     private static ImageIcon explosionIcon;
     private static ImageIcon bombIcon;
@@ -57,7 +57,8 @@ public class MinesweeperView implements View {
 
     private Game minesweeper;
     private MouseAdapter resetGameMouseAdapter;
-    private ActionListener resetGameListener;
+    private ActionListener homeButtonListener;
+    private ActionListener highScoresListener;
 
     private int[][] revealedCellsMatrix;
     private int[][] visitedCellsMatrix;
@@ -113,21 +114,29 @@ public class MinesweeperView implements View {
             //timeCounterLabel.setBorder(BorderFactory.createEtchedBorder(Color.LIGHT_GRAY, Color.GRAY));
             topPanel.add(timeCounterLabel, BorderLayout.EAST);
 
+            // Set custom font
             try {
-                timeCounterLabel.setFont(Font.createFont(Font.PLAIN, new File(FONT_DIGITAL_7_PATH)).deriveFont(35f));
-                unflaggedMinesCounterLabel.setFont(Font.createFont(Font.PLAIN, new File(FONT_DIGITAL_7_PATH)).deriveFont(35f));
+                timeCounterLabel.setFont(Font.createFont(Font.PLAIN, new File(MinesweeperView.CUSTOM_FONT_PATH)).deriveFont(35f));
+                unflaggedMinesCounterLabel.setFont(Font.createFont(Font.PLAIN, new File(MinesweeperView.CUSTOM_FONT_PATH)).deriveFont(35f));
             } catch (FontFormatException | IOException e) {
                 e.printStackTrace();
             }
 
-            // Add popup menu to the reset button
+            // Bind popup menu to the reset button
             gameLevelMenu = new JPopupMenu();
 
             for (Level levelEnumElement : Level.values()) {
                 JMenuItem menuItem = new JMenuItem(String.valueOf(levelEnumElement));
-                menuItem.addActionListener(resetGameListener);
+                menuItem.addActionListener(homeButtonListener);
                 gameLevelMenu.add(menuItem);
             }
+
+            gameLevelMenu.addSeparator();
+
+            // Add RecordTable item
+            JMenuItem menuItem = new JMenuItem("HIGH SCORES");
+            menuItem.addActionListener(highScoresListener);
+            gameLevelMenu.add(menuItem);
 
             // Set a minefield
             mineField = new JPanel();
@@ -139,9 +148,10 @@ public class MinesweeperView implements View {
         });
     }
 
-    public void setResetGameButton(MouseAdapter resetGameMouseAdapter, ActionListener resetGameListener) {
+    public void setHomeButton(MouseAdapter resetGameMouseAdapter, ActionListener homeButtonListener, ActionListener highScoresListener) {
         this.resetGameMouseAdapter = resetGameMouseAdapter;
-        this.resetGameListener = resetGameListener;
+        this.homeButtonListener = homeButtonListener;
+        this.highScoresListener = highScoresListener;
     }
 
     public void showPopupMenu(MouseEvent e) {
@@ -199,7 +209,7 @@ public class MinesweeperView implements View {
                         }
 
                         if (e.getButton() == MouseEvent.BUTTON3) {
-                            if (null == matrixButton.getIcon()) {
+                            if (matrixButton.getIcon() == null) {
                                 matrixButton.setFlagged();
                                 matrixButton.setIcon(flagIcon);
                                 unflaggedMinesCounterLabel.setText(Integer.toString(Integer.parseInt(unflaggedMinesCounterLabel.getText()) - 1));
@@ -220,8 +230,6 @@ public class MinesweeperView implements View {
     }
 
     public void setGameTime(long gameTime) {
-        //DateFormat timeFormat = new SimpleDateFormat("mm:ss");
-        //String timeFormatted = timeFormat.format(gameTime);
         timeCounterLabel.setText(String.format("%03d", gameTime / 1000));
     }
 
