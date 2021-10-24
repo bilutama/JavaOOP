@@ -7,13 +7,19 @@ public interface Game {
 
     Level getLevel();
 
+    int getClosedCellsCount();
+
     HighScoreTable getHighScoresTable();
 
     boolean isGameOver();
 
     boolean isWinner();
 
-    int[][] getRevealedCells();
+    boolean isNewHighScore();
+
+    void addNewHighScore(Level level, String nickname, long gameTime);
+
+    int[][] getRevealedCellsMatrix();
 
     int[][] getNearbyMinesCountMatrix();
 

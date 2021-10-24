@@ -49,16 +49,17 @@ public class MinesweeperView implements View {
     private JPopupMenu gameLevelMenu;
 
     private JFrame frame;
-    private JPanel mineField;
+    private JPanel minefield;
     private JLabel timeCounterLabel;
     private JLabel unflaggedMinesCounterLabel;
-    private int mineFieldWidth;
-    private int mineFieldHeight;
+    private int minefieldWidth;
+    private int minefieldHeight;
 
     private Game minesweeper;
     private MouseAdapter resetGameMouseAdapter;
-    private ActionListener homeButtonListener;
+    private ActionListener startNewGamePopupMenuListener;
     private ActionListener highScoresListener;
+    private ActionListener aboutThisGameListener;
 
     private int[][] revealedCellsMatrix;
     private int[][] visitedCellsMatrix;
@@ -127,31 +128,37 @@ public class MinesweeperView implements View {
 
             for (Level levelEnumElement : Level.values()) {
                 JMenuItem menuItem = new JMenuItem(String.valueOf(levelEnumElement));
-                menuItem.addActionListener(homeButtonListener);
+                menuItem.addActionListener(startNewGamePopupMenuListener);
                 gameLevelMenu.add(menuItem);
             }
 
             gameLevelMenu.addSeparator();
 
             // Add RecordTable item
-            JMenuItem menuItem = new JMenuItem("HIGH SCORES");
-            menuItem.addActionListener(highScoresListener);
-            gameLevelMenu.add(menuItem);
+            JMenuItem highScoresItem = new JMenuItem("HIGH SCORES");
+            highScoresItem.addActionListener(highScoresListener);
+            gameLevelMenu.add(highScoresItem);
+
+            // Add RecordTable item
+            JMenuItem aboutThisGameItem = new JMenuItem("ABOUT");
+            aboutThisGameItem.addActionListener(aboutThisGameListener);
+            gameLevelMenu.add(aboutThisGameItem);
 
             // Set a minefield
-            mineField = new JPanel();
-            mineField.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-            frame.add(mineField, BorderLayout.CENTER);
+            minefield = new JPanel();
+            minefield.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+            frame.add(minefield, BorderLayout.CENTER);
 
             initializeGui(minesweeper);
             frame.setLocationRelativeTo(null);
         });
     }
 
-    public void setHomeButton(MouseAdapter resetGameMouseAdapter, ActionListener homeButtonListener, ActionListener highScoresListener) {
+    public void setHomeButton(MouseAdapter resetGameMouseAdapter, ActionListener startNewGamePopupMenuListener, ActionListener highScoresListener, ActionListener aboutThisGameListener) {
         this.resetGameMouseAdapter = resetGameMouseAdapter;
-        this.homeButtonListener = homeButtonListener;
+        this.startNewGamePopupMenuListener = startNewGamePopupMenuListener;
         this.highScoresListener = highScoresListener;
+        this.aboutThisGameListener = aboutThisGameListener;
     }
 
     public void showPopupMenu(MouseEvent e) {
@@ -159,7 +166,7 @@ public class MinesweeperView implements View {
     }
 
     public void initializeGui(Game minesweeper) {
-        mineField.removeAll();
+        minefield.removeAll();
         resetGameButton.setIcon(smileIcon);
 
         this.minesweeper = minesweeper;
@@ -168,25 +175,25 @@ public class MinesweeperView implements View {
         frame.setTitle("Minesweeper - " + level.toString().toUpperCase());
         unflaggedMinesCounterLabel.setText(Integer.toString(level.getMinesCount()));
 
-        mineFieldWidth = level.getMineFieldWidth();
-        mineFieldHeight = level.getMineFieldHeight();
+        minefieldWidth = level.getMinefieldWidth();
+        minefieldHeight = level.getMinefieldHeight();
 
-        revealedCellsMatrix = minesweeper.getRevealedCells();
+        revealedCellsMatrix = minesweeper.getRevealedCellsMatrix();
         nearbyMinesCountMatrix = minesweeper.getNearbyMinesCountMatrix();
-        visitedCellsMatrix = new int[mineFieldHeight][mineFieldWidth];
+        visitedCellsMatrix = new int[minefieldHeight][minefieldWidth];
 
-        mineField.setLayout(new GridLayout(mineFieldHeight, mineFieldWidth));
+        minefield.setLayout(new GridLayout(minefieldHeight, minefieldWidth));
 
         // Set frame size depending on minefield dimensions
-        mineField.getTopLevelAncestor().setSize(mineFieldWidth * CELL_SIZE, mineFieldHeight * CELL_SIZE + TOP_PANEL_HEIGHT);
+        minefield.getTopLevelAncestor().setSize(minefieldWidth * CELL_SIZE, minefieldHeight * CELL_SIZE + TOP_PANEL_HEIGHT);
 
-        buttonPanels = new JPanel[mineFieldHeight][mineFieldWidth];
-        fieldButtons = new MatrixButton[mineFieldHeight][mineFieldWidth];
+        buttonPanels = new JPanel[minefieldHeight][minefieldWidth];
+        fieldButtons = new MatrixButton[minefieldHeight][minefieldWidth];
 
-        for (int j = 0; j < mineFieldHeight; j++) {
-            for (int i = 0; i < mineFieldWidth; i++) {
+        for (int j = 0; j < minefieldHeight; j++) {
+            for (int i = 0; i < minefieldWidth; i++) {
                 buttonPanels[j][i] = new JPanel();
-                mineField.add(buttonPanels[j][i]);
+                minefield.add(buttonPanels[j][i]);
 
                 buttonPanels[j][i].setLayout(new BorderLayout());
 
@@ -204,7 +211,7 @@ public class MinesweeperView implements View {
 
                         if (e.getButton() == MouseEvent.BUTTON1 && !matrixButton.isFlagged()) {
                             updateView(matrixButton.getButtonY(), matrixButton.getButtonX());
-                            mineField.updateUI();
+                            minefield.updateUI();
                             return;
                         }
 
@@ -225,7 +232,7 @@ public class MinesweeperView implements View {
             }
         }
 
-        mineField.updateUI();
+        minefield.updateUI();
         frame.setVisible(true);
     }
 
@@ -281,8 +288,8 @@ public class MinesweeperView implements View {
         minesweeper.revealCellRange(revealedCellX, revealedCellY);
 
         // Update view
-        for (int j = 0; j < mineFieldHeight; ++j) {
-            for (int i = 0; i < mineFieldWidth; ++i) {
+        for (int j = 0; j < minefieldHeight; ++j) {
+            for (int i = 0; i < minefieldWidth; ++i) {
                 if (revealedCellsMatrix[j][i] == 1 && visitedCellsMatrix[j][i] == 0) {
                     visitedCellsMatrix[j][i] = 1;
 
@@ -309,8 +316,16 @@ public class MinesweeperView implements View {
             }
         }
 
+        checkGameStatus();
+    }
+
+    private void checkGameStatus() {
         if (minesweeper.isWinner()) {
             resetGameButton.setIcon(winnerIcon);
+
+            if (minesweeper.isNewHighScore()) {
+                offerToSaveNewHighScore();
+            }
         }
 
         // Mine explosion -> game over, revealing all the mines
@@ -320,21 +335,38 @@ public class MinesweeperView implements View {
         }
     }
 
+    private void offerToSaveNewHighScore() {
+        try {
+            String winnerName = JOptionPane.showInputDialog(null, "Enter your nickname:", "It seems that we have a new high score!", JOptionPane.PLAIN_MESSAGE);
+
+            if (winnerName != null) {
+                winnerName = winnerName.trim();
+
+                if (winnerName.equals("")) {
+                    winnerName = "[anonymous]";
+                }
+
+                minesweeper.addNewHighScore(minesweeper.getLevel(), winnerName, minesweeper.getGameTime());
+            }
+        } catch (Exception ignored) {
+        }
+    }
+
     private void revealAllMines() {
-        for (int j = 0; j < mineFieldHeight; ++j) {  // Y
-            for (int i = 0; i < mineFieldWidth; ++i) { // X
+        for (int j = 0; j < minefieldHeight; ++j) {
+            for (int i = 0; i < minefieldWidth; ++i) {
                 if (revealedCellsMatrix[j][i] == 0 && nearbyMinesCountMatrix[j][i] == -1) {
-                    MatrixButton fieldButtonForMinedCell = fieldButtons[j][i];
+                    MatrixButton buttonForMinedCell = fieldButtons[j][i];
                     JPanel buttonPanelForMinedCell = buttonPanels[j][i];
 
                     JLabel bombLabel = new JLabel(bombIcon);
 
-                    if (fieldButtonForMinedCell.isFlagged()) {
-                        fieldButtonForMinedCell.setBorder(new LineBorder(Color.GREEN, 2));
+                    if (buttonForMinedCell.isFlagged()) {
+                        buttonForMinedCell.setBorder(new LineBorder(Color.GREEN, 2));
                         continue;
                     }
 
-                    buttonPanelForMinedCell.remove(fieldButtonForMinedCell);
+                    buttonPanelForMinedCell.remove(buttonForMinedCell);
                     buttonPanelForMinedCell.add(bombLabel, BorderLayout.CENTER);
                 }
             }

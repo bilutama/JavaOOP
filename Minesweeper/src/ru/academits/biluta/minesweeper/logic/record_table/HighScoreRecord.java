@@ -1,5 +1,7 @@
 package ru.academits.biluta.minesweeper.logic.record_table;
 
+import ru.academits.biluta.minesweeper.logic.Level;
+
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -7,12 +9,18 @@ public class HighScoreRecord implements Serializable {
     @Serial
     private final static long serialVersionUID = 1L;
 
+    private final Level level;
     private final String nickName;
     private final long gameTime;
 
-    public HighScoreRecord(String nickName, long gameTime) {
+    public HighScoreRecord(Level level, String nickName, long gameTime) {
+        this.level = level;
         this.nickName = nickName;
         this.gameTime = gameTime;
+    }
+
+    public String getLevel() {
+        return level.toString();
     }
 
     public long getGameTime() {
@@ -24,6 +32,6 @@ public class HighScoreRecord implements Serializable {
     }
 
     public String toString() {
-        return String.format("%s - %.1f sec", nickName, (double) gameTime / 1000);
+        return String.format("%s: %s - %.1f sec", level, nickName, (double) gameTime / 1000);
     }
 }

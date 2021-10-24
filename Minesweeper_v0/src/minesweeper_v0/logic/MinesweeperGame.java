@@ -44,7 +44,6 @@ public class MinesweeperGame implements Game {
     @Override
     public Deque<Cell> getCellsRangeToReveal(int revealedCellX, int revealedCellY) {
         if (closedCellsCount == mineFieldHeight * mineFieldWidth) {
-            // TODO: add timer, start counting
             initializeGame(revealedCellX, revealedCellY);
         }
 

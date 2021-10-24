@@ -28,8 +28,8 @@ public class MinesweeperGame implements Game {
     public MinesweeperGame(Level level) {
         this.level = level;
 
-        height = level.getMineFieldHeight();
-        width = level.getMineFieldWidth();
+        height = level.getMinefieldHeight();
+        width = level.getMinefieldWidth();
 
         nearbyMinesCountMatrix = new int[height][width];
         revealedCellsMatrix = new int[height][width];
@@ -47,8 +47,6 @@ public class MinesweeperGame implements Game {
         } catch (IOException | ClassNotFoundException e) {
             highScoreTable = new HighScoreTable();
         }
-
-        System.out.println(highScoreTable);
     }
 
     private void saveHighScoreTable() {
@@ -57,6 +55,11 @@ public class MinesweeperGame implements Game {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addNewHighScore(Level level, String nickname, long gameTime) {
+        highScoreTable.addHighScoreRecord(level, nickname, gameTime);
+        saveHighScoreTable();
     }
 
     private void initializeGame(int firstRevealedCellX, int firstRevealedCellY) {
@@ -81,9 +84,6 @@ public class MinesweeperGame implements Game {
                 }
             }
         }
-
-        System.out.println("Mines:");
-        printArray(nearbyMinesCountMatrix);
     }
 
     private Integer[] getRandomCellsIndices(int numbersCount, int excludedNumber) {
@@ -154,9 +154,6 @@ public class MinesweeperGame implements Game {
         if (closedCellsCount == level.getMinesCount()) {
             timeCounter.stop();
             isWinner = true;
-
-            //highScoreTable.addHighScoreRecord(new HighScoreRecord("Vasya", timeCounter.getGameTime()));
-            saveHighScoreTable();
         }
     }
 
@@ -164,7 +161,11 @@ public class MinesweeperGame implements Game {
         return level;
     }
 
-    public HighScoreTable getHighScoresTable(){
+    public int getClosedCellsCount() {
+        return closedCellsCount;
+    }
+
+    public HighScoreTable getHighScoresTable() {
         return highScoreTable;
     }
 
@@ -172,7 +173,7 @@ public class MinesweeperGame implements Game {
         return timeCounter.getGameTime();
     }
 
-    public int[][] getRevealedCells() {
+    public int[][] getRevealedCellsMatrix() {
         return revealedCellsMatrix;
     }
 
@@ -188,20 +189,11 @@ public class MinesweeperGame implements Game {
         return isWinner;
     }
 
-    private boolean isInRange(int column, int row) {
-        return column >= 0 && row >= 0 && column < width && row < height;
+    public boolean isNewHighScore() {
+        return highScoreTable.isValidToAdd(getGameTime());
     }
 
-    // TODO: REMOVE
-    public static void printArray(int[][] array) {
-        for (int[] row : array) {
-            for (int number : row) {
-                System.out.printf("%3d ", number);
-            }
-
-            System.out.println();
-        }
-
-        System.out.println();
+    private boolean isInRange(int column, int row) {
+        return column >= 0 && row >= 0 && column < width && row < height;
     }
 }

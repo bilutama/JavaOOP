@@ -7,7 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public interface View {
-    void setHomeButton(MouseAdapter resetGameMouseAdapter, ActionListener homeButtonListener, ActionListener highScoresListener);
+    void setHomeButton(MouseAdapter resetGameMouseAdapter, ActionListener startNewGamePopupMenuListener, ActionListener highScoresListener, ActionListener aboutThisGameListener);
 
     void showPopupMenu(MouseEvent e);
 

@@ -1,10 +1,12 @@
 package ru.academits.biluta.minesweeper.logic.record_table;
 
+import ru.academits.biluta.minesweeper.logic.Level;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedList;
 
-public class HighScoreTable extends LinkedList<HighScoreRecord> implements Serializable {
+public class HighScoreTable implements Serializable {
     @Serial
     private final static long serialVersionUID = 1L;
     private final static int HIGH_SCORES_TABLE_CAPACITY = 10;
@@ -18,8 +20,8 @@ public class HighScoreTable extends LinkedList<HighScoreRecord> implements Seria
         highScoreRecords = new LinkedList<>();
     }
 
-    public void addHighScoreRecord(HighScoreRecord newHighScoreRecord) {
-        highScoreRecords.add(newHighScoreRecord);
+    public void addHighScoreRecord(Level level, String nickname, long gameTime) {
+        highScoreRecords.addLast(new HighScoreRecord(level, nickname, gameTime));
         highScoreRecords.sort(new HighScoreRecordsComparator());
 
         while (highScoreRecords.size() > HIGH_SCORES_TABLE_CAPACITY) {
@@ -36,15 +38,5 @@ public class HighScoreTable extends LinkedList<HighScoreRecord> implements Seria
 
     public boolean isValidToAdd(long newGameTime) {
         return recordsCount < HIGH_SCORES_TABLE_CAPACITY || newGameTime < maximumTime;
-    }
-
-    // TODO: delete
-    @Override
-    public String toString() {
-        for (HighScoreRecord record : highScoreRecords) {
-            System.out.println(record);
-        }
-
-        return "done";
     }
 }
