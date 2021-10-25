@@ -1,4 +1,4 @@
-package ru.academits.biluta.minesweeper.logic.record_table;
+package ru.academits.biluta.minesweeper.logic.high_scores_table;
 
 import java.util.Comparator;
 

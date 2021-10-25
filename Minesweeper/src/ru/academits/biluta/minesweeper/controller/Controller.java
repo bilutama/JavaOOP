@@ -4,7 +4,7 @@ import ru.academits.biluta.minesweeper.logic.Game;
 import ru.academits.biluta.minesweeper.logic.Level;
 import ru.academits.biluta.minesweeper.logic.MinesweeperGame;
 import ru.academits.biluta.minesweeper.gui.View;
-import ru.academits.biluta.minesweeper.logic.record_table.HighScoreRecord;
+import ru.academits.biluta.minesweeper.logic.high_scores_table.HighScoreRecord;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,6 @@
 package ru.academits.biluta.minesweeper.logic;
 
-import ru.academits.biluta.minesweeper.logic.record_table.HighScoreTable;
+import ru.academits.biluta.minesweeper.logic.high_scores_table.HighScoreTable;
 
 import java.io.*;
 import java.util.*;
