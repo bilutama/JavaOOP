@@ -14,7 +14,7 @@ public class HighScoreTable implements Serializable {
     private int recordsCount;
     private long maximumTime;
 
-    LinkedList<HighScoreRecord> highScoreRecords;
+    private final LinkedList<HighScoreRecord> highScoreRecords;
 
     public HighScoreTable() {
         highScoreRecords = new LinkedList<>();
