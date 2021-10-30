@@ -23,7 +23,7 @@ public class Controller extends MouseAdapter {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             // Do not restart game if current is not started yet
             if (minesweeper.getClosedCellsCount() == minesweeper.getLevel().getMinefieldHeight() * minesweeper.getLevel().getMinefieldWidth()) {

@@ -202,7 +202,7 @@ public class MinesweeperView implements View {
                 MatrixButton matrixButton = fieldButtons[j][i];
 
                 matrixButton.addMouseListener(new MouseAdapter() {
-                    public void mouseClicked(MouseEvent e) {
+                    public void mousePressed(MouseEvent e) {
                         if (minesweeper.isGameOver() || minesweeper.isWinner()) {
                             return;
                         }
