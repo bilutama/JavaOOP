@@ -1,4 +1,4 @@
-package ru.academits.biluta.list_plus;
+package ru.academits.biluta.list;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;

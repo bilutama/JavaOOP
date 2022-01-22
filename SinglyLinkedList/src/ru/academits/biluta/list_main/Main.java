@@ -1,6 +1,6 @@
-package ru.academits.biluta.list_plus_main;
+package ru.academits.biluta.list_main;
 
-import ru.academits.biluta.list_plus.SinglyLinkedList;
+import ru.academits.biluta.list.SinglyLinkedList;
 
 import java.util.NoSuchElementException;
 
