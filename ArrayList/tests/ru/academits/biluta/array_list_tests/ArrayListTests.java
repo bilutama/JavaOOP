@@ -3,9 +3,6 @@ package ru.academits.biluta.array_list_tests;
 import org.junit.jupiter.api.*;
 import ru.academits.biluta.array_list.ArrayList;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-
 class ArrayListTests {
     ArrayList<Integer> arrayList;
 
