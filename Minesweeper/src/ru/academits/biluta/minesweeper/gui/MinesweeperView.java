@@ -196,8 +196,8 @@ public class MinesweeperView implements View {
                 buttonPanels[j][i].setLayout(new BorderLayout());
 
                 fieldButtons[j][i] = new MatrixButton(j, i);
-                fieldButtons[j][i].setFocusable(false);
-                buttonPanels[j][i].add(fieldButtons[j][i]);
+                fieldButtons[j][i].getButton().setFocusable(false);
+                buttonPanels[j][i].add(fieldButtons[j][i].getButton());
 
                 MatrixButton matrixButton = fieldButtons[j][i];
 
@@ -214,15 +214,15 @@ public class MinesweeperView implements View {
                         }
 
                         if (e.getButton() == MouseEvent.BUTTON3) {
-                            if (matrixButton.getIcon() == null) {
+                            if (matrixButton.getButton().getIcon() == null) {
                                 matrixButton.setFlagged();
-                                matrixButton.setIcon(flagIcon);
+                                matrixButton.getButton().setIcon(flagIcon);
                                 unflaggedMinesCounterLabel.setText(Integer.toString(Integer.parseInt(unflaggedMinesCounterLabel.getText()) - 1));
                                 return;
                             }
 
                             matrixButton.setUnflagged();
-                            matrixButton.setIcon(null);
+                            matrixButton.getButton().setIcon(null);
                             unflaggedMinesCounterLabel.setText(Integer.toString(Integer.parseInt(unflaggedMinesCounterLabel.getText()) + 1));
                         }
                     }
@@ -296,7 +296,7 @@ public class MinesweeperView implements View {
                         unflaggedMinesCounterLabel.setText(Integer.toString(Integer.parseInt(unflaggedMinesCounterLabel.getText()) + 1));
                     }
 
-                    buttonPanels[j][i].remove(fieldButtons[j][i]);
+                    buttonPanels[j][i].remove(fieldButtons[j][i].getButton());
                     int minesCount = nearbyMinesCountMatrix[j][i];
 
                     // Mine explosion -> game over, revealing all the mines
@@ -360,11 +360,11 @@ public class MinesweeperView implements View {
                     JLabel bombLabel = new JLabel(bombIcon);
 
                     if (buttonForMinedCell.isFlagged()) {
-                        buttonForMinedCell.setBorder(new LineBorder(Color.GREEN, 2));
+                        buttonForMinedCell.getButton().setBorder(new LineBorder(Color.GREEN, 2));
                         continue;
                     }
 
-                    buttonPanelForMinedCell.remove(buttonForMinedCell);
+                    buttonPanelForMinedCell.remove(buttonForMinedCell.getButton());
                     buttonPanelForMinedCell.add(bombLabel, BorderLayout.CENTER);
                 }
             }

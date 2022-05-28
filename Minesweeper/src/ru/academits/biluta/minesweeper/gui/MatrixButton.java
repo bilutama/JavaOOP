@@ -1,14 +1,17 @@
 package ru.academits.biluta.minesweeper.gui;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import java.awt.event.MouseListener;
 
-public class MatrixButton extends JButton {
+public class MatrixButton {
+    private final JButton button;
+
     private final int buttonY;
     private final int buttonX;
     private boolean isFlagged;
 
     public MatrixButton(int buttonX, int buttonY) {
-        super();
+        button = new JButton();
         this.buttonY = buttonY;
         this.buttonX = buttonX;
     }
@@ -31,5 +34,13 @@ public class MatrixButton extends JButton {
 
     public boolean isFlagged() {
         return isFlagged;
+    }
+
+    public void addMouseListener(MouseListener mouseListener) {
+        button.addMouseListener(mouseListener);
+    }
+
+    public JButton getButton() {
+        return button;
     }
 }
